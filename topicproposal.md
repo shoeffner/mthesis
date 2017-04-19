@@ -2,13 +2,17 @@
 % Sebastian Höffner
 % February 13th, 2017
 
+---
+nocite: "@*"
+...
+
 # Goal
 
 In my thesis I will write a software which allows to track gaze points on a
 screen by only using a webcam. To measure the quality and accuracy I will
 compare different setups of software or hardware. The features which I will
 compare are accuracy (metric to be decided, e.g. pixels or angular error), and
-performance (should be realtime or close to realtime). My system should have an
+performance (should be real time or close to real time). My system should have an
 average error of less than or equal to 1 %, while the performance should not
 show any significant lag, i.e. it should keep up a frame rate of about 30 FPS.
 
@@ -24,7 +28,7 @@ are starting out on eye tracking and first want to get a quick start before
 buying expensive setups.
 
 There are some approaches for tracking eyes already freely available, most
-importantly PyGaze's webcam eyetracker and the OpenCV based eyeLike, both of
+importantly PyGaze's webcam eye tracker and the OpenCV based eyeLike, both of
 which only track eyes but not gaze behavior. However, in online discussions
 people search for solutions to tracking gaze with their webcams using these
 tools, so there is definitely a need for such software.
@@ -60,14 +64,14 @@ arise as well.
 
 # Related work and starting points
 
-There is plenty of work available about eye tracking. [@timm2011] provide a
+There is plenty of work available about eye tracking. @timm2011 provide a
 basis for eye tracking by using a gradient algorithm, which I want to use for
 the base eye tracking. To estimate the parameters for gaze calculations I plan
-to look into papers like [@filho2010] and [@veronese2012], which employ a simple
+to look into papers like @filho2010 and @veronese2012, which employ a simple
 artificial neural network to estimate the depth of binocular images. However,
 there might be easier and more suitable approaches for eye tracking.
 
-The very recent paper by [@jung2016], which use ultrasonic sensors to compensate
+The very recent paper by @jung2016, which use ultrasonic sensors to compensate
 for head movements, might provide inspiration to compensate head movements in
 general.
 

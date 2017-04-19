@@ -1,2 +1,12 @@
 proposal:
-	pandoc -o proposal_shoeffner.pdf --bibliography=bibliography.bib topicproposal.md
+	pandoc \
+		--bibliography=bibliography.bib \
+		-o proposal_shoeffner.pdf \
+		topicproposal.md
+
+presentation:
+	pandoc \
+		-t beamer \
+		--bibliography=bibliography.bib \
+		-o presentation_cvgroup.pdf \
+		cvpresentation.md
