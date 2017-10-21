@@ -1,0 +1,6 @@
+-e git+git@github.com:kynan/nbstripout.git@1056b101a0ecf40d7c8722f95632f8c37c9c7fb4#egg=nbstripout
+Pillow==4.3.0
+crossrefapi==1.2.0
+matplotlib==2.1.0
+numpy==1.13.3
+scipy==0.19.1
