@@ -1,0 +1,8 @@
+---
+author: Sebastian Höffner
+title: Gaze
+subtitle: Gaze tracking using common webcams
+date:
+header-includes:
+    - \def\gaze{\texttt{gaze}}
+...
