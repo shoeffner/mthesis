@@ -41,13 +41,13 @@ if __name__ == '__main__':
     Ns = {}
     for key in sys.argv[1:]:
         if key in keys:
-            mean, N = get_mean_of_adults(sys.argv[1])
+            mean, N = get_mean_of_adults(key)
             means[key] = mean
             Ns[key] = N
-
-            meta_key = key.split('_')[0]
-            means[meta_key] = (means.get(meta_key, 0) * Ns.get(meta_key, 0)
-                               + mean * N) / (Ns.get(meta_key, 0) + N)
-            Ns[meta_key] = Ns.get(meta_key, 0) + N
+            if '_' in key:
+                meta_key = key.split('_')[0]
+                means[meta_key] = (means.get(meta_key, 0) * Ns.get(meta_key, 0)
+                                + mean * N) / (Ns.get(meta_key, 0) + N)
+                Ns[meta_key] = Ns.get(meta_key, 0) + N
     for key, N in sorted(Ns.items(), key=lambda t: t[0]):
         print(f'{key}: N: {N}, Mean: {means[key]:.2f}')
