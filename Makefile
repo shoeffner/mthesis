@@ -5,10 +5,10 @@ THESIS_FILE := HoeffnerGaze.$(OUTPUT_FORMAT)
 
 META_FILES := meta.yaml
 BIBLIOGRAPHY_FILE := bibliography.bib
-CHAPTERS := $(shell  cat chapters.list)
+CHAPTERS := $(shell cat chapters.list)
 MD_FILES := $(addsuffix .md,$(addprefix $(SOURCE_DIR)/,$(CHAPTERS)))
 
-BUILD_META_FILES := chapters.list
+BUILD_META_FILES := chapters.list Makefile
 COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES)
 
 PANDOC_COMMAND := pandoc -s \
