@@ -1,3 +1,23 @@
+"""
+Replaces
+
+TODO: some todo note
+
+with
+
+\todo{some todo note}
+
+and
+
+TODO(shoeffner): some todo note
+
+with
+
+\todo[author=shoeffner]{some todo note}
+
+If at least one TODO was found, a list of todo notes is included at the
+top of the document (\listoftodos{}).
+"""
 import panflute as pf
 
 
@@ -12,6 +32,12 @@ def create_todos(elem, doc):
                 author = f'[author={author}]'
             return pf.RawBlock('\\todo' + author + '{' + content + '}',
                                format='latex')
+    if (isinstance(elem, pf.RawBlock)
+            and elem.text.startswith(r'\missingfigure')) \
+        or \
+       (isinstance(elem, pf.RawInline)
+            and elem.text.startswith(r'\todo')):
+        doc.todocount += 1
 
 
 def finalize(doc):
