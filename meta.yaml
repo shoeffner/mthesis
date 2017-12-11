@@ -4,5 +4,9 @@ title: Gaze
 subtitle: Gaze tracking using common webcams
 date:
 header-includes:
+    - \usepackage[]{todonotes}
     - \def\gaze{\texttt{gaze}}
+panflute-filters:
+    - todo
+panflute-path: bin/panflute
 ...

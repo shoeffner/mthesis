@@ -8,11 +8,14 @@ BIBLIOGRAPHY_FILE := bibliography.bib
 CHAPTERS := $(shell cat chapters.list)
 MD_FILES := $(addsuffix .md,$(addprefix $(SOURCE_DIR)/,$(CHAPTERS)))
 
+PANFLUTE_FILTERS := $(addprefix bin/panflute/,$(shell ls bin/panflute))
+
 BUILD_META_FILES := chapters.list Makefile
-COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES)
+COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES) $(PANFLUTE_FILTERS)
 
 PANDOC_COMMAND := pandoc -s \
 	--bibliography=$(BIBLIOGRAPHY_FILE) \
+	--filter=panflute \
 	$(META_FILES)
 
 # Builds the complete thesis using the file list above.
@@ -26,7 +29,7 @@ $(CHAPTERS): $(BUILD_DIR)/$$@.$(OUTPUT_FORMAT)
 
 # Builds an individual pdf file from its corresponding markdown file.
 $(BUILD_DIR)/%.$(OUTPUT_FORMAT): $(SOURCE_DIR)/%.md $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
-	$(PANDOC_COMMAND) -o $@ $<
+	$(PANDOC_COMMAND) -o $@ $< src/references.md
 
 # Silently creates the build directory
 $(BUILD_DIR):
