@@ -11,6 +11,7 @@ These files are still in use in their current state.
 
 - [Test face images: Downloads, conversions and annotations](pexels_face_images)
 - [Facebase dataset download](facebase_data)
+- [OpenCV Test](OpenCVTest)
 
 ## Outdated
 
