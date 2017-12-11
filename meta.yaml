@@ -4,6 +4,7 @@ title: Gaze
 subtitle: Gaze tracking using common webcams
 date:
 header-includes:
+    - \usepackage{siunitx}
     - \usepackage[]{todonotes}
     - \def\gaze{\texttt{gaze}}
 panflute-filters:
