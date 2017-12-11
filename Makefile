@@ -3,19 +3,25 @@ SOURCE_DIR := src
 OUTPUT_FORMAT ?= pdf
 THESIS_FILE := HoeffnerGaze.$(OUTPUT_FORMAT)
 
+ASSETS_DIR := assets
+CHAPTERS_FILE := $(ASSETS_DIR)/chapters.list
+CITATION_STYLE := $(ASSETS_DIR)/iet-computer-vision.csl
+BIBLIOGRAPHY_FILE := $(ASSETS_DIR)/bibliography.bib
+
+# Will be added as "content"
 META_FILES := meta.yaml
-BIBLIOGRAPHY_FILE := bibliography.bib
-CHAPTERS := $(shell cat chapters.list)
+CHAPTERS := $(shell cat $(CHAPTERS_FILE))
 MD_FILES := $(addsuffix .md,$(addprefix $(SOURCE_DIR)/,$(CHAPTERS)))
 
 PANFLUTE_FILTERS := $(addprefix bin/panflute/,$(shell ls bin/panflute))
 
-BUILD_META_FILES := chapters.list Makefile
-COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES) $(PANFLUTE_FILTERS)
+BUILD_META_FILES := $(CHAPTERS_FILE) $(CITATION_STYLE) $(PANFLUTE_FILTERS) Makefile
+COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES)
 
 PANDOC_COMMAND := pandoc -s \
 	--bibliography=$(BIBLIOGRAPHY_FILE) \
 	--filter=panflute \
+	--csl=$(CITATION_STYLE) \
 	$(META_FILES)
 
 # Builds the complete thesis using the file list above.
