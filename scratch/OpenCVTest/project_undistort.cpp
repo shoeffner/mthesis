@@ -22,8 +22,15 @@ void project_there_and_back() {
   std::vector<double> D = {0.2927964391985431, -1.744373877741121, -0.009353810819805932, -0.01201654749997177, 2.592201724637305};
 
   cv::Vec3d R_ = {2.936310307609032, -0.1735420352203717, 0.308174160830372};
+  // This is the fix to the problems mentioned below:
   cv::Matx33d R;
   cv::Rodrigues(R_, R);
+  // Explanation: cv::undistortPoints expects a rotation matrix rather than a rotation vector.
+  // This is somewhat inconsistent with the claim that it provides in inverse function of projectPoints,
+  // but the reasons seems to be that to use cvRodrigues2 internally, OpenCV
+  // would have to introduce a circular dependency between calib3d and imgproc. A solution would be to
+  // move cv::Rodrigues and its internal implementations to another module, but that seems like a big
+  // move for such a small benefit.
   cv::Vec3d T = {0.0188201075039665, 0.06541305259320686, 0.4263606991364847};
 
   std::vector<modelType> model_points;
