@@ -1,5 +1,7 @@
 ## Modeling the eye ball centers
 
+TODO(shoeffner): This model does not work, since r < pf! pf seems to be diagonal.
+
 To model an eye ball center, the following simplifying assumptions will be used.
 
 TODO(shoeffner): Motivation?
