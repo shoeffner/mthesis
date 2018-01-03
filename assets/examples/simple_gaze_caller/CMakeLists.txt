@@ -7,4 +7,5 @@ find_package(gaze REQUIRED)
 find_package(OpenCV REQUIRED)
 
 add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
-target_link_libraries(${PROJECT_NAME} dlib::dlib gaze::gaze ${OpenCV_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}
+    dlib::dlib gaze::gaze ${OpenCV_LIBRARIES})
