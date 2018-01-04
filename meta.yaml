@@ -4,8 +4,8 @@ title: Gaze tracking using common webcams
 institute: Institute of Cognitive Science
 workgroup: Biologically Oriented Computer Vision
 city: Osnabrück
-firstSupervisor: Prof. Dr. Gunther Heidemann
-secondSupervisor: Julius Schöning, M. Sc.
+firstSupervisor: Prof.\ Dr.\ Gunther Heidemann
+secondSupervisor: Julius Schöning, M.\ Sc.
 date: February 2, 2018
 abstract: src/abstract.tex
 header-includes:
