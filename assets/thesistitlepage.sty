@@ -14,6 +14,7 @@
 \RequirePackage{geometry}
 
 \renewcommand{\maketitle}{
+    \hypersetup{pageanchor=false} % See https://tex.stackexchange.com/a/331766/51583
     \newgeometry{margin=1in}
     \begin{titlepage}
         \thispagestyle{empty}
@@ -50,6 +51,7 @@
         \end{center}
     \end{titlepage}
     \restoregeometry
+    \hypersetup{pageanchor=true}
 }
 
 
@@ -59,7 +61,7 @@
     pdfauthor   = {\@author},
     pdfsubject  = {\@title},
     pdfcreator  = {pandoc \& pdfLaTeX},
-    pdfproducer = {pandoc \& pdfLaTeX}
+    pdfproducer = {pandoc \& pdfLaTeX},
   }
 }
 
@@ -67,6 +69,7 @@
 \newcommand{\declarationofauthorship}{
     \cleardoublepage
     \section*{Declaration of Authorship}
+    \addcontentsline{toc}{section}{Declaration of Authorship}
     I hereby certify that the work presented here is, to the best of my
     knowledge and belief, original and the result of my own investigations,
     except as acknowledged, and has not been submitted, either in part or

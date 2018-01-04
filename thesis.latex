@@ -39,6 +39,10 @@ $if(appendix)$
         \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}}
 $endif$
 
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
 % tightlist and lengths taken from default.latex
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{7pt}
@@ -46,12 +50,16 @@ $endif$
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
-\usepackage[unicode=true,pdftex,pdfpagelabels]{hyperref}
-\DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
+\usepackage[unicode=true]{hyperref}
+
+\newif\ifinfootnote
+\let\oldFootnote\footnote
+\renewcommand{\footnote}[1]{\oldFootnote{\infootnotetrue{}#1\infootnotefalse{}}}
+\DeclareRobustCommand{\href}[2]{\ifinfootnote{}#2 (\url{#1})\else{}#2\footnote{\url{#1}}\fi}
 
 $if(glossary)$
     \usepackage[acronym,toc]{glossaries}
-    \renewcommand{\acronymname}{List of Acronyms}
+    \renewcommand{\acronymname}{List of Abbreviations and Acronyms}
     \input{$glossary$}
     \makeglossaries
 $endif$
@@ -82,7 +90,7 @@ $endif$
 
 $if(abstract)$
     \begin{abstract}
-    $abstract$
+        \input{$abstract$}
     \end{abstract}
 $endif$
 
@@ -91,9 +99,15 @@ $if(toc)$
 $endif$
 $if(lot)$
     \listoftables
+    \addcontentsline{toc}{chapter}{\listtablename}
 $endif$
 $if(lof)$
     \listoffigures
+    \addcontentsline{toc}{chapter}{\listfigurename}
+$endif$
+$if(loc)$
+    \listofcodelistings
+    \addcontentsline{toc}{chapter}{\listcodelistingname}
 $endif$
 
 $if(glossary)$

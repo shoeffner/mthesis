@@ -27,12 +27,13 @@ PANDOC_COMMAND := $(ENVIRONMENT) pandoc -s \
 	--filter=panflute \
 	--csl=$(CITATION_STYLE) \
 	--template=$(TEMPLATE) \
+	--highlight-style tango \
 	--top-level-division=chapter \
 	-V glossary=$(GLOSSARY_FILE) \
 	$(META_FILES)
 
 PANDOC_DRAFT_OPTIONS := -V draft:true
-PANDOC_FINAL_OPTIONS := --toc -V lot:true -V loa:true -V appendix:true
+PANDOC_FINAL_OPTIONS := --toc -V lot:true -V loa:true -V loc:true -V lof:true -V appendix:true
 
 # Builds the complete thesis using the file list above.
 $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
