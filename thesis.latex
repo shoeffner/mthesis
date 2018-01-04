@@ -1,0 +1,119 @@
+% A thesis template based on
+%   https://github.com/jgm/pandoc/blob/101aece6cc03eb8dc434f2ff23bd4d66198fb592/data/templates/default.latex
+% and
+%   http://www2.inf.uos.de/kbs/thesis_KBS.zip
+%
+% Written by Sebastian Höffner <shoeffner@uos.de>
+%
+\documentclass[a4paper,twoside,openright]{report}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+
+\usepackage{thesistitlepage}
+
+\usepackage{amssymb,amsmath}
+
+$if(graphics)$
+    \usepackage[$if(draft)$draft$endif$]{graphicx}
+    \usepackage{grffile}
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+    \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+    \makeatother
+    % Scale images if necessary, so that they will not overflow the page
+    % margins by default, and it is still possible to overwrite the defaults
+    % using explicit options in \includegraphics[width, height, ...]{}
+    \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+
+$if(appendix)$
+    \usepackage[toc,page]{appendix}
+    \newif\ifappendixused
+    \renewcommand{\appendix}{%
+        \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}}
+$endif$
+
+% tightlist and lengths taken from default.latex
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\usepackage[unicode=true,pdftex,pdfpagelabels]{hyperref}
+\DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
+
+$if(glossary)$
+    \usepackage[acronym,toc]{glossaries}
+    \renewcommand{\acronymname}{List of Acronyms}
+    \input{$glossary$}
+    \makeglossaries
+$endif$
+
+$if(highlighting-macros)$
+    $highlighting-macros$
+$endif$
+
+$for(header-includes)$
+    $header-includes$
+$endfor$
+
+\author{$author$}
+\title{$title$}
+\institute{$institute$}
+\workgroup{$workgroup$}
+\city{$city$}
+\date{$date$}
+\firstSupervisor{$firstSupervisor$}
+\secondSupervisor{$secondSupervisor$}
+
+\begin{document}
+
+$if(draft)$
+$else$
+    \maketitle
+$endif$
+
+$if(abstract)$
+    \begin{abstract}
+    $abstract$
+    \end{abstract}
+$endif$
+
+$if(toc)$
+    \tableofcontents
+$endif$
+$if(lot)$
+    \listoftables
+$endif$
+$if(lof)$
+    \listoffigures
+$endif$
+
+$if(glossary)$
+    $if(loa)$
+        \printglossary[type=\acronymtype]
+        \printglossary
+    $endif$
+$endif$
+
+$body$
+
+$if(draft)$
+$else$
+    \declarationofauthorship
+$endif$
+
+$if(appendix)$
+    \ifappendixused
+        \end{appendices}
+    \fi
+$endif$
+
+\end{document}

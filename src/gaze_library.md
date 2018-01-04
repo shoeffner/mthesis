@@ -22,7 +22,8 @@ TODO(shoeffner): Add ref for SECTION
 
 The software is still very limited and works best with the camera sensor being
 in the same plane as the screen surface, thus built-in webcams are
-recommended[^3Doffsetcamera]. It can process live webcam streams, video files, and images[^supportedformats].
+recommended[^3Doffsetcamera]. It can process live webcam streams, video files,
+and images[^supportedformats].
 
 [^3Doffsetcamera]: Currently the configuration for the camera position assumes
   only offsets along and across the screen, the orientation and depth can not
@@ -41,14 +42,14 @@ Ubuntu 14.04 LTS as well[^nowindows].
 
 [^nowindows]: macOS Sierra has been used in the early development process, but
   after the macOS High Sieera update in September 2017, development was done
-  under MacOS High Sierra. Ubuntu 14.04 LTS (v1711) was not tested live, but
+  under MacOS High Sierra. Ubuntu 14.04 LTS v1711 was not tested live, but
   built and unit-tested on the Semaphore CI service. Unfortunately Gaze was not
   tested on a Microsoft Windows system. For more details, ...
 
 TODO(shoeffner): Add ref for "more details"
 
 
-## Free and Open Source Software
+## \glsdesc{FOSS}
 
 Gaze is free and open source, its soure code can be found on
 GitHub[^gazegithuburl]. That means it is publicly available and the source code
@@ -56,7 +57,7 @@ and software can be modified and redistributed without any limitations. It is
 released under the *MIT License*, which is open and permissive: It allows
 commercial and private use, redistribution, and modificatiion of the source
 code without any conditions other than keeping the license with the
-files[@MITLicense].
+files [@MITLicense].
 
 TODO(shoeffner): Consider mirroring to Bitbucket and GitLab.
 
@@ -67,7 +68,7 @@ TODO(shoeffner): Consider mirroring to Bitbucket and GitLab.
   also available there.
 
 
-### Why +FOSS?
+### Why \glstext{FOSS}?
 
 The decision to release Gaze as a +FOSS under the MIT License [@MITLicense] was
 done because the author strongly believes that Open Source and Open Access are

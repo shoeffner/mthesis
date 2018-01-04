@@ -17,6 +17,7 @@ with
 
 If at least one TODO was found, a list of todo notes is included at the
 top of the document (\listoftodos{}).
+Optionally adds the todonotes packages to the metadata's header-includes.
 """
 import panflute as pf
 
@@ -41,6 +42,16 @@ def create_todos(elem, doc):
 
 
 def finalize(doc):
+    todo_found = False
+    for inc in doc.metadata['header-includes']:
+        if isinstance(inc, pf.MetaInlines):
+            for li in inc.content:
+                if li.format == 'tex' and '{todonotes}' in li.text:
+                    todo_found = True
+    if not todo_found:
+        todo_inline = pf.RawInline(r'\usepackage[]{todonotes}', format='tex')
+        doc.metadata['header-includes'].append(pf.MetaInlines(todo_inline))
+
     if doc.todocount:
         doc.content.insert(0, pf.RawBlock(r'\listoftodos{}', format='latex'))
 

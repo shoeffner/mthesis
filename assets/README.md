@@ -8,6 +8,9 @@ important for the thesis compilation.
   using [JabRef](http://www.jabref.org/).
 - \*.csl: Citation style language files. Only one will be used, but I might add
   multiple one to decide later.
+- [glossary.tex](glossary.tex): The glossary file.
+- [thesistitlepage.sty](thesistitlepage.sty): Titlepage and declaration of authorship definitions.
+- [examples](examples): Code examples to be used throughout the thesis.
 
 # CSL License
 

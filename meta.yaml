@@ -1,13 +1,17 @@
 ---
 author: Sebastian Höffner
-title: Gaze
-subtitle: Gaze tracking using common webcams
-date:
+title: Gaze tracking using common webcams
+institute: Institute of Cognitive Science
+workgroup: Biologically Oriented Computer Vision
+city: Osnabrück
+firstSupervisor: Prof. Dr. Gunther Heidemann
+secondSupervisor: Julius Schöning, M. Sc.
+date: February 2, 2018
 header-includes:
+    - \def\gaze{Gaze}
     - \usepackage{siunitx}
-    - \usepackage[]{todonotes}
-    - \def\gaze{\texttt{gaze}}
 panflute-filters:
     - todo
+    - glossary
 panflute-path: bin/panflute
 ...

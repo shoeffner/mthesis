@@ -1,0 +1,85 @@
+\ProvidesPackage{thesistitlepage}[2018/01/04 v1.0]
+
+% Define commands to set variables
+\def\title#1{\gdef\@title{#1}}\def\@title{}
+\def\author#1{\gdef\@author{#1}}\def\@author{}
+\def\date#1{\gdef\@date{#1}}\def\@date{\today}
+\def\city#1{\gdef\@city{#1}}\def\@city{Osnabrück}
+\def\firstSupervisor#1{\gdef\@firstSupervisor{#1}}\def\@firstSupervisor{}
+\def\secondSupervisor#1{\gdef\@secondSupervisor{#1}}\def\@secondSupervisor{}
+\def\workgroup#1{\gdef\@workgroup{#1}}\def\@workgroup{}
+\def\institute#1{\gdef\@institute{#1}}\def\@institute{}
+\def\@thesistype{Master's Thesis}
+
+\RequirePackage{geometry}
+
+\renewcommand{\maketitle}{
+    \newgeometry{margin=1in}
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{center}
+            \LARGE{\textsc{\@institute}}
+
+            \LARGE{\textsc{\@workgroup}}
+            \vfill
+
+            \LARGE{\textit{\@thesistype}}
+
+            \vspace{8mm}
+
+            \huge{\textbf{\@title}}
+
+            \vspace{8mm}
+
+            \LARGE{\@author}
+
+            \vspace{32mm}
+
+            \Large{\@date}
+            \vfill
+
+            \begin{flushright}
+                {\def\arraystretch{1.5}
+                \begin{tabular}{l}
+                    \large Supervisors: \\
+                    \Large \@firstSupervisor \\
+                    \Large \@secondSupervisor
+                \end{tabular}
+                } % end arraystretch
+            \end{flushright}
+        \end{center}
+    \end{titlepage}
+    \restoregeometry
+}
+
+
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle    = {\@thesistype: \@title},
+    pdfauthor   = {\@author},
+    pdfsubject  = {\@title},
+    pdfcreator  = {pandoc \& pdfLaTeX},
+    pdfproducer = {pandoc \& pdfLaTeX}
+  }
+}
+
+
+\newcommand{\declarationofauthorship}{
+    \cleardoublepage
+    \section*{Declaration of Authorship}
+    I hereby certify that the work presented here is, to the best of my
+    knowledge and belief, original and the result of my own investigations,
+    except as acknowledged, and has not been submitted, either in part or
+    whole, for a degree at this or any other university.
+
+    \vspace*{.2cm}
+
+    {\def\arraystretch{1.3}
+    \begin{tabular}{ll}
+        \@city, \@date & \\
+                       & \small \@author
+    \end{tabular}
+    } % end arraystretch
+}
+
+\endinput
