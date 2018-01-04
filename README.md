@@ -47,7 +47,7 @@ make gaze_library
 
 ## Additional materials
 
-In the folder [related_materials](related_materials) there are some materials I produced during
-the process of my thesis but which are not really related to the written master
-thesis. The folder [scratch](scratch) contains all kinds of things I came up with to gather
+The folder [scratch](scratch) contains all kinds of things I came up with to gather
 data, make calculations, etc.
+In the folder [scratch/related_materials](scratch/related_materials) there are some materials I produced during
+the process of my thesis but which are not really related to the written master's thesis.
