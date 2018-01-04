@@ -6,10 +6,10 @@ gaze tracking library [gaze](https://github.com/shoeffner/gaze).
 
 ## Setup compilation process
 
-Requirements:
-- `pandoc` 1.19.2.4
-- `pandoc-citeproc` 0.11.1.1
-- `python` 3.6.3
+Requirements (tested, other versions might work as well):
+- `pandoc` 2.0.6
+- `pandoc-citeproc` 0.12.2.4
+- `python` 3.6.4
 
 
 Install dependencies (using Python virtual environment):
@@ -28,7 +28,7 @@ which should be used to clean up ipynb files before committing them.
 To compile the full thesis, run:
 
 ```bash
-make thesis
+make
 ```
 
 To compile individual chapters, run:
@@ -38,10 +38,10 @@ make chapter_name
 ```
 
 where `chapter_name` is the name of a file in `src`, e.g. to compile
-`src/pipeline_d_gaze_point.md` one can use:
+`src/gaze_library.md` one can use:
 
 ```bash
-make pipeline_d_gaze_point
+make gaze_library
 ```
 
 
