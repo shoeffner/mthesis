@@ -11,6 +11,7 @@ header-includes:
     - \def\gaze{Gaze}
     - \usepackage{siunitx}
 panflute-filters:
+    - pandoc-source-exec
     - todo
     - glossary
 panflute-path: bin/panflute

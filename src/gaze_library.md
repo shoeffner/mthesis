@@ -220,7 +220,7 @@ Additional requirements are OpenCV (3.3.1), CMake (3.10.0-rc3), and dlib
 Under normal circumstances, building Gaze just requires two steps (from the
 `gaze` directory):
 
-```bash
+```{ .bash caption="Building Gaze." }
 ./configure.sh
 cd build
 make -j8
@@ -237,21 +237,9 @@ proper system locations.
 Gaze is a library, so it can not be used alone but only by other programs.
 A minimal program to integrate gaze might look like this[^simplificationsimplegaze]:
 
-```C++
-#include <iostream>
-#include <utility>
-
-#include "gaze/gaze.h"
-
-int main(const int, const char** const) {
-  gaze::GazeTracker* tracker = new gaze::GazeTracker("subject");
-  for (int i = 0; i < 20; ++i) {
-    std::pair<int, int> point = tracker->get_current_gaze_point();
-    std::cout << point.first << ", " << point.second << std::endl;
-  }
-  delete tracker;
-}
+```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption }
 ```
+
 [^simplificationsimplegaze]: Of course, it is possible to use e.g.\
   `std::unique_ptr` for the gaze tracker to avoid manual cleanup.
 
@@ -262,18 +250,7 @@ output, but the functionality is not yet properly implemented.
 
 To compile the program above, a CMake configuration like the following is enough:
 
-```cmake
-cmake_minimum_required(VERSION 3.0)
-project(gaze_simple VERSION 1 LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
-
-find_package(dlib REQUIRED)
-find_package(gaze REQUIRED)
-find_package(OpenCV REQUIRED)
-
-add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
-target_link_libraries(${PROJECT_NAME}
-    dlib::dlib gaze::gaze ${OpenCV_LIBRARIES})
+```{ .cmake file=assets/examples/gaze_simple/CMakeLists.txt pathdepth=2 .caption  }
 ```
 
 ### Demo programs
@@ -282,9 +259,12 @@ Within the Gaze repository, two example programs are provided:
 `simple_tracking` and `where_people_look`. To compile and use them, it is
 necessary to run the configure step again:
 
-```bash
-./configure --examples
+```{ .bash caption="Building Gaze usage examples." }
+./configure.sh --examples
+cd build
+make -j8
 ```
+
 After building the examples using `make`, two executables can be found in the
 `build` directory.
 

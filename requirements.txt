@@ -5,3 +5,4 @@ matplotlib==2.1.0
 numpy==1.13.3
 scipy==0.19.1
 requests==2.18.4
+-e git+git@github.com:shoeffner/pandoc-source-exec.git@ba9da3222ddf731b7415584c8d4738d6f04004d5#egg=pandoc_source_exec
