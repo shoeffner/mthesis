@@ -49,9 +49,9 @@ Ubuntu 14.04 LTS as well[^nowindows].
 TODO(shoeffner): Add ref for "more details"
 
 
-## \glsdesc{FOSS}
+## Free and open-source software
 
-Gaze is free and open source, its soure code can be found on
+Gaze is free and open-source, its soure code can be found on
 GitHub[^gazegithuburl]. That means it is publicly available and the source code
 and software can be modified and redistributed without any limitations. It is
 released under the *MIT License*, which is open and permissive: It allows
@@ -68,7 +68,7 @@ TODO(shoeffner): Consider mirroring to Bitbucket and GitLab.
   also available there.
 
 
-### Why \glstext{FOSS}?
+### Why free and open-source software?
 
 The decision to release Gaze as a +FOSS under the MIT License [@MITLicense] was
 done because the author strongly believes that Open Source and Open Access are
