@@ -240,12 +240,12 @@ A minimal program to integrate gaze might look like this[^simplificationsimplega
 ```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption }
 ```
 
-[^simplificationsimplegaze]: Of course, it is possible to use e.g.\
-  `std::unique_ptr` for the gaze tracker to avoid manual cleanup.
+[^simplificationsimplegaze]: Of course, it is possible to use e.g.\ `std::unique_ptr`
+  for the gaze tracker to avoid manual cleanup.
 
 The above program will start the gaze tracker and track twenty webcam frames,
 given the `shape_predictor_68_face_landmarks.dat` is next to the executable.
-Gaze's API also allows to start and stop trials to distinguish them in the
+Gaze's +API also allows to start and stop trials to distinguish them in the
 output, but the functionality is not yet properly implemented.
 
 To compile the program above, a CMake configuration like the following is enough:
