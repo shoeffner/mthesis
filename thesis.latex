@@ -35,8 +35,10 @@ $endif$
 $if(appendix)$
     \usepackage[toc,page]{appendix}
     \newif\ifappendixused
+    \let\oldAppendix\appendix
     \renewcommand{\appendix}{%
-        \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}}
+        \oldAppendix
+        \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}\raggedright\sloppy}
 $endif$
 
 \makeatletter
@@ -49,13 +51,18 @@ $endif$
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-
+\PassOptionsToPackage{hyphens}{url}
 \usepackage[unicode=true]{hyperref}
+\hypersetup{
+    breaklinks=true,
+    $if(draft)$$else$pdfborder={0 0 0}$endif$}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{footnotebackref}
 
 \newif\ifinfootnote
 \let\oldFootnote\footnote
 \renewcommand{\footnote}[1]{\oldFootnote{\infootnotetrue{}#1\infootnotefalse{}}}
-\DeclareRobustCommand{\href}[2]{\ifinfootnote{}#2 (\url{#1})\else{}#2\footnote{\url{#1}}\fi}
+\DeclareRobustCommand{\href}[2]{\ifinfootnote{}\raggedright\sloppy#2 (\url{#1})\fussy\else{}#2\footnote{\url{#1}}\fi}
 
 $if(glossary)$
     \usepackage[acronym,toc]{glossaries}
@@ -81,39 +88,57 @@ $endfor$
 \firstSupervisor{$firstSupervisor$}
 \secondSupervisor{$secondSupervisor$}
 
+% Copy abstract for acknowledgements
+\let\acknowledgements\abstract
+\let\endacknowledgements\endabstract
+\let\oldAck\acknowledgements
+\renewcommand{\acknowledgements}{%
+    {\renewcommand{\abstractname}{Acknowledgements}\oldAck{}}}
+
+
 \begin{document}
 
 $if(draft)$
 $else$
     \maketitle
-$endif$
 
-$if(abstract)$
-    \begin{abstract}
-        \input{$abstract$}
-    \end{abstract}
-$endif$
+    $if(abstract)$
+        \begin{abstract}
+            \input{$abstract$}
+        \end{abstract}
+    $endif$
 
-$if(toc)$
-    \tableofcontents
-$endif$
-$if(lot)$
-    \listoftables
-    \addcontentsline{toc}{chapter}{\listtablename}
-$endif$
-$if(lof)$
-    \listoffigures
-    \addcontentsline{toc}{chapter}{\listfigurename}
-$endif$
-$if(loc)$
-    \listofcodelistings
-    \addcontentsline{toc}{chapter}{\listcodelistingname}
-$endif$
+    $if(acknowledgements)$
+        \begin{acknowledgements}
+            \input{$acknowledgements$}
+            \vspace*{1cm}\makeatletter\@author\makeatother
+        \end{acknowledgements}
+    $endif$
 
-$if(glossary)$
-    $if(loa)$
-        \printglossary[type=\acronymtype]
-        \printglossary
+    $if(toc)$
+        \tableofcontents
+    $endif$
+
+    $if(lot)$
+        \listoftables
+        \addcontentsline{toc}{chapter}{\listtablename}
+    $endif$
+
+    $if(lof)$
+        \listoffigures
+        \addcontentsline{toc}{chapter}{\listfigurename}
+    $endif$
+
+    $if(loc)$
+        \listofcodelistings
+        \addcontentsline{toc}{chapter}{\listcodelistingname}
+    $endif$
+
+    $if(glossary)$
+        $if(loa)$
+            \printglossary[type=\acronymtype]
+            \printglossary
+        $endif$
     $endif$
 $endif$
 
@@ -122,12 +147,13 @@ $body$
 $if(draft)$
 $else$
     \declarationofauthorship
-$endif$
 
-$if(appendix)$
-    \ifappendixused
-        \end{appendices}
-    \fi
+    $if(appendix)$
+        \ifappendixused
+            \fussy
+            \end{appendices}
+        \fi
+    $endif$
 $endif$
 
 \end{document}

@@ -5,7 +5,7 @@ THESIS_FILE := HoeffnerGaze
 
 ASSETS_DIR := assets
 CHAPTERS_FILE := $(ASSETS_DIR)/chapters.list
-CITATION_STYLE := $(ASSETS_DIR)/international-journal-of-computer-vision.csl
+CITATION_STYLE := $(ASSETS_DIR)/springer-socpsych-author-date.mod.csl
 BIBLIOGRAPHY_FILE := $(ASSETS_DIR)/bibliography.bib
 GLOSSARY_FILE := $(ASSETS_DIR)/glossary.tex
 TEMPLATE := thesis.latex
@@ -32,6 +32,8 @@ PANDOC_COMMAND := $(ENVIRONMENT) pandoc -s \
 	-V glossary=$(GLOSSARY_FILE) \
 	$(META_FILES)
 
+PRINT_INFO = @echo "Pagecount Color (Total): `gs -o - -sDEVICE=inkcov $(1) | grep CMYK | grep -v '0.00000  0.00000  0.00000' | wc -l | tr -d ' '` (`pdfinfo $(1) | grep Pages: | rev | cut -d" " -f1 | rev`)"
+
 PANDOC_DRAFT_OPTIONS := -V draft:true
 PANDOC_FINAL_OPTIONS := --toc -V lot:true -V loa:true -V loc:true -V lof:true -V appendix:true
 
@@ -47,6 +49,7 @@ $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	mv $(THESIS_FILE).pdf $(BUILD_DIR)
 	rm $(THESIS_FILE).*
 	if [ -f texput.log ]; then rm texput.log ; fi
+	$(call PRINT_INFO,$@)
 
 $(BUILD_DIR)/$(THESIS_FILE).tex: $(MD_FILES) $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_FINAL_OPTIONS) -o $@ $(MD_FILES)
