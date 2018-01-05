@@ -8,6 +8,7 @@ firstSupervisor: Prof.\ Dr.\ Gunther Heidemann
 secondSupervisor: Julius Schöning, M.\ Sc.
 date: February 2, 2018
 abstract: src/abstract.tex
+acknowledgements: src/acknowledgements.tex
 header-includes:
     - \def\gaze{Gaze}
     - \usepackage{siunitx}
