@@ -59,6 +59,7 @@ $endif$
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{footnotebackref}
 
+% Push links to footnotes, but keep links created in footnotes there (putting them between parentheses).
 \newif\ifinfootnote
 \let\oldFootnote\footnote
 \renewcommand{\footnote}[1]{\oldFootnote{\infootnotetrue{}#1\infootnotefalse{}}}

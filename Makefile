@@ -16,10 +16,12 @@ ENVIRONMENT := TEXINPUTS=$(ASSETS_DIR):
 META_FILES := meta.yaml
 CHAPTERS := $(shell cat $(CHAPTERS_FILE))
 MD_FILES := $(addsuffix .md,$(addprefix $(SOURCE_DIR)/,$(CHAPTERS)))
+SOURCE_FILES := $(addprefix $(SOURCE_DIR)/,$(shell ls $(SOURCE_DIR)))
+ASSETS_FILES := $(shell find assets -type f | grep -v "/build/" | grep -v "/\." | grep -v ".bak$$")
 
 PANFLUTE_FILTERS := $(addprefix bin/panflute/,$(shell ls bin/panflute))
 
-BUILD_META_FILES := $(CHAPTERS_FILE) $(CITATION_STYLE) $(PANFLUTE_FILTERS) $(TEMPLATE) $(ASSETS_DIR)/thesistitlepage.sty Makefile
+BUILD_META_FILES := $(CHAPTERS_FILE) $(CITATION_STYLE) $(PANFLUTE_FILTERS) $(TEMPLATE) $(ASSETS_FILES) Makefile
 COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES) $(GLOSSARY_FILE)
 
 PANDOC_COMMAND := $(ENVIRONMENT) pandoc -s \
@@ -37,37 +39,42 @@ PRINT_INFO = @echo "Pagecount Color (Total): `gs -o - -sDEVICE=inkcov $(1) | gre
 PANDOC_DRAFT_OPTIONS := -V draft:true
 PANDOC_FINAL_OPTIONS := --toc -V lot:true -V loa:true -V loc:true -V lof:true -V appendix:true
 
+PDFLATEX = $(ENVIRONMENT) pdflatex $(1)
+
 # Builds the complete thesis using the file list above.
 $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
-	$(ENVIRONMENT) pdflatex $<
-	$(ENVIRONMENT) pdflatex $< 1>/dev/null
+	$(call PDFLATEX,$<)
+	$(call PDFLATEX,$<) 1>/dev/null
 	makeglossaries $(THESIS_FILE)
-	$(ENVIRONMENT) pdflatex $< 1>/dev/null
-	$(ENVIRONMENT) pdflatex $< 1>/dev/null
+	$(call PDFLATEX,$<) 1>/dev/null
+	$(call PDFLATEX,$<) 1>/dev/null
 	makeglossaries $(THESIS_FILE)
-	$(ENVIRONMENT) pdflatex $<
-	mv $(THESIS_FILE).pdf $(BUILD_DIR)
-	rm $(THESIS_FILE).*
-	if [ -f texput.log ]; then rm texput.log ; fi
+	$(call PDFLATEX,$<)
+	@mv $(THESIS_FILE).pdf $(BUILD_DIR)
+	@rm $(THESIS_FILE).*
+	@if [ -f texput.log ]; then rm texput.log ; fi
 	$(call PRINT_INFO,$@)
 
-$(BUILD_DIR)/$(THESIS_FILE).tex: $(MD_FILES) $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_FINAL_OPTIONS) -o $@ $(MD_FILES)
 
 
 # Allows to build `build/name.pdf` from `name`, where `name` is the name in
 # `src/name.md`, thus it's not needed to provide the full target name.
 .SECONDEXPANSION:
-$(CHAPTERS): $(BUILD_DIR)/$$@.$(OUTPUT_FORMAT)
+$(basename $(notdir $(SOURCE_FILES))): $(BUILD_DIR)/$$@.$(OUTPUT_FORMAT)
 
-# Builds an individual pdf file from its corresponding markdown file.
-$(BUILD_DIR)/%.$(OUTPUT_FORMAT): $(SOURCE_DIR)/%.md $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
+# Builds an individual pdf file from its corresponding input file.
+.SECONDEXPANSION:
+$(BUILD_DIR)/%.$(OUTPUT_FORMAT): $$(shell ls $(SOURCE_DIR)/%.*) $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_DRAFT_OPTIONS) -o $@ $<
 
 # Silently creates the build directory
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 
-# Silently cleans the build directory
+# Silently cleans the build directory and latex intermediate files from the
+# working directory.
 clean:
 	@rm -rf build
+	@rm $(THESIS_FILE).*
