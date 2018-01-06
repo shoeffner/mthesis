@@ -13,6 +13,7 @@ header-includes:
     - \def\gaze{Gaze}
     - \usepackage{siunitx}
 panflute-filters:
+    - pandoc-img-glob
     - pandoc-source-exec
     - todo
     - glossary
