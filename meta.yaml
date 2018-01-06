@@ -17,4 +17,6 @@ panflute-filters:
     - todo
     - glossary
 panflute-path: bin/panflute
+fignos-cleveref: true
+fignos-capitalize: true
 ...

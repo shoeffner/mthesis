@@ -27,6 +27,7 @@ COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES) $(
 PANDOC_COMMAND := $(ENVIRONMENT) pandoc -s \
 	--bibliography=$(BIBLIOGRAPHY_FILE) \
 	--filter=panflute \
+	--filter=pandoc-fignos \
 	--csl=$(CITATION_STYLE) \
 	--template=$(TEMPLATE) \
 	--highlight-style tango \
@@ -50,7 +51,9 @@ $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	$(call PDFLATEX,$<) 1>/dev/null
 	makeglossaries $(THESIS_FILE)
 	$(call PDFLATEX,$<)
+	@# move resulting pdf to build directory to keep working directory clean
 	@mv $(THESIS_FILE).pdf $(BUILD_DIR)
+	@# cleanup intermediate files
 	@rm $(THESIS_FILE).*
 	@if [ -f texput.log ]; then rm texput.log ; fi
 	$(call PRINT_INFO,$@)

@@ -12,12 +12,13 @@
 \usepackage[utf8]{inputenc}
 
 $if(geometry)$
-\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+\PassOptionsToPackage{$for(geometry)$$geometry$$sep$,$endfor$}{geometry}
 $endif$
-
 \usepackage{thesistitlepage}
 
 \usepackage{amssymb,amsmath}
+
+\usepackage{xcolor}
 
 $if(graphics)$
     \usepackage[$if(draft)$draft$endif$]{graphicx}
@@ -57,7 +58,8 @@ $endif$
     breaklinks=true,
     $if(draft)$$else$pdfborder={0 0 0}$endif$}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{footnotebackref}
+\usepackage{cleveref}
+
 
 % Push links to footnotes, but keep links created in footnotes there (putting them between parentheses).
 \newif\ifinfootnote
@@ -131,8 +133,10 @@ $else$
     $endif$
 
     $if(loc)$
+        \ifdefined\listofcodelistings
         \listofcodelistings
         \addcontentsline{toc}{chapter}{\listcodelistingname}
+        \fi
     $endif$
 
     $if(glossary)$
