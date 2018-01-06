@@ -39,15 +39,17 @@ Turning this conclusion and thinking ahead, we can make the assumption that
 what humans attend (what they look at) is what they are interested in, because
 they have to actively direct their eyes towards that object.
 
-But where are humans looking at? @Huey1908 tries to answer this question for
-reading tasks. He built a device (see @fig:huey_eyetracker) which was attached to
+But where are humans looking at? @Huey1908 tried to answer this question for
+reading tasks. He built a device (see @fig:huey_eyetracker) which is attached to
 the locally sedated cornea using a little cup made of plaster cast. The other
-side of the device was pointing at smoked paper, onto which it drew the
-movements of the eye.
+side of the device points at smoked paper, onto which it draws the movements of
+the attached eye. Using the device, Huey was able to to report accurate
+measurements of ++fixation and ++saccade, which he used to analyze reading behavior.
 
-![Schema of Huey's eye tracking device. It worked similar to a seismograph.
+![Schema of Huey's eye tracking device. It work similar to a seismograph.
 Image from Google's scan of the New York Public Library's 1968 reprint of
-@Huey1908.](huey_eyetracker.png){#fig:huey_eyetracker}
+@Huey1908, p. 26.](huey_eyetracker.png){#fig:huey_eyetracker}
+
 
 - Comparison gaze tracking approaches using webcams
 - eyeLike (top web search hit) only tracks eyes, not gaze
