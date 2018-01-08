@@ -15,9 +15,13 @@ header-includes:
 panflute-filters:
     - pandoc-img-glob
     - pandoc-source-exec
+    - pandoc-custom-refnos
     - todo
     - glossary
 panflute-path: bin/panflute
 fignos-cleveref: true
 fignos-capitalize: true
+fignos-plus-name:
+    - Figure
+    - Figures
 ...

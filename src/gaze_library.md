@@ -15,10 +15,9 @@ using a common webcam.
 
 Gaze provides a flexible data pipeline consisting of multiple pre-defined
 steps. It is possible to add custom steps by altering Gaze's source code in
-very few places (see SECTION). Once implemented, the gaze tracker, the pipeline
+very few places (see @sec:writing-a-custom-pipeline-step). Once
+implemented, the gaze tracker, the pipeline
 and the pipeline steps can be configured using a +YAML file.
-
-TODO(shoeffner): Add ref for SECTION
 
 The software is still very limited and works best with the camera sensor being
 in the same plane as the screen surface, thus built-in webcams are
@@ -237,13 +236,13 @@ proper system locations.
 Gaze is a library, so it can not be used alone but only by other programs.
 A minimal program to integrate gaze might look like this[^simplificationsimplegaze]:
 
-```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption }
+```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption label=cl:gaze_simple.cpp }
 ```
 
 [^simplificationsimplegaze]: Of course, it is possible to use e.g.\ `std::unique_ptr`
   for the gaze tracker to avoid manual cleanup.
 
-The above program will start the gaze tracker and track twenty webcam frames,
+The program `gaze_simple` (see @cl:gaze_simple.cpp) will start the gaze tracker and track twenty webcam frames,
 given the `shape_predictor_68_face_landmarks.dat` is next to the executable.
 Gaze's +API also allows to start and stop trials to distinguish them in the
 output, but the functionality is not yet properly implemented.
