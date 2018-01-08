@@ -1,5 +1,8 @@
 """
 Replaces +label with \gls{label} .
+Replaces ++label with \glspl{label} .
+Replaces +Label with \Gls{label} .
+Replaces ++Label with \Glspl{label} .
 """
 import string
 
