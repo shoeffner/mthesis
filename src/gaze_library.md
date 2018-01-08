@@ -43,9 +43,7 @@ Ubuntu 14.04 LTS as well[^nowindows].
   after the macOS High Sieera update in September 2017, development was done
   under MacOS High Sierra. Ubuntu 14.04 LTS v1711 was not tested live, but
   built and unit-tested on the Semaphore CI service. Unfortunately Gaze was not
-  tested on a Microsoft Windows system. For more details, ...
-
-TODO(shoeffner): Add ref for "more details"
+  tested on a Microsoft Windows system.
 
 
 ## Free and open-source software
@@ -57,8 +55,6 @@ released under the *MIT License*, which is open and permissive: It allows
 commercial and private use, redistribution, and modificatiion of the source
 code without any conditions other than keeping the license with the
 files [@MITLicense].
-
-TODO(shoeffner): Consider mirroring to Bitbucket and GitLab.
 
 [^gazegithuburl]:
   [https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze). There
@@ -123,15 +119,17 @@ to be added to the project, these steps are performed:
 
 [^gitworkflows]: There are many different ways to structure a Git workflow. One
   is the *GitFlow* branching model [@Driessen2010], which hugely influenced
-  Gaze's workflow in the beginning. However, Gaze does not use a specific develop
+  Gaze's workflow in the beginning. Gaze does not use a specific develop
   and release branch, instead finished features get pushed to the master branch
   directly, which makes the process look more like a traditional trunk-based
   workflow, where all features are developed and pushed on a common branch, the
   so called trunk.
 [^hashadvantages]: Having a unique hash for a code has other advantages as
   well, for example it can be used to verify the integrity of source code.
+  While for SHA1, the algorithm behind git's hash creation, a hash collision
+  has been found [@Stevens2017], Git takes steps against it.
 [^onlydiffpushed]: Technically, only the differences between the original and
-  the changed version need to be submitted, alongside some meta information.
+  the changed version are submitted, alongside some meta information.
 
 Gaze is published on the source code hosting service
 [GitHub](https://github.com). Whenever a new commit is
@@ -175,8 +173,6 @@ accompanying the model:
 > The license for this dataset excludes commercial use and Stefanos Zafeiriou,
 > one of the creators of the dataset, asked me to include a note here saying
 > that the trained model therefore can't be used in a commerical product.
-
-TODO(shoeffner): Add similar notice to Gaze.
 
 A similar notice accompanies Gaze. To avoid problems and allow commercial
 applications, the author of Gaze initially tried to work with the five

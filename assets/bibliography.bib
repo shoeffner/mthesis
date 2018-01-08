@@ -183,6 +183,24 @@
   url      = {https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/},
 }
 
+@InProceedings{Stevens2017,
+  author    = {Marc Stevens and Elie Bursztein and Pierre Karpman and Ange Albertini and Yarik Markov},
+  title     = {The first collision for full {SHA-1}},
+  booktitle = {Advances in Cryptology – CRYPTO 2017},
+  year      = {2017},
+  editor    = {J. Katz and H. Shacham},
+  volume    = {10401},
+  series    = {Lecture Notes in Computer Science},
+  publisher = {Springer, Cham},
+  abstract  = {SHA-1 is a widely used 1995 NIST cryptographic hash function standard that was officially deprecated by NIST in 2011 due to fundamental security weaknesses demonstrated in various analyses and theoretical attacks. Despite its deprecation, SHA-1 remains widely used in 2017 for document and TLS certificate signatures, and also in many software such as the GIT versioning system for integrity and backup purposes. 
+A key reason behind the reluctance of many industry players to replace SHA-1 with a safer alternative is the fact that finding an actual collision has seemed to be impractical for the past eleven years due to the high complexity and computational cost of the attack. 
+In this paper, we demonstrate that SHA-1 collision attacks have finally become practical by providing the first known instance of a collision. Furthermore, the prefix of the colliding messages was carefully chosen so that they allow an attacker to forge two PDF documents with the same SHA-1 hash yet that display arbitrarily-chosen distinct visual contents. 
+We were able to find this collision by combining many special cryptanalytic techniques in complex ways and improving upon previous work. In total the computational effort spent is equivalent to $2^{63.1}$ SHA-1 compressions and took approximately 6 500 CPU years and 100 GPU years. As a result while the computational power spent on this collision is larger than other public cryptanalytic computations, it is still more than 100 000 times faster than a brute force search.},
+  doi       = {10.1007/978-3-319-63688-7_19},
+  keywords  = {hash function, cryptanalysis, collision attack, collision example, differential path},
+  url       = {https://shattered.it},
+}
+
 @Misc{stosurvey2017,
   author       = {Kevin Troy},
   title        = {stackoverflow Developer Surver 2017},
