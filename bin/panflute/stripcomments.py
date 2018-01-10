@@ -16,7 +16,6 @@ def replace_refs(elem, doc):
     if isinstance(elem, pf.CodeBlock) and 'stripcomments' in elem.classes:
         lines = elem.text.splitlines()
         if 'lines' in elem.attributes:
-            pf.debug(elem.attributes['lines'])
             nl = []
             for r in elem.attributes['lines'].split(','):
                 if ':' in r:
