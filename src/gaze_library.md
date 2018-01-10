@@ -41,7 +41,7 @@ Ubuntu 14.04 LTS as well[^nowindows].
 Gaze is free and open-source, its soure code can be found on
 GitHub[^gazegithuburl]. That means it is publicly available and the source code
 and software can be modified and redistributed without any limitations. It is
-released under the *MIT License*, which is open and permissive: It allows
+released under the MIT License, which is open and permissive: It allows
 commercial and private use, redistribution, and modificatiion of the source
 code without any conditions other than keeping the license with the
 files [@MITLicense].
@@ -90,39 +90,39 @@ by [Subversion](https://subversion.apache.org/) with about 10
 %). Of course this data has to be taken into account
 carefully, as most respondents are in some way users of the website
 [stackoverflow.com](https://stackoverflow.com), a programming related questions
-and answers website.  But the results mean that many people are already
+and answers website. But the results mean that many people are already
 familiar with Git and can easily join the project and collaborate without
 having to overcome high entrance barriers like learning a new +VCS.
 
-A typical workflow[^gitworkflows] with Git starts with cloning the code
+A typical workflow with Git starts with cloning the code
 repository, that means downloading the latest source code. Then, for each
 feature to be added to the project, these steps are performed:
 
 1. Create a branch. This can be understand as a local temporary copy of the
    source code.
 2. Modify the code in the branch to build the feature.
-3. Create a *commit*, which is comparable to a checkpoint where you can always
-   return to. It also helps to give the code a version number, since a commit
+3. Create a commit, which is comparable to a checkpoint to which you can always
+   return. It also gives the code a unique version number, since a commit
    creates a unique hash for the current code[^hashadvantages].
 4. Publish the commit to the original host[^onlydiffpushed] (this is called
-   *pushing*).
+   pushing).
 5. After verifying that the commit does not break the functionality and follows
    the project's coding standards, the changes can be merged into the
    original code.
 
-[^gitworkflows]: There are many different ways to structure a Git workflow. One
-  is the *GitFlow* branching model [@Driessen2010], which hugely influenced
-  Gaze's workflow in the beginning. Gaze does not use a specific develop
-  and release branch, instead finished features get pushed to the master branch
-  directly, which makes the process look more like a traditional trunk-based
-  workflow, where all features are developed and pushed on a common branch, the
-  so called trunk.
+There are many different ways to structure a Git workflow. One is the *GitFlow*
+branching model [@Driessen2010], which hugely influenced Gaze's workflow in the
+beginning. Gaze does not use a specific develop and release branch, instead
+finished features get pushed to the master branch directly, which makes the
+process look more like a traditional trunk-based workflow, where all features
+are developed and pushed onto a common branch, the so called trunk or master.
+
 [^hashadvantages]: Having a unique hash for a code has other advantages as
   well, for example it can be used to verify the integrity of source code.
   While for SHA1, the algorithm behind git's hash creation, a hash collision
   has been found [@Stevens2017], Git takes steps against it.
 [^onlydiffpushed]: Technically, only the differences between the original and
-  the changed version are submitted, alongside some meta information.
+  the changed version are submitted, plus some meta information.
 
 Gaze is published on the source code hosting service
 [GitHub](https://github.com). Whenever a new commit is
@@ -137,45 +137,40 @@ It builds the documentation for Gaze and pushes it to a specially named branch,
 the `gh-pages` branch. This branch is *orphaned*, which means it has no direct
 relation to the other source code. GitHub uses this special branch for one of
 its features: static page hosting. All content on the `gh-pages` branch is
-published at the URL
+published at the +URL
 [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze).
-This way the documentation is always[^uptimegithub] available online and
-contains the latest changes.
-
-[^uptimegithub]: GitHub has an +SLA uptime of 99.95 % for its business
-  customers. Since Gaze is only hosted as free repository, this +SLA does not
-  apply directly, but it is reasonable to assume that the services are available
-  most of the time for free users as well.
-
-TODO(shoeffner): add index page to gh-pages branch
+This way the documentation is always available online and
+contains the latest changes. "Always" is a slight simplification, as failures
+can always happen: GitHub has an +SLA uptime of 99.95 % for its
+business customers. Since Gaze is only hosted as free repository, this +SLA
+does not apply directly, but it is reasonable to assume that the services are
+available most of the time for free users as well.
 
 
 ### Licensing issues
 
-While Gaze is licensed under the MIT License, it can not be used for commercial
+While Gaze is licensed under the +MIT License, it can not be used for commercial
 applications at the time of writing this thesis. This is because the license of
 the training data [@Sagonas2016] for the 68 face landmarks' model [@King2009]
 (`shape_predictor_68_face_landmarks.dat`), which is used for the face and
 landmark detection, does not allow commercial uses. On the website accompanying
 the dataset it is explicitly stated that "the annotations are provided for
 research purposes ONLY (NO commercial products)"[^quoteibug], and King
-clarifies this in the
-[README.md](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md)
-accompanying the model:
+emphasizes this in the `README.md` accompanying the model:
 
 > The license for this dataset excludes commercial use and Stefanos Zafeiriou,
 > one of the creators of the dataset, asked me to include a note here saying
 > that the trained model therefore can't be used in a commerical product.
+>
+> \raggedleft --- <cite>Davis King, [README.md](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md), Accessed: 2018-01-10.</cite>
 
 A similar notice accompanies Gaze. To avoid problems and allow commercial
-applications, the author of Gaze initially tried to work with the five
-landmarks model available with dlib. But the five landmarks selected by
-King[^dlibmodelsREADME] for that model do not perform well to estimate the head
-pose in 3D, so the 68 landmarks model was chosen, resulting in this license
-crash.
+applications, initially the five landmarks model was tried to be incorporated into Gaze.
+But the five landmarks selected by King do not perform well to estimate the
+head pose in 3D, so the 68 landmarks model was chosen, resulting in this
+license crash.
 
-[^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/)
-[^dlibmodelsREADME]: dlib-models' [README.md](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md)
+[^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/), Accessed: 2018-01-10.
 
 
 ## Setting up Gaze
@@ -410,7 +405,7 @@ K = \begin{array}{ccc}
 TODO(shoeffner): Should I call out the unused `target` parameters?
 
 
-
+#### Pipeline steps
 
 
 

@@ -68,7 +68,7 @@ $endif$
 \DeclareRobustCommand{\href}[2]{\ifinfootnote{}\raggedright\sloppy#2 (\url{#1})\fussy\else{}#2\footnote{\url{#1}}\fi}
 
 $if(glossary)$
-    \usepackage[acronym,toc]{glossaries}
+    \usepackage[acronym,toc,nomain]{glossaries}
     \renewcommand{\acronymname}{List of Abbreviations and Acronyms}
     \input{$glossary$}
     \makeglossaries
