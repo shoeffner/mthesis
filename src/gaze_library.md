@@ -84,10 +84,10 @@ since it can usually be synchronized between multiple devices, provides a
 simple way to create backups. The author's +VCS of choice for Gaze is
 [Git](https://git-scm.com), which is very popular among software developers:
 @stosurvey2017 finds in the [stackoverflow Developer Survey
-2017](https://insights.stackoverflow.com/survey/2017), that about 70 % of
+2017](https://insights.stackoverflow.com/survey/2017), that about 70&nbsp;% of
 30,730 responses claim to be using (at least) Git for version control (followed
-by [Subversion](https://subversion.apache.org/) with about 10
-%). Of course this data has to be taken into account
+by [Subversion](https://subversion.apache.org/) with about 10&nbsp;%). Of course
+this data has to be taken into account
 carefully, as most respondents are in some way users of the website
 [stackoverflow.com](https://stackoverflow.com), a programming related questions
 and answers website. But the results mean that many people are already
@@ -141,7 +141,7 @@ published at the +URL
 [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze).
 This way the documentation is always available online and
 contains the latest changes. "Always" is a slight simplification, as failures
-can always happen: GitHub has an +SLA uptime of 99.95 % for its
+can always happen: GitHub has an +SLA uptime of 99.95&nbsp;% for its
 business customers. Since Gaze is only hosted as free repository, this +SLA
 does not apply directly, but it is reasonable to assume that the services are
 available most of the time for free users as well.
@@ -406,8 +406,6 @@ TODO(shoeffner): Should I call out the unused `target` parameters?
 
 
 #### Pipeline steps
-
-
 
 
 
