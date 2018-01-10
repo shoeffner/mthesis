@@ -1,14 +1,11 @@
 # Gaze -- A gaze tracking library
 
 Gaze is a software library to perform gaze tracking in relaxed laboratory
-conditions[^relaxedlabconditions]. It was programmed with many best practices
-for +FOSS in mind and tries to provide a transparent +API to track user gaze
-using a common webcam.
-
-[^relaxedlabconditions]: \emph{Relaxed} laboratory conditions means that unlike
-  for other eye tracking solutions no special setup is needed. Gaze works with
-  normal lighting conditions and just a laptop with an attached webcam in front
-  of the participant.
+conditions. *Relaxed* laboratory conditions means that, unlike for other eye
+tracking solutions, no special setup is needed. Gaze works with normal lighting
+conditions and just a laptop with an attached webcam in front of the
+participant. It was programmed with many best practices for +FOSS in mind and
+tries to provide a transparent +API to track user gaze using a common webcam.
 
 
 ## Features of Gaze
@@ -18,25 +15,22 @@ steps. It is possible to add custom steps by altering Gaze's source code in
 very few places (see @sec:writing-a-custom-pipeline-step). Once
 implemented, the gaze tracker, the pipeline
 and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
-
 The software works best with the camera sensor being in the same plane as the
 screen surface, thus built-in webcams are recommended[^3Doffsetcamera]. It can
 process live webcam streams, video files, and images (see @sec:input-source-capture).
+The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
+estimates the head orientation, and also estimates the distance between camera
+and subject. From these measured and estimated information, Gaze calculates an
+approximate gaze point.
+Gaze has been developed using macOS Sierra and macOS High Sierra, but works on
+Ubuntu 14.04 LTS as well[^nowindows].
 
 [^3Doffsetcamera]: Currently the configuration for the camera position assumes
   only offsets along and across the screen, the orientation and depth can not
   be changed.
 
-The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
-estimates the head orientation, and also estimates the distance between camera
-and subject. From these measured and estimated information, Gaze calculates an
-approximate gaze point.
-
-Gaze has been developed using macOS Sierra and macOS High Sierra, but works on
-Ubuntu 14.04 LTS as well[^nowindows].
-
 [^nowindows]: macOS Sierra has been used in the early development process, but
-  after the macOS High Sieera update in September 2017, development was done
+  after the macOS High Sierra update in September 2017, development was done
   under MacOS High Sierra. Ubuntu 14.04 LTS v1711 was not tested live, but
   built and unit-tested on the Semaphore CI service. Unfortunately Gaze was not
   tested on a Microsoft Windows system.
@@ -55,8 +49,8 @@ files [@MITLicense].
 [^gazegithuburl]:
   [https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze). There
   are no specific reasons to host Gaze on GitHub other than that the author is
-  already familiar with the ecosystem, and that the libraries dlib and OpenCV are
-  also available there.
+  already familiar with the ecosystem, and that the employed libraries dlib and
+  OpenCV are also available there.
 
 
 ### Why free and open-source software?
@@ -89,23 +83,20 @@ control allows to roll back changes if needed, retains a change history and,
 since it can usually be synchronized between multiple devices, provides a
 simple way to create backups. The author's +VCS of choice for Gaze is
 [Git](https://git-scm.com), which is very popular among software developers:
-@stosurvey2017 finds that about 70 % of 30,730 responses claim to be using (at
-least) Git for version control (followed by
-[Subversion](https://subversion.apache.org/) with about 10 %)[^stosurveylink].
-Of course this data has to be taken into account carefully, as most respondents
-are in some way users of the website
+@stosurvey2017 finds in the [stackoverflow Developer Survey
+2017](https://insights.stackoverflow.com/survey/2017), that about 70 % of
+30,730 responses claim to be using (at least) Git for version control (followed
+by [Subversion](https://subversion.apache.org/) with about 10
+%). Of course this data has to be taken into account
+carefully, as most respondents are in some way users of the website
 [stackoverflow.com](https://stackoverflow.com), a programming related questions
-and answers website.
-But the results mean that many people are already familiar with Git and can easily
-join the project and collaborate without having to overcome high entrance
-barriers like learning a new +VCS.
+and answers website.  But the results mean that many people are already
+familiar with Git and can easily join the project and collaborate without
+having to overcome high entrance barriers like learning a new +VCS.
 
-[^stosurveylink]:
-  [stackoverflow Developer Survey 2017](https://insights.stackoverflow.com/survey/2017)
-
-A typical workflow[^gitworkflows] with Git starts with *cloning the code
-repository*, that is downloading the latest source code. Then, for each feature
-to be added to the project, these steps are performed:
+A typical workflow[^gitworkflows] with Git starts with cloning the code
+repository, that means downloading the latest source code. Then, for each
+feature to be added to the project, these steps are performed:
 
 1. Create a branch. This can be understand as a local temporary copy of the
    source code.
@@ -312,7 +303,7 @@ position has to be provided using two values, the horizontal offset $x$ from
 the upper left screen corner, and the vertical offset $y$ from the same corner.
 @fig:measuringmetadata visualizes which measurements have to be taken.
 
-```{ .yaml file=gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-56 }
+```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-56 }
 ```
 
 TODO(shoeffner): Correctly measure dimensions, just in case. Also, change the default values to something more common.
@@ -419,7 +410,7 @@ K = \begin{array}{ccc}
 TODO(shoeffner): Should I call out the unused `target` parameters?
 
 
-#### Pipeline parameters
+
 
 
 
