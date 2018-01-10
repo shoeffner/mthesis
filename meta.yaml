@@ -1,6 +1,6 @@
 ---
 author: Sebastian Höffner
-title: Gaze tracking using common webcams
+title: Gaze Tracking Using Common Webcams
 institute: Institute of Cognitive Science
 workgroup: Biologically Oriented Computer Vision
 city: Osnabrück
@@ -10,11 +10,11 @@ date: February 2, 2018
 abstract: src/abstract.tex
 acknowledgements: src/acknowledgements.tex
 header-includes:
-    - \def\gaze{Gaze}
     - \usepackage{siunitx}
 panflute-filters:
     - pandoc-img-glob
     - pandoc-source-exec
+    - stripcomments
     - pandoc-custom-refnos
     - todo
     - glossary

@@ -1,5 +1,7 @@
 # Introduction
 
+## A brief history of eye tracking research
+
 In the late 19th century, Helmholtz published his "Handbook of physiological
 optics" (German: "Handbuch der physiologischen Optik", @Helmholtz1866), which is an
 exhaustive summary and critical review of about 150 years of research about the
@@ -44,8 +46,8 @@ reading tasks. He built a device (see @fig:huey_eyetracker) which is attached to
 the locally sedated cornea using a little cup made of plaster cast. The other
 side of the device points at smoked paper, onto which it draws the movements of
 the attached eye. Using the device, Huey was able to to report accurate
-measurements of ++fixation and ++saccade (stops and rapid movements of the
-eyes), which he used to analyze reading behavior.
+measurements of fixations and saccades (stops and rapid movements of the
+eyes, respectively), which he used to analyze reading behavior.
 
 ![Schema of Huey's eye tracking device. It work similar to a seismograph.
 Image from Google's scan of the New York Public Library's 1968 reprint of
@@ -73,7 +75,14 @@ studies.
 
 - overview over optical tracking devices
 - distinction between eye and gaze tracking
+
+## About this thesis
+
 - Comparison gaze tracking approaches using webcams
 - eyeLike (top web search hit) only tracks eyes, not gaze
 - Cheap alternative to other softwares
 - Providing a best-practices FOSS solution
+
+### Note about online references
+
+

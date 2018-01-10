@@ -142,7 +142,7 @@ $else$
     $if(glossary)$
         $if(loa)$
             \printglossary[type=\acronymtype]
-            \printglossary
+            % \printglossary  % glossary not needed for my thesis.
         $endif$
     $endif$
 $endif$

@@ -17,19 +17,15 @@ Gaze provides a flexible data pipeline consisting of multiple pre-defined
 steps. It is possible to add custom steps by altering Gaze's source code in
 very few places (see @sec:writing-a-custom-pipeline-step). Once
 implemented, the gaze tracker, the pipeline
-and the pipeline steps can be configured using a +YAML file.
+and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
 
-The software is still very limited and works best with the camera sensor being
-in the same plane as the screen surface, thus built-in webcams are
-recommended[^3Doffsetcamera]. It can process live webcam streams, video files,
-and images[^supportedformats].
+The software works best with the camera sensor being in the same plane as the
+screen surface, thus built-in webcams are recommended[^3Doffsetcamera]. It can
+process live webcam streams, video files, and images (see @sec:input-source-capture).
 
 [^3Doffsetcamera]: Currently the configuration for the camera position assumes
   only offsets along and across the screen, the orientation and depth can not
   be changed.
-
-[^supportedformats]: Gaze employs OpenCV's `VideoCapture` and is thus limited
-  by its capabilities.
 
 The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
 estimates the head orientation, and also estimates the distance between camera
@@ -85,6 +81,7 @@ documentation[^docslink].
 
 [^docslink]: [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze)
 
+
 ### Development process
 
 A good practice is to manage code (and other projects) with a +VCS. Version
@@ -95,8 +92,13 @@ simple way to create backups. The author's +VCS of choice for Gaze is
 @stosurvey2017 finds that about 70 % of 30,730 responses claim to be using (at
 least) Git for version control (followed by
 [Subversion](https://subversion.apache.org/) with about 10 %)[^stosurveylink].
-This means that many people are already familiar with the tool and can easily
-join the project for collaboration without high entrance barriers.
+Of course this data has to be taken into account carefully, as most respondents
+are in some way users of the website
+[stackoverflow.com](https://stackoverflow.com), a programming related questions
+and answers website.
+But the results mean that many people are already familiar with Git and can easily
+join the project and collaborate without having to overcome high entrance
+barriers like learning a new +VCS.
 
 [^stosurveylink]:
   [stackoverflow Developer Survey 2017](https://insights.stackoverflow.com/survey/2017)
@@ -248,6 +250,7 @@ To compile the program above, a CMake configuration like the following is enough
 ```{ .cmake file=assets/examples/gaze_simple/CMakeLists.txt pathdepth=2 .caption  }
 ```
 
+
 ### Demo programs
 
 Within the Gaze repository, two example programs are provided:
@@ -277,10 +280,149 @@ TODO(shoeffner): explain where people look more detailed
 
 ## Configuring and extending Gaze
 
-- gaze.default.yaml
-- Contents of FallbackStep
-- Explain how the Pipeline works
+There are two ways to customize Gaze. The first is to configure it using the
+`gaze.yaml`, the second is to write a custom pipeline step. In the following
+section, both options will be briefly explored.
+
 
 ### Configuring Gaze
+
+To configure Gaze, the `gaze.yaml` can be used. By just copying (and renaming) the
+`gaze.default.yaml` to the directory from which Gaze is executed, the default
+values can be overwritten. This works because Gaze first loads the default
+values and then replaces them by any changes made in a potential `gaze.yaml`.
+The `gaze.yaml` consists of two major parts: The meta configuration block to
+configure the camera and screen parameters and the pipeline configuration.
+
+
+#### Camera and screen parameters
+
+Inside the meta configuration block (@cl:gazedefmeta) reside the setup related parameters, that
+is the camera and screen settings. The screen settings consist of a resolution
+in pixels and measurements in meters. For example, the Laptop used for the
+development process had a resolution of \SI{2880 x 1800}{{pixels}}, and
+its screen width and height were \SIlist{0.335;0.207}{\meter}. Since screen
+sizes are usually provided in inches across the diagonal, the screen width and
+height have to be measured manually.
+Additionally to the screen width and height, the camera position has to be
+measured. At the time of writing, Gaze only supports cameras which are built
+into the laptop screen or in the same plane as the screen, and only cameras
+directed orthogonally away from the screen towards the subject. Thus, the camera
+position has to be provided using two values, the horizontal offset $x$ from
+the upper left screen corner, and the vertical offset $y$ from the same corner.
+@fig:measuringmetadata visualizes which measurements have to be taken.
+
+```{ .yaml file=gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-56 }
+```
+
+TODO(shoeffner): Correctly measure dimensions, just in case. Also, change the default values to something more common.
+
+TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
+
+The camera's resolution can also be configured alongside the target +FPS. Many
+webcams are limited in their +FPS capabilities, so even by providing high
+values it is possible that the camera does not reach more than about 30 +FPS.
+For online gaze tracking this does not matter much, as Gaze is slower than
+30 +FPS on a common MacBook Pro. But better hardware might result in better
+computation times, possibly allowing Gaze to be faster.
+
+TODO(shoeffner): Add ref for Gaze's performance.
+
+Crucial settings for the camera to estimate distances properly are the sensor's
+size and its aspect ratio. These values are difficult to measure and many
+device vendors do not report them, as producing smaller sensors and cameras
+using higher resolutions is cheaper @citationneeded. Apple uses the iSight for
+their MacBook Pro. Its older versions uses a \SI{0.00635}{\meter}
+(\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect ratio of 4:3.
+The 15 inches MacBook Pro from mid 2015 used for Gaze's development has a
+default webcam resolution of \SI{1280 x 720}{{pixels}}, which leads to an
+aspect ratio of 16:9. The sensor size is \todo{add sensor size}.
+
+[^cnetisight]: https://www.cnet.com/products/apple-isight/specs/, Accessed: 2018-01-09.
+
+TODO(shoeffner): Remeasure sensor size using reference image and explain procedure
+
+Additionally to the sensor parameters, the webcam can be calibrated for the use
+with OpenCV. Calibration in this case means to estimate the camera matrix and
+distortion coefficients of a camera, which can be used to undistort the images.
+Gaze does not directly undistort the images to process them further, but
+algorithms like
+[`cv::solvePnP`](https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
+which is used by Gaze, benefit from exact values.
+OpenCV provides a calibration tool[^calibrationtool] which
+outputs the needed settings. To be able to use it, OpenCV needs to be compiled
+manually by providing the CMake flag `-DBUILD_EXAMPLES=ON` to build the
+`cpp-example-calibration` executable. To calibrate the camera, the calibration
+tool needs to take a couple of pictures of a benchmark image: a checkerboard
+pattern (see @fig:calibcheck) is used in the following. Calibration works best
+if the image is on a hard surface, like card board. An example call to the
+calibration tool is denoted in @cl:cvcalibcall. The parameters `-h=6` and
+`-w=9` describe the layout of the (checkerboard) pattern. It means that the
+checkerboard is seven squares down and ten squares across, since the parameters
+expect the numbers of corners between four squares. `-n=10` is the number of
+images to be taken, `-d=1000` is the delay between two images. A higher delay
+allows that during calibration the image can be moved to more divers poses
+without triggering another image, resulting in a higher variety of points which
+in turn leads to a more exact estimation of the camera parameters. The output
+file to which the calibration values are written is stored to the file passed
+with `-o`. The last parameter, `-s=0.0015` is the size of one checkerboard
+square in meters. This value should be measured on the final printout of the
+checkerboard, as slight variations can occur depending on page orientation,
+zoom levels, margins, printer settings, and other factors. In the example the
+printed version's squares' side lengths were \SI{0.0015}{meters}.
+
+TODO(shoeffner): Add two or three different calibrating images.
+
+[^calibrationtool]: The calibration tool can be found in OpenCV's samples,
+  [samples/cpp/calibration.cpp](https://github.com/opencv/opencv/blob/fc9e031454fd456d09e15944c99a419e73d80661/samples/cpp/calibration.cpp).
+  There is also a
+  [tutorial](https://docs.opencv.org/3.0-beta/doc/tutorials/calib3d/camera_calibration/camera_calibration.html)
+  available.
+
+```{ .bash caption="Using the OpenCV calibration tool to calibrate the camera." label=cl:cvcalibcall }
+./cpp-example-calibration -h=6 -w=9 -n=10 -d=1000 -s=0.0015 -o=camera_calib.yml
+```
+
+Parts of the resulting output file (@cl:cameracalibyml) need to be merged
+into the `gaze.yaml`, namely the sections `camera_matrix` and
+`distortion_coefficients`. They need to be placed into the section `camera`
+inside the `meta` part. An example is already given inside the
+`gaze.default.yml` file.
+
+```{ .yaml file="examples/camera_calib.yml" caption="Example camera calibration output." label=cl:cameracalibyml }
+```
+
+Note that the calibration is not necessary for testing and development
+purposes, as it is possible to use an estimated camera matrix $K$ without any
+distortions. According to @Mallick2016, a good approximation is
+
+\begin{align}
+K = \begin{array}{ccc}
+w, 0, \frac{w}{2} \\
+0, w, \frac{h}{2} \\
+0, 0, 1
+\end{array},
+\end{align}
+
+with $w$ being the image width and $h$ the image height in pixels. Thus for the
+example configuration of a 16:9 image with dimensions \SI{640 x 360}{{pixels}},
+a possible estimated camera matrix would be
+
+\begin{align}
+K = \begin{array}{ccc}
+640, 0, 320 \\
+0, 640, 180 \\
+0, 0, 1
+\end{array}.
+\end{align}
+
+TODO(shoeffner): Should I call out the unused `target` parameters?
+
+
+#### Pipeline parameters
+
+
+
+
 
 ### Writing a custom pipeline step
