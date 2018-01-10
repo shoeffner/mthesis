@@ -39,18 +39,12 @@ Ubuntu 14.04 LTS as well[^nowindows].
 ## Free and open-source software
 
 Gaze is free and open-source, its soure code can be found on
-GitHub[^gazegithuburl]. That means it is publicly available and the source code
+[GitHub](https://github.com/shoeffner/gaze). That means it is publicly available and the source code
 and software can be modified and redistributed without any limitations. It is
 released under the MIT License, which is open and permissive: It allows
 commercial and private use, redistribution, and modificatiion of the source
 code without any conditions other than keeping the license with the
 files [@MITLicense].
-
-[^gazegithuburl]:
-  [https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze). There
-  are no specific reasons to host Gaze on GitHub other than that the author is
-  already familiar with the ecosystem, and that the employed libraries dlib and
-  OpenCV are also available there.
 
 
 ### Why free and open-source software?
@@ -110,8 +104,8 @@ feature to be added to the project, these steps are performed:
    the project's coding standards, the changes can be merged into the
    original code.
 
-There are many different ways to structure a Git workflow. One is the *GitFlow*
-branching model [@Driessen2010], which hugely influenced Gaze's workflow in the
+There are many different ways to structure a Git workflow. One is the GitFlow
+branching model [@Driessen2010], which largely influenced Gaze's workflow in the
 beginning. Gaze does not use a specific develop and release branch, instead
 finished features get pushed to the master branch directly, which makes the
 process look more like a traditional trunk-based workflow, where all features
@@ -134,7 +128,7 @@ changes can be merged into the master branch.
 
 Whenever the master branch is updated, Semaphore performs an additional step.
 It builds the documentation for Gaze and pushes it to a specially named branch,
-the `gh-pages` branch. This branch is *orphaned*, which means it has no direct
+the `gh-pages` branch. This branch is orphaned, which means it has no direct
 relation to the other source code. GitHub uses this special branch for one of
 its features: static page hosting. All content on the `gh-pages` branch is
 published at the +URL
@@ -158,6 +152,8 @@ the dataset it is explicitly stated that "the annotations are provided for
 research purposes ONLY (NO commercial products)"[^quoteibug], and King
 emphasizes this in the `README.md` accompanying the model:
 
+[^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/), Accessed: 2018-01-10.
+
 > The license for this dataset excludes commercial use and Stefanos Zafeiriou,
 > one of the creators of the dataset, asked me to include a note here saying
 > that the trained model therefore can't be used in a commerical product.
@@ -170,7 +166,7 @@ But the five landmarks selected by King do not perform well to estimate the
 head pose in 3D, so the 68 landmarks model was chosen, resulting in this
 license crash.
 
-[^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/), Accessed: 2018-01-10.
+TODO(shoeffner): add cross ref to head pose estimation
 
 
 ## Setting up Gaze
@@ -182,8 +178,8 @@ be found at
 [https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze).
 
 Gaze has some dependencies which need to be installed before building Gaze. A
-modern (2017 "modern") C++ compiler is inevitable (C++17 is needed as Gaze uses
-[`shared_mutex`](http://en.cppreference.com/w/cpp/thread/shared_mutex)). For
+C++17 compiler is inevitable, as Gaze uses
+[`shared_mutex`](http://en.cppreference.com/w/cpp/thread/shared_mutex). For
 example on macOS High Sierra Clang 9 compiles Gaze properly,
 for Ubuntu 14.04 g++ 7 works well[^testedonsemaphore].
 Additional requirements are OpenCV (3.3.1), CMake (3.10.0-rc3), and dlib
@@ -217,33 +213,29 @@ proper system locations.
 
 ## Using Gaze
 
-Gaze is a library, so it can not be used alone but only by other programs.
-A minimal program to integrate gaze might look like this[^simplificationsimplegaze]:
+Gaze is a library, so it can not be used alone but only by incorporating it
+into other programs. A minimal program to integrate gaze might look like
+this:
 
 ```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption label=cl:gaze_simple.cpp }
 ```
 
-[^simplificationsimplegaze]: Of course, it is possible to use e.g.\ `std::unique_ptr`
-  for the gaze tracker to avoid manual cleanup.
-
 The program `gaze_simple` (see @cl:gaze_simple.cpp) will start the gaze tracker and track twenty webcam frames,
 given the `shape_predictor_68_face_landmarks.dat` is next to the executable.
-Gaze's +API also allows to start and stop trials to distinguish them in the
-output, but the functionality is not yet properly implemented.
+To compile the program, only a short CMake configuration file like @cl:cmakegazesimple is needed.
 
-To compile the program above, a CMake configuration like the following is enough:
-
-```{ .cmake file=assets/examples/gaze_simple/CMakeLists.txt pathdepth=2 .caption  }
+```{ .cmake file=assets/examples/gaze_simple/CMakeLists.txt pathdepth=2 .caption label=cl:cmakegazesimple }
 ```
 
 
 ### Demo programs
 
-Within the Gaze repository, two example programs are provided:
+The Gaze repository contains two example programs:
 `simple_tracking` and `where_people_look`. To compile and use them, it is
-necessary to run the configure step again:
+necessary to run the configure step again, this time using the `--examples`
+option (@cl:configureshexamples).
 
-```{ .bash caption="Building Gaze usage examples." }
+```{ .bash caption="Building Gaze usage examples." label=cl:configureshexamples }
 ./configure.sh --examples
 cd build
 make -j8
@@ -253,15 +245,23 @@ After building the examples using `make`, two executables can be found in the
 `build` directory.
 
 The simple tracker just opens up a black screen containing a green cross which
-denotes the current gaze point, alongside the gaze tracker's debug view. The
+denotes the current gaze point, alongside the gaze tracker's debug +GUI (@fig:gazedebuggui). The
 debug view can be used to visualize the various pipeline steps and inspect the
 computation times each step needs.
 
-TODO(shoeffner): show example image
+![Gaze's debug +GUI. On the left the pipeline steps are listed along with their
+computation times in \si{\micro\second}. (Photograph: Dana Tentis, pexels.com)](gazedebuggui.png){#fig:gazedebuggui}
+
+TODO(shoeffner): Remove photograph with less distracting one (maybe convert image to grayscale)
 
 Where people look is a reimplementation of @Judd2009's experiment using Gaze.
 
 TODO(shoeffner): explain where people look more detailed
+
+
+### Application programming interface
+
+TODO(shoeffner): gaze API
 
 
 ## Configuring and extending Gaze
@@ -373,7 +373,7 @@ Parts of the resulting output file (@cl:cameracalibyml) need to be merged
 into the `gaze.yaml`, namely the sections `camera_matrix` and
 `distortion_coefficients`. They need to be placed into the section `camera`
 inside the `meta` part. An example is already given inside the
-`gaze.default.yml` file.
+`gaze.default.yml` file (@cl:gazedefmeta).
 
 ```{ .yaml file="examples/camera_calib.yml" caption="Example camera calibration output." label=cl:cameracalibyml }
 ```
@@ -382,12 +382,12 @@ Note that the calibration is not necessary for testing and development
 purposes, as it is possible to use an estimated camera matrix $K$ without any
 distortions. According to @Mallick2016, a good approximation is
 
-\begin{align}
-K = \begin{array}{ccc}
-w, 0, \frac{w}{2} \\
-0, w, \frac{h}{2} \\
-0, 0, 1
-\end{array},
+\begin{align}\def\arraystretch{2.2}
+K = \left(\begin{array}{ccc}
+w & 0 & \dfrac{w}{2} \\
+0 & w & \dfrac{h}{2} \\
+0 & 0 & 1
+\end{array}\right),
 \end{align}
 
 with $w$ being the image width and $h$ the image height in pixels. Thus for the
@@ -395,11 +395,11 @@ example configuration of a 16:9 image with dimensions \SI{640 x 360}{{pixels}},
 a possible estimated camera matrix would be
 
 \begin{align}
-K = \begin{array}{ccc}
-640, 0, 320 \\
-0, 640, 180 \\
-0, 0, 1
-\end{array}.
+K = \left(\begin{array}{ccc}
+640 & 0 & 320 \\
+0 & 640 & 180 \\
+0 & 0 & 1
+\end{array}\right).
 \end{align}
 
 TODO(shoeffner): Should I call out the unused `target` parameters?
@@ -407,6 +407,21 @@ TODO(shoeffner): Should I call out the unused `target` parameters?
 
 #### Pipeline steps
 
+The pipeline step order as well as each individual pipeline step can be
+configured using various options. This is useful as for example the different
+implementations of @Timm2011 can be exchanged without recompiling Gaze by just
+changing the configuration file. The default pipeline configuration can again
+be found inside the `gaze.default.yaml` (@cl:gazedefpipeline).
+
+```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefpipeline caption="The default pipeline configuration block for Gaze." .stripcomments lines=58-200 }
+```
 
 
 ### Writing a custom pipeline step
+
+- fallback step
+- places to change
+
+- architecture/design (better move this to models and methods somehow)
+
+

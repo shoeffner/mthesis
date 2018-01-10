@@ -85,4 +85,5 @@ studies.
 
 ### Note about online references
 
-
+- many links, usually in footnotes
+- photographs used to test and present Gaze either taken during the development process or downloaded from pexels.com, as those images are licensed as CC0.
