@@ -1,3 +1,6 @@
 [submodule "assets/gaze"]
 	path = assets/gaze
 	url = git@github.com:shoeffner/gaze
+[submodule "scratch/caffe-test/GazeCapture"]
+	path = scratch/caffe-test/GazeCapture
+	url = gh:CSAILVision/GazeCapture
