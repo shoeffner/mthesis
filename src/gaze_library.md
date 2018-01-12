@@ -436,7 +436,7 @@ to the model directory.
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
 are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code
 [@Hume2012], hence the name. It was adjusted to fit into Gaze). They have some
-slight implementation differences, `EyeLike` scales the image patches
+slight implementation differences. `EyeLike` scales the image patches
 containing the eyes to a specific size, while `PupilLocalization` avoids this.
 Usually this means that if a subject sits closer to the camera (and thus the
 eyes are larger), `EyeLike` will perform faster, while `PupilLocalization` is
@@ -450,7 +450,7 @@ Eventually the speed did not change much. A third implementation detail is that
 `EyeLike` is implemented using OpenCV, while `PupilLocalization` uses dlib. For
 both implementations the `relative_threshold` can be set. It is used to discard
 possible eye center locations if the gradient magnitude at the tested location
-is below $\mu_{mag} + \theta\sigma_{mag}$ (with $\theta$ being the
+is below $\mu_\text{mag} + \theta\sigma_\text{mag}$ (with $\theta$ being the
 `relative_threshold`, see SECTION REFERENCE), in both steps. By default the
 `PupilLocalization` with a relative threshold of $0.3$ is used.
 
@@ -470,5 +470,4 @@ TODO(shoeffner): Clarify the landmark indices (replace iBug)
 - places to change
 
 - architecture/design (better move this to models and methods somehow)
-
 
