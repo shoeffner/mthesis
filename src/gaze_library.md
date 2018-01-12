@@ -416,6 +416,53 @@ be found inside the `gaze.default.yaml` (@cl:gazedefpipeline).
 ```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefpipeline caption="The default pipeline configuration block for Gaze." .stripcomments lines=58-200 }
 ```
 
+All pipeline steps are identified by a type, which by convention maps to their
+C++ class implementation name. The available types at the time of writing are
+`SourceCapture`, `FaceLandmarks`, `HeadPoseEstimation`, `PupilLocalization`,
+`EyeLike`, and  `GazePointCalculation`.
+
+`SourceCapture` is a step to record input data. The data can be specified using
+the `source` attribute. If an integer is provided, the corresponding webcam
+device is used as a live stream. Usually the first camera with device ID `0` is
+needed, thus this is the default. The setting can also be set to an image or
+video path, allowing to analyze static images and video files as needed.
+
+The `FaceLandmarks` step employs dlib's +HoG classifier with a pretrained
+model. The model path can be adjusted using the `model` attribute, by default
+it is `shape_predictor_68_face_landmarks.dat`, which is the model file
+downloaded during Gaze's build process. The path has to be specified relative
+to the model directory.
+
+The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
+are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code
+[@Hume2012], hence the name. It was adjusted to fit into Gaze). They have some
+slight implementation differences, `EyeLike` scales the image patches
+containing the eyes to a specific size, while `PupilLocalization` avoids this.
+Usually this means that if a subject sits closer to the camera (and thus the
+eyes are larger), `EyeLike` will perform faster, while `PupilLocalization` is
+much faster for subjects which are further away from the camera. The precision
+for both implementations is similar, but depending on whether the scale affects
+precision or not, either one can outperform the other in certain circumstances.
+Another implementation difference is that `PupilLocalization` uses a
+pre-calculated lookup table for some constant values because it was hoped that
+a lookup table might speed up the process at the cost of some memory.
+Eventually the speed did not change much. A third implementation detail is that
+`EyeLike` is implemented using OpenCV, while `PupilLocalization` uses dlib. For
+both implementations the `relative_threshold` can be set. It is used to discard
+possible eye center locations if the gradient magnitude at the tested location
+is below $\mu_{mag} + \theta\sigma_{mag}$ (with $\theta$ being the
+`relative_threshold`, see SECTION REFERENCE), in both steps. By default the
+`PupilLocalization` with a relative threshold of $0.3$ is used.
+
+To estimate the head pose the `HeadPoseEstimation` step is configured with
+an abstract 3D model of the head. The model is defined using the three
+parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
+are a list of integers corresponding to the landmarks of iBug, but with an
+offset of 1 since iBug uses 1-based indexing and dlib uses 0-based indexing.
+
+TODO(shoeffner): Add section reference
+
+TODO(shoeffner): Clarify the landmark indices (replace iBug)
 
 ### Writing a custom pipeline step
 
