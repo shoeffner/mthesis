@@ -259,7 +259,7 @@ Where people look is a reimplementation of @Judd2009's experiment using Gaze.
 TODO(shoeffner): explain where people look more detailed
 
 
-### Application programming interface
+### Gaze's application programming interface
 
 TODO(shoeffner): gaze API
 
@@ -428,10 +428,17 @@ needed, thus this is the default. The setting can also be set to an image or
 video path, allowing to analyze static images and video files as needed.
 
 The `FaceLandmarks` step employs dlib's +HoG classifier with a pretrained
-model. The model path can be adjusted using the `model` attribute, by default
-it is `shape_predictor_68_face_landmarks.dat`, which is the model file
-downloaded during Gaze's build process. The path has to be specified relative
-to the model directory.
+model (see SECTION REFERENCE). The model path can be adjusted using the `model`
+attribute. By default it is `shape_predictor_68_face_landmarks.dat`, which is
+the model file downloaded during Gaze's build process. The path has to be
+specified relative to the model directory.
+
+To estimate the head pose the `HeadPoseEstimation` step is configured with
+an abstract 3D model of the head. The model is defined using the three
+parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
+are a list of integers corresponding to the landmarks of @Sagonas2016, but with
+an offset of $-1$ since @Sagonas2016 use 1-based indexing, while dlib uses 0-based
+indexing. The default model uses six landmarks (see SECTION REFERENCE).
 
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
 are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code
@@ -454,20 +461,36 @@ is below $\mu_\text{mag} + \theta\sigma_\text{mag}$ (with $\theta$ being the
 `relative_threshold`, see SECTION REFERENCE), in both steps. By default the
 `PupilLocalization` with a relative threshold of $0.3$ is used.
 
-To estimate the head pose the `HeadPoseEstimation` step is configured with
-an abstract 3D model of the head. The model is defined using the three
-parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
-are a list of integers corresponding to the landmarks of iBug, but with an
-offset of 1 since iBug uses 1-based indexing and dlib uses 0-based indexing.
+The final step of the default pipeline, `GazePointCalculation`, uses a simple
+model to map the detected pupils onto the 3D head model and perform a ray cast
+towards the screen (see SECTION REFERENCE). For this to work, the position of
+the screen in relation to the head is determined first, that is the distance
+and direction from head to screen are estimated (see SECTION REFERENCE).
 
-TODO(shoeffner): Add section reference
-
-TODO(shoeffner): Clarify the landmark indices (replace iBug)
 
 ### Writing a custom pipeline step
 
-- fallback step
-- places to change
+To add a new pipeline step to Gaze, a few changes have to be made. The best
+start is to add some configuration to the `gaze.default.yaml`, it only needs
+to contain the type: `- type: NewTypename`{.changelog}. When Gaze is used with such a
+"faulty" configuration, the `FallbackStep` will be used. It explains
+which changes have to be made to implement a custom pipeline step. The
+documentation for
+[`PipelineStep`](https://shoeffner.github.io/gaze/1.0/classgaze_1_1_pipeline_step.html)
+covers the procedure additionally. First, a new header file needs to be
+created. A template (@cl:newsteph) is provided inside the documentation,
+only names have to be adjusted, the visualization type needs to be changed,
+and documentation for the `process` and `visualize` methods should be added.
+After that, a new implementation file (e.g. `new_step.cpp`) has to be added
+and referenced inside the `src/gaze/CMakeLists.txt` as an additional source
+file. Similarly, the header file must be included in
+`include/gaze/pipeline_steps.h`. The last step is to add a case to the
+`init_pipeline()`[^inipipprivateonly] function inside
+`src/gaze/gaze_tracker.cpp` (see @cl:initpipeline).
 
-- architecture/design (better move this to models and methods somehow)
+[^inipipprivateonly]: This function is only a private member of the class
+  `GazeTracker`, which is why its documentation is not included in the +HTML
+  output.
 
+```{ .cpp file=assets/gaze/src/gaze/gaze_tracker.cpp label=cl:initpipeline caption="The `init_pipeline()` method. To extend it properly, a new `else if` case has to be added." lines=71-99 pathdepth=3 }
+```
