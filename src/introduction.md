@@ -56,8 +56,8 @@ Image from Google's scan of the New York Public Library's 1968 reprint of
 Following Huey's example, a surge of new eye tracking devices hit the research
 world. @Yarbus1967 became famous for his research on how a given task
 influences eye movements in comparison to a free exploration. The device he
-used was similar to Huey's, but it is attached without plaster cast, but with
-small rubber caps.
+used is similar to Huey's, but it is attached to the eyes without plaster cast,
+but with small rubber caps.
 
 TODO(shoeffner): Add Yarbus paper, confirm it were indeed rubber caps
 
@@ -76,14 +76,69 @@ studies.
 - overview over optical tracking devices
 - distinction between eye and gaze tracking
 
+
 ## About this thesis
 
-- Comparison gaze tracking approaches using webcams
-- eyeLike (top web search hit) only tracks eyes, not gaze
-- Cheap alternative to other softwares
-- Providing a best-practices FOSS solution
+The goal of this thesis is to implement a gaze tracking library which employs
+a calibration free geometric model and is easy to use, modify and extend. The
+library focuses only on tracking of screen directed gaze, that is it only
+tracks subjects gazing at a computer screen and estimates where on the screen
+the subject gazes at. In the first part, different eye and gaze tracking
+solutions will be evaluated and an overview over the current state of the art
+established. Then the methods and models will be presented, starting with
+geometric model of gaze (the direction of view) and the architecture of Gaze
+(the library implementing the model). As an alternative to the
+geometric model, a pre-trained neural network by @Krafka2016 will be
+introduced. After the introduction of the methods and models, the Gaze library
+will be described in more detail, to explain, how the geometric model is
+implemented and how it can be used or extended. As another part of the results
+a custom extension to the Gaze library was developed to incorporate the
+pre-trained model of @Krafka2016.
 
-### Note about online references
+The geometric model presented in this thesis is not sufficient to describe gaze,
+as such it fails to estimate gaze points on a screen. Why this is the case and
+potential ways to improve it will be discussed in the later sections of this
+thesis. While it looks promising to use the model provided by @Krafka2016,
+it also has some drawbacks which will also be lined out in the discussion.
 
-- many links, usually in footnotes
-- photographs used to test and present Gaze either taken during the development process or downloaded from pexels.com, as those images are licensed as CC0.
+
+### Note about online references and other sources
+
+
+#### Online references
+
+Since this thesis focuses around the development of a computer software
+library, many resources are not available as classical journal or conference
+papers, or books. Instead, blogs and websites, documentation pages and other
+formats are published exclusively on the internet. While such sources are cited
+with a +URL and, if they are listed in the [References], usually a retrieval
+date, it is possible that over time contents change. If some content is no
+longer available online or changed by the time you read this thesis, please try
+to access the content through the Internet Archive's [Wayback
+Machine](https://archive.org/web). Often links to software products or
+documentations will be provided directly inside the text. To avoid ++URL in the
+middle of sentences, they will be placed inside footnotes.
+
+
+#### Photographs from pexels.com
+
+During the development of Gaze several photographs of faces differing in
+backgrounds, poses, lightings, and other conditions, are used. Unless otherwise
+noted, all photographs in this thesis are either taken by the author or
+downloaded from the website [pexels.com](https://pexels.com). Pexels.com
+releases all images into the public domain, using the +CC0 license. This allows
+the usage of the photographs without the need of any attribution [@CC0License].
+
+
+#### File names and source code availability
+
+In many situations there will be source code or similar code listings. Some are
+annotated with a file path, denoting in which files they can be found. These
+file paths are usually relative to the library source code's root directory or
+the thesis source code's `assets/examples` directory. It should become clear
+from the context, whichever is correct. In case you did not receive this thesis
+in a print format with an attached +SDcard, you can find the thesis' source
+material online at https://github.com/shoeffner/mthesis and
+https://shoeffner.github.io/mthesis. The source code for the Gaze library is
+available at https://github.com/shoeffner/gaze and its documentation can
+be found at https://shoeffner.github.io/gaze/latest.

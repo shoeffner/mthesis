@@ -15,3 +15,7 @@ thesis project.
 
 * https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/gaze-based-human-computer-interaction/appearance-based-gaze-estimation-in-the-wild-mpiigaze/ ?
 * http://webgazer.cs.brown.edu/ -> different usecase? is it? still it does it somehow
+
+* eyeLike (top web search hit) only tracks eyes, not gaze
+* Cheap alternative to other softwares
+* Providing a best-practices FOSS solution

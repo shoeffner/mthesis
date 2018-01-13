@@ -26,3 +26,4 @@ to capture the input specified inside the `gaze.yaml`.
   - head pose estimation
   - pupil detection
   - gaze estimation
+- architecture/design (better move this to models and methods somehow)

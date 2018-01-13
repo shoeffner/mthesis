@@ -250,7 +250,7 @@ debug view can be used to visualize the various pipeline steps and inspect the
 computation times each step needs.
 
 ![Gaze's debug +GUI. On the left the pipeline steps are listed along with their
-computation times in \si{\micro\second}. (Photograph: Dana Tentis, pexels.com)](gazedebuggui.png){#fig:gazedebuggui}
+computation times in \si{\micro\second}.](gazedebuggui.png){#fig:gazedebuggui}
 
 TODO(shoeffner): Remove photograph with less distracting one (maybe convert image to grayscale)
 
