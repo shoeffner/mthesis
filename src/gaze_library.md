@@ -135,8 +135,8 @@ published at the +URL
 [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze).
 This way the documentation is always available online and
 contains the latest changes. "Always" is a slight simplification, as failures
-can always happen: GitHub has an +SLA uptime of 99.95&nbsp;% for its
-business customers. Since Gaze is only hosted as free repository, this +SLA
+can always happen: GitHub has a +SLA uptime of \SI{99.95}{{\%}} for its
+business customers. Since Gaze is only hosted as a free repository, this +SLA
 does not apply directly, but it is reasonable to assume that the services are
 available most of the time for free users as well.
 
@@ -166,7 +166,16 @@ But the five landmarks selected by King do not perform well to estimate the
 head pose in 3D, so the 68 landmarks model was chosen, resulting in this
 license crash.
 
-TODO(shoeffner): add cross ref to head pose estimation
+The same licensing problem arises when using the iTracker extension.
+The pre-trained model is released under a custom license which also does not
+permit non-research usage:
+
+> The Licensed Material will only be used for research
+> purposes and will not be used nor included in commercial applications in any
+> form (such as original files, encrypted files, files containing extracted
+> features, models trained on dataset, other derivative works, etc).
+>
+> \raggedleft --- <cite>Aditya Khosla, [License agreement for use of GazeCapture database and iTracker models](https://github.com/CSAILVision/GazeCapture/blob/03e687b039a822e7d5bc70673f101def0cba7255/LICENSE.md#section-2--scope), Accessed 2018-01-13.</cite>
 
 
 ## Setting up Gaze
@@ -273,7 +282,7 @@ section, both options will be briefly explored.
 
 ### Configuring Gaze
 
-To configure Gaze, the `gaze.yaml` can be used. By just copying (and renaming) the
+The `gaze.yaml` can be used to configure Gaze. By copying (and renaming) the
 `gaze.default.yaml` to the directory from which Gaze is executed, the default
 values can be overwritten. This works because Gaze first loads the default
 values and then replaces them by any changes made in a potential `gaze.yaml`.
@@ -322,7 +331,7 @@ their MacBook Pro. Its older versions uses a \SI{0.00635}{\meter}
 (\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect ratio of 4:3.
 The 15 inches MacBook Pro from mid 2015 used for Gaze's development has a
 default webcam resolution of \SI{1280 x 720}{{pixels}}, which leads to an
-aspect ratio of 16:9. The sensor size is \todo{add sensor size}.
+aspect ratio of 16:9. The sensor size is \SI{0.00635}{\meter}\todo{update sensor size if needed}.
 
 [^cnetisight]: https://www.cnet.com/products/apple-isight/specs/, Accessed: 2018-01-09.
 
