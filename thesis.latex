@@ -18,6 +18,8 @@ $endif$
 
 \usepackage{amssymb,amsmath}
 
+\usepackage{booktabs}
+
 \usepackage{xcolor}
 
 $if(graphics)$
@@ -45,6 +47,7 @@ $endif$
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+
 
 % tightlist and lengths taken from default.latex
 \setlength{\parindent}{0pt}

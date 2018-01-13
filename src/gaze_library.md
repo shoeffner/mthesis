@@ -261,16 +261,71 @@ computation times each step needs.
 ![Gaze's debug +GUI. On the left the pipeline steps are listed along with their
 computation times in \si{\micro\second}.](gazedebuggui.png){#fig:gazedebuggui}
 
-TODO(shoeffner): Remove photograph with less distracting one (maybe convert image to grayscale)
+TODO(shoeffner): Replace photograph with less distracting one (maybe convert image to grayscale)
 
-Where people look is a reimplementation of @Judd2009's experiment using Gaze.
-
-TODO(shoeffner): explain where people look more detailed
+Where people look is a re-implementation of @Judd2009's experiment using Gaze.
+In their paper, @Judd2009 investigate salient regions of images. Therefor they
+designed an experiment in which subjects were presented with 1000 randomly
+chosen images. Their task was to just view the image for three seconds.
+Each of the images was followed by gray screen for one second, in which
+subjects were asked to fixate the center of the screen. In the original task,
+the experiment was split into two blocks of 500 images each. The
+re-implementaion does not perform this split, as it is mostly used as an
+example on how Gaze can be integrated into typical experiments. To run the
+experiment, first the subject identifier must be entered and the directory
+containing the stimuli needs to be selected. Then a gray screen opens up and
+when the subject is ready the space key starts the experiment.
 
 
 ### Gaze's application programming interface
 
-TODO(shoeffner): gaze API
+The example program `where_people_look` from last section was developed before
+the +API for Gaze was settled. This helped to find out which functionality is
+needed for an eye or gaze tracking experiment and allowed to design the +API in
+a behavior driven way. The tasks in \Cref{tab:gazeapi} were observed during the
+implementation of `where_people_look` and implemented in Gaze.
+
+
+Table: Functions of the Gaze gaze tracker and their corresponding +API methods. \label{tab:gazeapi}
+
+Function                    +API method(s)
+--------------------------- -----------------------------------------------------------
+Initialization              `init(std::string, bool)`, `GazeTracker(std::string, bool)`
+Calibration                 `calibrate()`
+Trial annotation            `start_trial(std::string)`, `stop_trial()`
+Result storage              None
+Live access gaze locations  `std::pair<int, int> get_current_gaze_point()`
+
+The initialization of the `GazeTracker` is done by either calling the default
+constructor followed by its `init()` function, or by using the two argument
+constructor directly. In the example above (@cl:gaze_simple.cpp), the two
+argument constructor is called with the subject identifier `"1"` and the
+default value `false` for the debug flag. The subject identifier will be used
+to store results on the hard drive. The debug flag decides whether the debug
++GUI (@fig:gazedebuggui) should be opened (`true`), or not. This is mostly of
+interest during the development process and not during actual experiments,
+which is why the default is `false`. If the debug +GUI should be shown when
+starting the program but not during the experiment, it can be simply be opened
+by setting the flag to `true`. When the window is no longer needed, it can
+be closed, without interfering any other windows needed for the experiment and
+without interfering with Gaze's functionality.
+
+The calibration method is introduced in case Gaze would use some calibration
+later on, but it is not used at the time of writing this thesis. Because the
+eye tracking functionality was prioritized during development, the
+trial annotations have also no effect other than printing a notice to the
+terminal. They are supposed to write the identifier passed via
+`start_trial(std::string)` to the result set, to identify which trial was
+active during the stored measurements. As soon as a writer is implemented, this
+functionality will work. The result storage is not used as it is supposed
+handled by a pipeline step. If a pipeline step stores data, it will write the
+output as soon as it receives the data, thus removing the need of a specific
+function to trigger a save action.
+
+This leaves Gaze with just one other function than the initialization ones,
+`get_current_gaze_point()`. This function is especially useful for
+feedback loops and debugging, as it provides a direct access to the latest
+result calculated by the Gaze pipeline.
 
 
 ## Configuring and extending Gaze
