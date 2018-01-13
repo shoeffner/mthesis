@@ -13,7 +13,8 @@ def is_code(line):
 
 
 def replace_refs(elem, doc):
-    if isinstance(elem, pf.CodeBlock) and 'stripcomments' in elem.classes:
+    if isinstance(elem, pf.CodeBlock) and (
+            'lines' in elem.attributes or 'stripcomments' in elem.classes):
         lines = elem.text.splitlines()
         if 'lines' in elem.attributes:
             nl = []
@@ -28,7 +29,10 @@ def replace_refs(elem, doc):
                 nl += lines[f - 1:t + 1]
             lines = nl
 
-        text = '\n'.join(l for l in lines if is_code(l))
+        if 'stripcomments' in elem.classes:
+            text = '\n'.join(l for l in lines if is_code(l))
+        else:
+            text = '\n'.join(l for l in lines)
         elem.text = text
 
 
