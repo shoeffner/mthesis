@@ -11,7 +11,6 @@
 cv::Mat load_mean(const std::string& mean_file) {
   caffe::BlobProto blob_proto;
   caffe::ReadProtoFromBinaryFileOrDie(mean_file.c_str(), &blob_proto);
-
   /* Convert from BlobProto to Blob<float> */
   caffe::Blob<float> mean_blob;
   mean_blob.FromProto(blob_proto);
@@ -44,24 +43,13 @@ int main(int argc, char** argv) {
   cv::Mat mask = cv::imread("../images/map.png", cv::IMREAD_GRAYSCALE) / 255;
 
   cv::Mat mean_left = load_mean("../GazeCapture/models/mean_images/mean_left_224_new.binaryproto");
-  cv::Mat mean_right = get_mean("../GazeCapture/models/mean_images/mean_right_224.binaryproto");
-  cv::Mat mean_face = get_mean("../GazeCapture/models/mean_images/mean_face_224.binaryproto");
+  cv::Mat mean_right = load_mean("../GazeCapture/models/mean_images/mean_right_224.binaryproto");
+  cv::Mat mean_face = load_mean("../GazeCapture/models/mean_images/mean_face_224.binaryproto");
 
   std::cout << model_file << ", " << trained_file << std::endl;
 
   std::vector<cv::Mat> input_images = {left, right, face, mask};
-  std::vector<cv::Mat> means = {mean_left, mean_right, mean_face, mask};
-
-  std::cout << "images" << std::endl;
-  for (auto i : input_images) {
-    double min, max;
-cv::minMaxLoc(i, &min, &max);
-    std::cout << "Mean: " << cv::mean(i) << " ; min: " << min << " ; max: " << max << std::endl;
-  }
-  std::cout << "Means" << std::endl;
-  for (auto m : means) {
-    std::cout << m.at<float>(0, 0, 0) << std::endl;
-  }
+  std::vector<cv::Mat> means = {mean_left, mean_right, mean_face};
 
 
   for (int i = 0; i < 4; ++i) {
@@ -97,9 +85,6 @@ cv::minMaxLoc(i, &min, &max);
       cv::resize(input_image, resized, resized.size());
       cv::subtract(resized, means[i], resized);
       cv::split(resized, channels);
-    double min, max;
-cv::minMaxLoc(resized, &min, &max);
-    std::cout << "Mean: " << cv::mean(i) << " ; min: " << min << " ; max: " << max << std::endl;
     } else {
       input_images[i].convertTo(input_image, CV_32FC1);
       for (int j = 0; j < shape[1]; ++j) {
