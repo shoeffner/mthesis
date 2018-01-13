@@ -78,9 +78,9 @@ since it can usually be synchronized between multiple devices, provides a
 simple way to create backups. The author's +VCS of choice for Gaze is
 [Git](https://git-scm.com), which is very popular among software developers:
 @stosurvey2017 finds in the [stackoverflow Developer Survey
-2017](https://insights.stackoverflow.com/survey/2017), that about 70&nbsp;% of
+2017](https://insights.stackoverflow.com/survey/2017), that about \SI{70}{{\%}} of
 30,730 responses claim to be using (at least) Git for version control (followed
-by [Subversion](https://subversion.apache.org/) with about 10&nbsp;%). Of course
+by [Subversion](https://subversion.apache.org/) with about \SI{10}{{\%}}). Of course
 this data has to be taken into account
 carefully, as most respondents are in some way users of the website
 [stackoverflow.com](https://stackoverflow.com), a programming related questions
