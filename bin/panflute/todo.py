@@ -32,13 +32,19 @@ def create_todos(elem, doc):
             if author:
                 author = f'[author={author}]'
             return pf.RawBlock('\\todo' + author + '{' + content + '}',
-                               format='latex')
+                               format='tex')
     if (isinstance(elem, pf.RawBlock)
             and elem.text.startswith(r'\missingfigure')) \
         or \
        (isinstance(elem, pf.RawInline)
             and elem.text.startswith(r'\todo')):
         doc.todocount += 1
+
+    MISSING_FIGURES = ['', 'missing_figure', 'missingfigure', 'missing']
+    if isinstance(elem, pf.Image) and elem.url in MISSING_FIGURES:
+        elem.url = 'assets/missingfigure.jpeg'
+        doc.todocount += 1
+        return [pf.RawInline('\\todo{Add missing figure}', format='tex'), elem]
 
 
 def finalize(doc):
@@ -53,7 +59,7 @@ def finalize(doc):
         doc.metadata['header-includes'].append(pf.MetaInlines(todo_inline))
 
     if doc.todocount:
-        doc.content.insert(0, pf.RawBlock(r'\listoftodos{}', format='latex'))
+        doc.content.insert(0, pf.RawBlock(r'\listoftodos{}', format='tex'))
 
 
 def main(doc=None):

@@ -191,16 +191,16 @@ C++17 compiler is inevitable, as Gaze uses
 [`shared_mutex`](http://en.cppreference.com/w/cpp/thread/shared_mutex). For
 example on macOS High Sierra Clang 9 compiles Gaze properly,
 for Ubuntu 14.04 g++ 7 works well[^testedonsemaphore].
-Additional requirements are OpenCV (3.3.1), CMake (3.10.0-rc3), and dlib
+Additional requirements are OpenCV (3.3.1), CMake (3.10.0-rc3), and Dlib
 (v19.8)[^hardrequirements].
 
 [^testedonsemaphore]: Tested only on Semaphore.
-[^hardrequirements]: The required versions for CMake and dlib are minimal
+[^hardrequirements]: The required versions for CMake and Dlib are minimal
   requirements, for OpenCV some lower versions might work as well (but are
   untested). CMake requires a version 3.10 to find the correct boost libraries
-  needed for one example program, dlib contains a bug fix in version 19.8 which
+  needed for one example program, Dlib contains a bug fix in version 19.8 which
   was made for the development of this thesis
-  ([dlib pull request 957](https://github.com/davisking/dlib/pull/957)).
+  ([Dlib pull request 957](https://github.com/davisking/dlib/pull/957)).
 
 
 ### Building and installing Gaze
@@ -491,7 +491,7 @@ device is used as a live stream. Usually the first camera with device ID `0` is
 needed, thus this is the default. The setting can also be set to an image or
 video path, allowing to analyze static images and video files as needed.
 
-The `FaceLandmarks` step employs dlib's +HoG classifier with a pretrained
+The `FaceLandmarks` step employs Dlib's +HoG classifier with a pretrained
 model (see SECTION REFERENCE). The model path can be adjusted using the `model`
 attribute. By default it is `shape_predictor_68_face_landmarks.dat`, which is
 the model file downloaded during Gaze's build process. The path has to be
@@ -501,7 +501,7 @@ To estimate the head pose the `HeadPoseEstimation` step is configured with
 an abstract 3D model of the head. The model is defined using the three
 parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
 are a list of integers corresponding to the landmarks of @Sagonas2016, but with
-an offset of $-1$ since @Sagonas2016 use 1-based indexing, while dlib uses 0-based
+an offset of $-1$ since @Sagonas2016 use 1-based indexing, while Dlib uses 0-based
 indexing. The default model uses six landmarks (see SECTION REFERENCE).
 
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
@@ -518,7 +518,7 @@ Another implementation difference is that `PupilLocalization` uses a
 pre-calculated lookup table for some constant values because it was hoped that
 a lookup table might speed up the process at the cost of some memory.
 Eventually the speed did not change much. A third implementation detail is that
-`EyeLike` is implemented using OpenCV, while `PupilLocalization` uses dlib. For
+`EyeLike` is implemented using OpenCV, while `PupilLocalization` uses Dlib. For
 both implementations the `relative_threshold` can be set. It is used to discard
 possible eye center locations if the gradient magnitude at the tested location
 is below $\mu_\text{mag} + \theta\sigma_\text{mag}$ (with $\theta$ being the

@@ -25,9 +25,9 @@ BUILD_META_FILES := $(CHAPTERS_FILE) $(CITATION_STYLE) $(PANFLUTE_FILTERS) $(TEM
 COMMON_DEPENDENCIES := $(BIBLIOGRAPHY_FILE) $(META_FILES) $(BUILD_META_FILES) $(GLOSSARY_FILE)
 
 PANDOC_COMMAND := $(ENVIRONMENT) pandoc -s \
-	--bibliography=$(BIBLIOGRAPHY_FILE) \
 	--filter=panflute \
 	--filter=pandoc-fignos \
+	--bibliography=$(BIBLIOGRAPHY_FILE) \
 	--csl=$(CITATION_STYLE) \
 	--template=$(TEMPLATE) \
 	--highlight-style tango \

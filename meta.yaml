@@ -12,11 +12,11 @@ acknowledgements: src/acknowledgements.tex
 header-includes:
     - \usepackage{siunitx}
 panflute-filters:
+    - todo
     - pandoc-img-glob
     - pandoc-source-exec
     - stripcomments
     - pandoc-custom-refnos
-    - todo
     - glossary
 panflute-path: bin/panflute
 fignos-cleveref: true
