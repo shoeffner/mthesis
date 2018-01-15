@@ -443,11 +443,11 @@ inside the `meta` part. An example is already given inside the
 ```
 
 Note that the calibration is not necessary for testing and development
-purposes, as it is possible to use an estimated camera matrix $K$ without any
+purposes, as it is possible to use an estimated camera matrix $C$ without any
 distortions. According to @Mallick2016, a good approximation is
 
 \begin{align}\def\arraystretch{2.2}
-K = \left(\begin{array}{ccc}
+C = \left(\begin{array}{ccc}
 w & 0 & \dfrac{w}{2} \\
 0 & w & \dfrac{h}{2} \\
 0 & 0 & 1
@@ -459,7 +459,7 @@ example configuration of a 16:9 image with dimensions \SI{640 x 360}{{pixels}},
 a possible estimated camera matrix would be
 
 \begin{align}
-K = \left(\begin{array}{ccc}
+C = \left(\begin{array}{ccc}
 640 & 0 & 320 \\
 0 & 640 & 180 \\
 0 & 0 & 1
