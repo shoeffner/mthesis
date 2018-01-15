@@ -9,14 +9,17 @@ output[^iopipeline] of the data. This chapter details the models and gives an
 overview of Gaze's architecture. Finally there will be a short introduction of
 an alternative deep learning model for gaze tracking.
 
+
 ## Geometric model
 
 The goal of the geometric model is to detect the pupil centers of both eyes and
 perform a raycast from the eye ball centers through the pupils. The
 intersections of the screen plane and the raycast are the gaze points. The
-line-plane intersection can be expressed using three points of the screen
-plane, the eye ball center and the pupil in the same 3D coordinate system. \todo{add note about model=world coordinate system $= R^3$}
-Given an eye ball center $c$ and a pupil center $p$, the points on the line
+line--plane intersection (formulae adapted from
+@Wikipedia:lineplaneintersection) can be expressed using three points of the
+screen plane, the eye ball center and the pupil in the same 3D coordinate
+system.
+Given an eye ball center $c$ and a pupil center $p$, $c, p \in \Rthree$, the points on the line
 from the eye ball center through the pupil can be described as
 
 \begin{align}
@@ -89,12 +92,12 @@ metric system but coordinates within "some arbitrary reference frame"
 [@Mallick2016]. The model uses the nose tip as the origin and spans the
 coordinate system parallel to the standard anatomical planes. The $x$ axis is
 parallel to the coronal and transverse planes, with the positive values to the
-right of the head. The $z$ axis is parallel to the transverse plane and lies
-inside the mid-sagittal plane, pointing away from the face. The $y$ axis is
-orthogonal to the $x$ and $z$ axes, it points upwards (in relation to the
-head). \Cref{tab:3dheadmodel} summarizes the data points and
-@fig:3dheadlandmarks visualizes the locations and coordinate system. The model
-is converted to the metric system to be useful for Gaze using data from
+left from the head's perspective[^xdirectiondiff]. The $z$ axis is parallel to
+the transverse plane and lies inside the mid-sagittal plane, pointing away from
+the face. The $y$ axis is orthogonal to the $x$ and $z$ axes, it points upwards
+(in relation to the head). \Cref{tab:3dheadmodel} summarizes the data points
+and @fig:3dheadlandmarks visualizes the locations and coordinate system. The
+model is converted to the metric system to be useful for Gaze using data from
 @Facebase, in particular the mean outercanthal width (that is the width from
 the left and right eyes outer corners, or from $\ex_r$ to $\ex_l$). @Facebase
 report data a mean outercanthal width of \SI{86.71}{\milli\meter}, measured
@@ -105,7 +108,10 @@ mid-saggital plane it follows that $\num{225} = \SI{43.355}{\milli\meter}$, or
 $\num{1} \approx \SI{0.19269}{\milli\meter}$.  This relation can be used to
 calculate the metric model, as it is done in \Cref{tab:3dheadmodel}.
 
-TODO(shoeffner): Oh oh, Gaze points x into the other direction! Check! Check! Panic! Panic!
+[^xdirectiondiff]: @Mallick2016 uses left and right from the viewers
+  perspective. Gaze uses left and right from the head's perspective which is
+  more in line with @Swennen2006. Thus when looking at the model, the $x$ axis
+  go to the right.
 
 Table: 3D head model by @Mallick2016. The first columns describe the landmark
 and names its abbreviation [@Swennen2006], followed by the "300 Faces
@@ -119,10 +125,10 @@ Landmark                Abbr.   Index  Gaze (\si{\milli\meter})   @Mallick2016
 ---------------------- ------- ------ -------------------------- --------------------
 Pronasal               $\prn$      31 $(0, 0, 0)$                $(0, 0, 0)$
 Gnathion               $\gn$        9 $(0, -63.6, -12.5)$        $(0, -330, -65)$
-Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$       $(225, 170, -135)$
-Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$        $(-225, 170, -135)$
-Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$    $(150, -150, -125)$
-Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$     $(-150, -150, -125)$
+Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$       $(-225, 170, -135)$
+Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$        $(225, 170, -135)$
+Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$    $(-150, -150, -125)$
+Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$     $(150, -150, -125)$
 Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 
@@ -162,7 +168,7 @@ Gaze. Processing an image of size \SI{640x360}{{pixels}} took about
 \SI{130}{\milli\second} to \SI{140}{\milli\second} using OpenCV and about
 \SI{160}{\milli\second} to \SI{170}{\milli\second} using Dlib. Gaze uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
-the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013].
+the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection step is needed after the face is detected.
 There is one downside to using Dlib, which is licensing
