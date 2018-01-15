@@ -33,14 +33,14 @@ c + (p - c)t,\label{eq:c-p-line}
 \end{align}
 
 with $t \in \mathbb{R}$. The points on the screen plane can be described by three screen
-corners $\tl, \tr,$ and $\br$, one functioning as the reference point and two as the
+corners $\tl, \tr, \br \in \Rthree$, one functioning as the reference point and two as the
 directions into which the screen plane extends:
 
 \begin{align}
 \tl + (\tr - \tl)u + (\br - \tl)v,\label{eq:screen-plane}
 \end{align}
 
-with $u, v \in \mathbb{R}$. The intersection between \Cref{eq:c-p-line} and \Cref{eq:screen-plane} is thus
+with $u, v \in \mathbb{R}$. The intersection between @eq:c-p-line and @eq:screen-plane is thus
 
 \begin{align}
 c + (p - c)t       &= \tl + (\tr - \tl)u + (\br - \tl)v \\
@@ -50,7 +50,7 @@ c - \tl            &= - (p - c)t + (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v \label{eq:param-intersection}
 \end{align}
 
-Or, in a more concise matrix and vector form with a slightly changed notation, \Cref{eq:param-intersection} can be expressed as
+Or, in a more concise matrix and vector form with a slightly changed notation, @eq:param-intersection can be expressed as
 
 \begin{align}
 \left(\begin{array}{c}
@@ -69,13 +69,13 @@ v \end{array}\right). \label{eq:matrix-intersection}
 
 To find the intersection, this matrix equation needs to be solved for $t$ so
 that the intersection can be calculated by inserting $t$ into
-\Cref{eq:c-p-line}, for both eyes independently. This can be done by inverting
+@eq:c-p-line, for both eyes independently. This can be done by inverting
 the $3 \times 3$ matrix, which works as long as the line is not parallel to the
 plane, in other words as long as the line vector stays linear independent to
 the direction vectors. In practice this should not happen, as the methods to
 detect the face and pupils would fail before these calculations are done.
 
-The difficulty is to find all variables such that \Cref{eq:matrix-intersection}
+The difficulty is to find all variables such that @eq:matrix-intersection
 can be solved. The following sections will show how the eye ball centers are
 determined using a generic 3D head model, followed by how Gaze detects faces
 and eyes in an image. The detected face landmarks are used to find the pupil
@@ -84,7 +84,7 @@ pose in relation to the camera. Once the relation to the camera is established,
 a distance estimate is performed to calculate the screen position in the
 model coordinate system. The eye ball centers, pupil locations in model
 coordinates, and screen corners in model coordinates can be inserted into
-\Cref{eq:matrix-intersection} to find $t$ and calculate the gaze points.
+@eq:matrix-intersection to find $t$ and calculate the gaze points.
 Eventually the gaze points are converted into target coordinates, for example
 the pixels of the screen.
 

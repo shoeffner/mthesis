@@ -8,6 +8,7 @@ TOKENS = {
     'sl': lambda x: x,
     'cl': lambda x: x,
     'sc': lambda x: x,
+    'eq': lambda x: x,
     'sec': lambda x: x[4:],
     'chap': lambda x: x[5:],
 }

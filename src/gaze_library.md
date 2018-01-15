@@ -491,8 +491,8 @@ device is used as a live stream. Usually the first camera with device ID `0` is
 needed, thus this is the default. The setting can also be set to an image or
 video path, allowing to analyze static images and video files as needed.
 
-The `FaceLandmarks` step employs Dlib's +HoG classifier with a pretrained
-model (see SECTION REFERENCE). The model path can be adjusted using the `model`
+The `FaceLandmarks` step employs Dlib's +HoG classifier with a pre-trained
+model (see @sec:detecting-faces-and-eyes). The model path can be adjusted using the `model`
 attribute. By default it is `shape_predictor_68_face_landmarks.dat`, which is
 the model file downloaded during Gaze's build process. The path has to be
 specified relative to the model directory.
@@ -502,7 +502,7 @@ an abstract 3D model of the head. The model is defined using the three
 parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
 are a list of integers corresponding to the landmarks of @Sagonas2016, but with
 an offset of $-1$ since @Sagonas2016 use 1-based indexing, while Dlib uses 0-based
-indexing. The default model uses six landmarks (see SECTION REFERENCE).
+indexing. The default model uses six landmarks (see @sec:detecting-faces-and-eyes).
 
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
 are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code
@@ -522,14 +522,14 @@ Eventually the speed did not change much. A third implementation detail is that
 both implementations the `relative_threshold` can be set. It is used to discard
 possible eye center locations if the gradient magnitude at the tested location
 is below $\mu_\text{mag} + \theta\sigma_\text{mag}$ (with $\theta$ being the
-`relative_threshold`, see SECTION REFERENCE), in both steps. By default the
+`relative_threshold`, see @sec:pupil-center-localization), in both steps. By default the
 `PupilLocalization` with a relative threshold of $0.3$ is used.
 
 The final step of the default pipeline, `GazePointCalculation`, uses a simple
 model to map the detected pupils onto the 3D head model and perform a ray cast
-towards the screen (see SECTION REFERENCE). For this to work, the position of
+towards the screen (see @sec:geometric-model). For this to work, the position of
 the screen in relation to the head is determined first, that is the distance
-and direction from head to screen are estimated (see SECTION REFERENCE).
+and direction from head to screen are estimated (see @sec:distance-estimation).
 
 
 ### Writing a custom pipeline step
