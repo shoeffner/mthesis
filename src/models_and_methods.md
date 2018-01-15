@@ -283,7 +283,7 @@ that
 \end{align}
 
 where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
-estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found the
+estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found, the
 parameters can be used together with the distance estimation
 (@sec:distance-estimation) to estimate the screen corners
 (@sec:calculating-the-screen-corners). In Gaze the Levenberg--Marquardt

@@ -182,8 +182,8 @@ permit non-research usage:
 
 Reproducing the results achieved with Gaze is possible by following a couple of
 setup steps. The source code should be downloaded, built, and tested using one
-of the provided example programs, or a custom test program. Gaze's source can
-be found at
+of the provided example programs, or a custom test program. Gaze's source code
+can be found at
 [https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze).
 
 Gaze has some dependencies which need to be installed before building Gaze. A
