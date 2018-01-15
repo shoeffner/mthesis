@@ -11,6 +11,8 @@ abstract: src/abstract.tex
 acknowledgements: src/acknowledgements.tex
 header-includes:
     - \usepackage{siunitx}
+header-files:
+    - assets/math.tex
 panflute-filters:
     - todo
     - pandoc-img-glob

@@ -2,15 +2,6 @@
 
 TODO(shoeffner): make globally available by moving them to the header-includes?
 
-\newcommand{\br}{\mathit{br}}
-\newcommand{\ch}{\mathit{ch}}
-\newcommand{\en}{\mathit{en}}
-\newcommand{\ex}{\mathit{ex}}
-\newcommand{\gn}{\mathit{gn}}
-\newcommand{\prn}{\mathit{prn}}
-\newcommand{\tl}{\mathit{tl}}
-\newcommand{\tr}{\mathit{tr}}
-
 Estimating gaze is done in Gaze using a geometric model realized in a flexible
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and

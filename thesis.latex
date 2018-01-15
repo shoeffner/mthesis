@@ -101,6 +101,9 @@ $endfor$
 \renewcommand{\acknowledgements}{%
     {\renewcommand{\abstractname}{Acknowledgements}\oldAck{}}}
 
+$for(header-files)$
+    \input{$header-files$}
+$endfor$
 
 \begin{document}
 
