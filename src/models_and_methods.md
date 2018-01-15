@@ -216,3 +216,6 @@ to capture the input specified inside the `gaze.yaml`.
   - pupil detection
   - gaze estimation
 - architecture/design (better move this to models and methods somehow)
+
+
+## An alternative approach: GazeCapture
