@@ -179,18 +179,126 @@ enough for the head pose estimation (@sec:head-pose-estimation).
 
 Dlib describes detected faces with a bounding box around the detected landmarks
 as well as a list of landmark coordinates, ordered as labeled in the "300 Faces
-In-The-Wild Challenge" [@Sagonas2016, \Cref{tab:3dheadmodel}].
+In-The-Wild Challenge" [@Sagonas2016]. The landmarks 37 and 46
+(@fig:68landmarks) correspond to the $\ex_r$ and $\ex_l$, respectively,
+similarly landmarks 40 and 43 denote $\en_r$ and $\en_l$. The eyes are
+extracted by placing a rectangle around the two corner points of each,
+scaling the rectangle by a factor of 1.5 from the center, and then cropping the
+surrounded area (Examples can be found inside the appendix,
+@fig:exampleeyechips).
 
+![68 landmarks as described by @Sagonas2013 and detected by Dlib. In Dlib, the indexing starts with 0. Figure used with kind permission by Stefanos Zafeiriou.](figure_68_markup_sagonas2013.jpg){ #fig:68landmarks }
+
+
+### Pupil center localization
+
+For each eye, the pupil center needs to be located.
 
 
 ### Head pose estimation
 
+To properly estimate the screen–head realation the head pose needs to be known.
+A pose consists of a position (also called location) $(x, y, z) \in
+\Rthree$ and an orientation $(\alpha, \beta, \gamma),$ with $\alpha,
+\gamma \in \{x \in \mathbb{R} | -\pi < x \leq \pi \},$ and $\beta \in \{x \in
+\mathbb{R} | 0 \leq x \leq \pi\}$[^raddouble]. Of course, in its own coordinate
+system defined above, the head pose is always at $(0, 0, 0)$ with an
+orientation of $(0, 0, 0)$. But by estimating the head pose in terms of the
+camera coordinate system, it is possible to derive the camera location, which
+in turn is fix in relation to the screen. So by knowing the camera location,
+the screen corners needed to solve @eq:matrix-intersection can be found trivially.
 
+[^raddouble]: Because OpenCV uses doubles with no limited ranges to represent
+  orientations, it is possible that the values are outside of the defined
+  intervals in the actual OpenCV implementation.
+
+In Gaze head pose estimation is performed closely following the approach
+outlined by @Mallick2016. The pose only needs to be estimated indirectly by
+describing an affine transformation from the model coordinates to camera
+coordinates such that a projection into the image coordinates becomes possible.
+This affine transformation can be described using a rotation $R \in
+\mathbb{R}^{3 \times 3}$ and a translation $T \in \Rthree$. Adapted from
+[OpenCV's documentation](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
+the model
+
+\begin{align}
+\left(\begin{array}{c}
+p'_x \\
+p'_y \\
+1 \end{array}\right) &=
+C \> P \> \left(\begin{array}{c} \! R\ |\ T \! \end{array}\right) \left(\begin{array}{c}
+p_x \\
+p_y \\
+p_z \\
+1 \end{array}\right) \\
+&= \left(\begin{array}{ccc}
+f_x & 0 & c_x \\
+0 & f_y & c_y \\
+0 & 0 & 1 \end{array}\right)
+\left(\begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \end{array}\right) \left(\begin{array}{cccc}
+R_{11} & R_{12} & R_{13} & T_x \\
+R_{21} & R_{22} & R_{23} & T_y \\
+R_{31} & R_{32} & R_{33} & T_z \\
+0 & 0 & 0 & 1 \end{array}\right) \left(\begin{array}{c}
+p_x \\
+p_y \\
+p_z \\
+1 \end{array}\right) \label{eq:projmodel}
+\end{align}
+
+describes the projection from the 3D model point $p \in \Rthree$ to the 2D
+image point $p' \in \Rtwo$, using homogenous coordinates. It uses the camera
+matrix $C \in \mathbb{R}^{3 \times 3}$ (which can be found via calibration or
+approximated by the image size, see @sec:camera-and-screen-parameters), a
+projection matrix $P \in \mathbb{R}^{3 \times 4}$ which reduces the dimensions
+from three to two, and the affine transformation from the model coordinate
+system into the camera coordinate system. Finding the values for $R$ and $T$ is
+called the +PnP problem. OpenCV's function
+[`solvePnP`](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)
+offers a way to solve this problem given $C$ and two
+lists of $N \in \mathbb{N}$ corresponding points $p$ and $p'$ by minimizing the
+reprojection error, that is minimizing the error $e \in \mathbb{R}$
+
+\begin{align}
+e = \sum_{i=1}^N \left\lVert p_i' - q_i \right\rVert_2^2, \label{eq:projerror}
+\end{align}
+
+where $\left\lVert \cdot \right\rVert_2$ is the euclidean norm. Thus the
+distance between the measured projected points $p_i'$ and the estimated
+(by solving @eq:projmodel) projected point $q_i$ should be minimized using
+this quadratic error function. OpenCV offers multiple algorithms to choose from
+when using `solvePnP`, but some are currently disabled due to instabilities or
+are for sets of exactly four point correspondences. The two remaining options
+which are feasible for solving the problem using six points are +EPnP
+[@Lepetit2009] and an iterative approach which uses a
+Levenberg--Marquardt optimization [@Levenberg1944, @Marquardt1963, @Wikipedia:lm]. It
+estimates a parameter set $\hat\beta$ for a hidden parameter set $\beta$ such
+that
+
+\begin{align}
+\hat\beta = \argmin_\beta \sum_{i=1}^N \left\lVert p_i' - f(p_i, \beta) \right\rVert_2^2,
+\end{align}
+
+where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
+estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found the
+parameters can be used together with the distance estimation
+(@sec:distance-estimation) to estimate the screen corners
+(@sec:calculating-the-screen-corners). In Gaze the Levenberg--Marquardt
+optimization is used because it subjectively performs better when subjects face the
+camera more directly, while the +EPnP becomes better when subjects turn their
+head (for a comparison see @fig:solvepnpcomparison). Since for gaze tracking
+subjects can be assumed to look more likely into the direction of the camera,
+it is more important to estimate frontal images better.
+
+
+### Distance estimation
 - find distance between screen and head
-- find transformation between model and image
-    - find relation between head and screen
-- find transformation from screen to face
 
+
+### Calculating the screen corners
 
 
 
