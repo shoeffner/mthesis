@@ -12,6 +12,7 @@ These files are used for the final thesis.
 - [Facebase dataset download](facebase_data)
 - [Visual comparison between EPNP and ITERATIVE algorithms of OpenCV's solvePnP](solvePnPcomparison)
 - [A reference MWE to get GazeCapture's model working in caffe.](caffe-test)
+- [Visual comparison between EyeLike and Gaze in detection pupils](pupil_detection_comparison)
 
 
 ## Outdated
