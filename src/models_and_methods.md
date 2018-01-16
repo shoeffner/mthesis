@@ -194,6 +194,31 @@ surrounded area (Examples can be found inside the appendix,
 
 For each eye, the pupil center needs to be located.
 
+TODO(shoeffner): explain pupil center localization!
+
+To project the pupil centers from image coordinates into model coordinates,
+the detected landmarks which correspond to the model points are extended to be
+3D coordinates, with their $z$ coordinates being set to 0. The affine
+transformation from the landmarks to the model is estimated using OpenCV's
+[`estimateAffine3D`](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga396afb6411b30770e56ab69548724715)
+function. Applying the result transformation to the pupils effectively
+moves them into the head model. In @fig:estimateAffine3D all landmarks are
+displayed next to the head model to get an idea of what transformation is
+needed. Note that the landmarks are upside-down compared to the 3D model. This
+is because the landmarks are in image coordinates which by convention have
+their origin in the top left corner, resulting in the $y$ axis pointing into
+the opposite direction than the $y$ axis in the 3D model does. The shift to the
+to left is because the face is roughly located at the center of the image,
+resulting in a shift of about half the images size. It should be noted that for
+@fig:estimateAffine3D the landmarks are scaled by a factor of \num{0.001} to
+account for the difference between the model size in \si{\meter} and the image
+in \si{{pixels}}. The right part of the image shows the pupils mapped into the
+model, alongside the eye ball centers.
+
+![Left: The reference for the affine transformation from 0-extended image coordinates to model coordinates (Note that the landmarks (green) are scaled by a factor of \num{0.001} to fit into the image). Right: The transformation is applied to the pupils (COLOR), which are shown alongside the eye ball centers (COLOR) inside the 3D head model.](missing){ #fig:estimateAffine3D }
+
+TODO(shoeffner): combine first shot with a second shot to create figure. Maybe more about estimateAffine3D?
+
 
 ### Head pose estimation
 
@@ -208,9 +233,9 @@ camera coordinate system, it is possible to derive the camera location, which
 in turn is fix in relation to the screen. So by knowing the camera location,
 the screen corners needed to solve @eq:matrix-intersection can be found trivially.
 
-[^raddouble]: Because OpenCV uses doubles with no limited ranges to represent
-  orientations, it is possible that the values are outside of the defined
-  intervals in the actual OpenCV implementation.
+[^raddouble]: Because OpenCV uses floating points numbers with no limited
+  ranges to represent orientations, it is possible that the values are outside
+  of the defined intervals in the actual OpenCV implementation.
 
 In Gaze head pose estimation is performed closely following the approach
 outlined by @Mallick2016. The pose only needs to be estimated indirectly by
@@ -286,7 +311,7 @@ where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
 estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found, the
 parameters can be used together with the distance estimation
 (@sec:distance-estimation) to estimate the screen corners
-(@sec:calculating-the-screen-corners). In Gaze the Levenberg--Marquardt
+(@sec:calculation-of-screen-corners). In Gaze the Levenberg--Marquardt
 optimization is used because it subjectively performs better when subjects face the
 camera more directly, while the +EPnP becomes better when subjects turn their
 head (for a comparison see @fig:solvepnpcomparison). Since for gaze tracking
@@ -295,10 +320,11 @@ it is more important to estimate frontal images better.
 
 
 ### Distance estimation
+
 - find distance between screen and head
 
 
-### Calculating the screen corners
+### Calculation of screen corners
 
 
 
