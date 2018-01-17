@@ -410,7 +410,6 @@ inside the `gaze.default.yml` file (@cl:gazedefmeta).
 Note that the calibration is not necessary for testing and development
 purposes, as it is possible to use an estimated camera matrix $C$ without any
 distortions. According to @Mallick2016, a good approximation is
-
 \begin{align}\def\arraystretch{2.2}
 C = \left(\begin{array}{ccc}
 w & 0 & \dfrac{w}{2} \\
@@ -418,11 +417,9 @@ w & 0 & \dfrac{w}{2} \\
 0 & 0 & 1
 \end{array}\right),
 \end{align}
-
 with $w$ being the image width and $h$ the image height in pixels. Thus for the
 example configuration of a 16:9 image with dimensions \SI{640 x 360}{{pixels}},
 a possible estimated camera matrix would be
-
 \begin{align}
 C = \left(\begin{array}{ccc}
 640 & 0 & 320 \\
@@ -470,7 +467,7 @@ an offset of $-1$ since @Sagonas2016 use 1-based indexing, while Dlib uses 0-bas
 indexing. The default model uses six landmarks (see @sec:detecting-faces-and-eyes).
 
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
-are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code
+are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code eyeLike
 [@Hume2012], hence the name. It was adjusted to fit into Gaze). They have some
 slight implementation differences. `EyeLike` scales the image patches
 containing the eyes to a specific size, while `PupilLocalization` avoids this.
@@ -482,13 +479,18 @@ precision or not, either one can outperform the other in certain circumstances.
 Another implementation difference is that `PupilLocalization` uses a
 pre-calculated lookup table for some constant values because it was hoped that
 a lookup table might speed up the process at the cost of some memory.
-Eventually the speed did not change much. A third implementation detail is that
-`EyeLike` is implemented using OpenCV, while `PupilLocalization` uses Dlib. For
-both implementations the `relative_threshold` can be set. It is used to discard
-possible eye center locations if the gradient magnitude at the tested location
-is below $\mu_\text{mag} + \theta\sigma_\text{mag}$ (with $\theta$ being the
-`relative_threshold`, see @sec:pupil-center-localization), in both steps. By default the
-`PupilLocalization` with a relative threshold of $0.3$ is used.
+Eventually the speed did not change much, the image size is a much more
+important factor as it dominates the algorithm's complexity. A third
+implementation detail is that `EyeLike` is implemented using OpenCV, while
+`PupilLocalization` uses Dlib. A very interesting difference is the choice of
+gradient functions. `EyeLike` uses a gradient function inspired by Matlab
+[@Hume2012], `PupilLocalization` uses the standard sobel edge detector as Dlib
+implements it. For both implementations the `relative_threshold` can be set. It
+is used to discard possible eye center locations if the gradient magnitude at
+the tested location is below $\mu_\text{mag} + \theta \sigma_\text{mag}$ (with
+$\theta$ being the `relative_threshold`, see @sec:pupil-localization), in both
+steps. By default the `PupilLocalization` with a relative threshold of $0.3$ is
+used.
 
 The final step of the default pipeline, `GazePointCalculation`, uses a simple
 model to map the detected pupils onto the 3D head model and perform a ray cast

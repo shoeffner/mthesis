@@ -1,13 +1,14 @@
 # Methods and models
 
-TODO(shoeffner): make globally available by moving them to the header-includes?
-
 Estimating gaze is done in Gaze using a geometric model realized in a flexible
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and
 output[^iopipeline] of the data. This chapter details the models and gives an
 overview of Gaze's architecture. Finally there will be a short introduction of
 an alternative deep learning model for gaze tracking.
+
+[^iopipeline]: As of writing, no special output writers are implemented, but
+  the infrastructure exists.
 
 
 ## Geometric model
@@ -21,21 +22,16 @@ screen plane, the eye ball center and the pupil in the same 3D coordinate
 system.
 Given an eye ball center $c$ and a pupil center $p$, $c, p \in \Rthree$, the points on the line
 from the eye ball center through the pupil can be described as
-
 \begin{align}
 c + (p - c)t,\label{eq:c-p-line}
 \end{align}
-
 with $t \in \mathbb{R}$. The points on the screen plane can be described by three screen
 corners $\tl, \tr, \br \in \Rthree$, one functioning as the reference point and two as the
 directions into which the screen plane extends:
-
 \begin{align}
 \tl + (\tr - \tl)u + (\br - \tl)v,\label{eq:screen-plane}
 \end{align}
-
 with $u, v \in \mathbb{R}$. The intersection between @eq:c-p-line and @eq:screen-plane is thus
-
 \begin{align}
 c + (p - c)t       &= \tl + (\tr - \tl)u + (\br - \tl)v \\
 c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
@@ -43,9 +39,7 @@ c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= - (p - c)t + (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v \label{eq:param-intersection}
 \end{align}
-
 Or, in a more concise matrix and vector form with a slightly changed notation, @eq:param-intersection can be expressed as
-
 \begin{align}
 \left(\begin{array}{c}
 c_x - \tl_x \\
@@ -60,7 +54,6 @@ t \\
 u \\
 v \end{array}\right). \label{eq:matrix-intersection}
 \end{align}
-
 To find the intersection, this matrix equation needs to be solved for $t$ so
 that the intersection can be calculated by inserting $t$ into
 @eq:c-p-line, for both eyes independently. This can be done by inverting
@@ -237,7 +230,6 @@ This affine transformation can be described using a rotation $R \in
 \mathbb{R}^{3 \times 3}$ and a translation $T \in \Rthree$. Adapted from
 [OpenCV's documentation](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
 the model
-
 \begin{align}
 \left(\begin{array}{c}
 p'_x \\
@@ -265,7 +257,6 @@ p_y \\
 p_z \\
 1 \end{array}\right) \label{eq:projmodel}
 \end{align}
-
 describes the projection from the 3D model point $p \in \Rthree$ to the 2D
 image point $p' \in \Rtwo$, using homogenous coordinates. It uses the camera
 matrix $C \in \mathbb{R}^{3 \times 3}$ (which can be found via calibration or
@@ -278,11 +269,9 @@ called the +PnP problem. OpenCV's function
 offers a way to solve this problem given $C$ and two
 lists of $N \in \mathbb{N}$ corresponding points $p$ and $p'$ by minimizing the
 reprojection error, that is minimizing the error $e \in \mathbb{R}$
-
 \begin{align}
 e = \sum_{i=1}^N \left\lVert p_i' - q_i \right\rVert_2^2, \label{eq:projerror}
 \end{align}
-
 where $\left\lVert \cdot \right\rVert_2$ is the euclidean norm. Thus the
 distance between the measured projected points $p_i'$ and the estimated
 (by solving @eq:projmodel) projected point $q_i$ should be minimized using
@@ -294,11 +283,9 @@ which are feasible for solving the problem using six points are +EPnP
 Levenberg--Marquardt optimization [@Levenberg1944, @Marquardt1963, @Wikipedia:lm]. It
 estimates a parameter set $\hat\beta$ for a hidden parameter set $\beta$ such
 that
-
 \begin{align}
-\hat\beta = \argmin_\beta \sum_{i=1}^N \left\lVert p_i' - f(p_i, \beta) \right\rVert_2^2,
+\hat\beta = \argmin_\beta \left\{ \sum_{i=1}^N \left\lVert p_i' - f(p_i, \beta) \right\rVert_2^2 \right\},
 \end{align}
-
 where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
 estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found, the
 parameters can be used together with the distance estimation
@@ -309,10 +296,7 @@ subjects face the camera more directly, while the +EPnP becomes better when
 subjects turn their heads (A comparison can be found inside the Appendix, see
 @fig:solvepnpcomparison). Since for gaze tracking subjects can be assumed to
 look more likely into the direction of the camera, it is more important to
-estimate frontal images better. Problems will still arise when subjects point
-their noses directly into the camera: In such a case there are two possible
-solutions for the $z$ axis, either pointing outwards or pointing inwards of the
-head, leading to some false estimations.
+estimate frontal images better.
 
 
 ### Distance estimation
@@ -334,8 +318,6 @@ The first pipeline step uses
 to capture the input specified inside the `gaze.yaml`.
 
 
-[^iopipeline]: As of writing, no special output writers are implemented, but
-  the infrastructure exists.
 
 
 

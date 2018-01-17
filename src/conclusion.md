@@ -10,7 +10,7 @@
 
 ## Geometrical model
 
-- gaze tracking not
+- gaze tracking not working
 
 ### Face detection
 
@@ -19,6 +19,11 @@
 ### Head pose estimation
 
 - model precision
+- Problems will still arise when subjects point their noses directly into the
+  camera: In such a case there are two possible solutions for the $z$ axis,
+  either pointing outwards or pointing inwards of the head, leading to some false
+  estimations.
+
 
 ### Pupil detection
 
