@@ -16,7 +16,9 @@ very few places (see @sec:writing-a-custom-pipeline-step). Once
 implemented, the gaze tracker, the pipeline
 and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
 The software works best with the camera sensor being in the same plane as the
-screen surface, thus built-in webcams are recommended[^3Doffsetcamera]. It can
+screen surface, thus built-in webcams are recommended. This is because
+currently the configuration for the camera position assumes only offsets along
+and across the screen, the orientation and depth can not be changed. Gaze can
 process live webcam streams, video files, and images (see @sec:input-source-capture).
 The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
 estimates the head orientation, and also estimates the distance between camera
@@ -24,10 +26,6 @@ and subject. From these measured and estimated information, Gaze calculates an
 approximate gaze point.
 Gaze has been developed using macOS Sierra and macOS High Sierra, but works on
 Ubuntu 14.04 LTS as well[^nowindows].
-
-[^3Doffsetcamera]: Currently the configuration for the camera position assumes
-  only offsets along and across the screen, the orientation and depth can not
-  be changed.
 
 [^nowindows]: macOS Sierra has been used in the early development process, but
   after the macOS High Sierra update in September 2017, development was done
@@ -52,7 +50,7 @@ files [@MITLicense].
 The decision to release Gaze as a +FOSS under the MIT License [@MITLicense] was
 done because the author strongly believes that Open Source and Open Access are
 important for research. By allowing everyone to use and modify the software and
-to access the accompanying documentation and thesis, other researches can
+to access the accompanying documentation and thesis, other researchers can
 verify and reproduce the results. Other individuals can get all available
 information about the project without having to pay for a journal or buying a
 software license. In case they are interested in the project, they can improve
@@ -62,9 +60,7 @@ author will keep working on the project, but potential other authors do not
 have to start from scratch and can use the code.
 
 Positive side effects of releasing Gaze's source code publicly are that the
-author tries to follow stricter coding guide lines (by employing
-[cpplint](https://github.com/cpplint/cpplint) for
-static code checking), and provides a detailed source code
+author tries to follow stricter coding guide lines , and provides a detailed source code
 documentation[^docslink].
 
 [^docslink]: [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze)
@@ -92,7 +88,7 @@ A typical workflow with Git starts with cloning the code
 repository, that means downloading the latest source code. Then, for each
 feature to be added to the project, these steps are performed:
 
-1. Create a branch. This can be understand as a local temporary copy of the
+1. Create a branch. This can be understood as a local temporary copy of the
    source code.
 2. Modify the code in the branch to build the feature.
 3. Create a commit, which is comparable to a checkpoint to which you can always
@@ -119,14 +115,18 @@ are developed and pushed onto a common branch, the so called trunk or master.
   the changed version are submitted, plus some meta information.
 
 Gaze is published on the source code hosting service
-[GitHub](https://github.com). Whenever a new commit is
+[GitHub](https://github.com). When a new commit is
 pushed (i.e. uploaded) to the GitHub servers, a web request is sent to the
 continuous integration service [Semaphore CI](https://semaphoreci.com).
 Semaphore will compile the published version and run the unit tests, which test a
 few methods for integrity. On success, the commit is considered valid and the
-changes can be merged into the master branch.
+changes can be merged into the master branch. To prevent common mistakes and
+ensure certain code quality guidelines, [cpplint](https://github.com/cpplint/cpplint)
+can be used before pushing a commit to GitHub. It checks if the code
+conforms to the
+[Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 
-Whenever the master branch is updated, Semaphore performs an additional step.
+If a commit updates the master branch, Semaphore performs an additional step.
 It builds the documentation for Gaze and pushes it to a specially named branch,
 the `gh-pages` branch. This branch is orphaned, which means it has no direct
 relation to the other source code. GitHub uses this special branch for one of
@@ -164,7 +164,7 @@ A similar notice accompanies Gaze. To avoid problems and allow commercial
 applications, initially the five landmarks model was tried to be incorporated into Gaze.
 But the five landmarks selected by King do not perform well to estimate the
 head pose in 3D, so the 68 landmarks model was chosen, resulting in this
-license crash.
+license clash.
 
 The same licensing problem arises when using the iTracker extension.
 The pre-trained model is released under a custom license which also does not
@@ -349,7 +349,7 @@ configure the camera and screen parameters and the pipeline configuration.
 
 Inside the meta configuration block (@cl:gazedefmeta) reside the setup related parameters, that
 is the camera and screen settings. The screen settings consist of a resolution
-in pixels and measurements in meters. For example, the Laptop used for the
+in pixels and measurements in meters. For example, the laptop used for the
 development process had a resolution of \SI{2880 x 1800}{{pixels}}, and
 its screen width and height were \SIlist{0.335;0.207}{\meter}. Since screen
 sizes are usually provided in inches across the diagonal, the screen width and
@@ -392,55 +392,20 @@ aspect ratio of 16:9. The sensor size is \SI{0.00635}{\meter}\todo{update sensor
 
 TODO(shoeffner): Remeasure sensor size using reference image and explain procedure
 
-Additionally to the sensor parameters, the webcam can be calibrated for the use
-with OpenCV. Calibration in this case means to estimate the camera matrix and
-distortion coefficients of a camera, which can be used to undistort the images.
-Gaze does not directly undistort the images to process them further, but
-algorithms like
+Additionally to setting the sensor parameters, the webcam can be calibrated for
+the use with OpenCV. Calibration in this case means to estimate the camera
+matrix and distortion coefficients of a camera, which can be used to undistort
+the images.  Gaze does not directly undistort the images to process them
+further, but algorithms like
 [`cv::solvePnP`](https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
 which is used by Gaze, benefit from exact values.
-OpenCV provides a calibration tool[^calibrationtool] which
-outputs the needed settings. To be able to use it, OpenCV needs to be compiled
-manually by providing the CMake flag `-DBUILD_EXAMPLES=ON` to build the
-`cpp-example-calibration` executable. To calibrate the camera, the calibration
-tool needs to take a couple of pictures of a benchmark image: a checkerboard
-pattern (see @fig:calibcheck) is used in the following. Calibration works best
-if the image is on a hard surface, like card board. An example call to the
-calibration tool is denoted in @cl:cvcalibcall. The parameters `-h=6` and
-`-w=9` describe the layout of the (checkerboard) pattern. It means that the
-checkerboard is seven squares down and ten squares across, since the parameters
-expect the numbers of corners between four squares. `-n=10` is the number of
-images to be taken, `-d=1000` is the delay between two images. A higher delay
-allows that during calibration the image can be moved to more divers poses
-without triggering another image, resulting in a higher variety of points which
-in turn leads to a more exact estimation of the camera parameters. The output
-file to which the calibration values are written is stored to the file passed
-with `-o`. The last parameter, `-s=0.0015` is the size of one checkerboard
-square in meters. This value should be measured on the final printout of the
-checkerboard, as slight variations can occur depending on page orientation,
-zoom levels, margins, printer settings, and other factors. In the example the
-printed version's squares' side lengths were \SI{0.0015}{meters}.
-
-TODO(shoeffner): Add two or three different calibrating images.
-
-[^calibrationtool]: The calibration tool can be found in OpenCV's samples,
-  [samples/cpp/calibration.cpp](https://github.com/opencv/opencv/blob/fc9e031454fd456d09e15944c99a419e73d80661/samples/cpp/calibration.cpp).
-  There is also a
-  [tutorial](https://docs.opencv.org/3.0-beta/doc/tutorials/calib3d/camera_calibration/camera_calibration.html)
-  available.
-
-```{ .bash caption="Using the OpenCV calibration tool to calibrate the camera." label=cl:cvcalibcall }
-./cpp-example-calibration -h=6 -w=9 -n=10 -d=1000 -s=0.0015 -o=camera_calib.yml
-```
-
-Parts of the resulting output file (@cl:cameracalibyml) need to be merged
-into the `gaze.yaml`, namely the sections `camera_matrix` and
-`distortion_coefficients`. They need to be placed into the section `camera`
-inside the `meta` part. An example is already given inside the
-`gaze.default.yml` file (@cl:gazedefmeta).
-
-```{ .yaml file="examples/camera_calib.yml" caption="Example camera calibration output." label=cl:cameracalibyml }
-```
+OpenCV provides a calibration tool which
+outputs the needed settings (For detailed instructions on how to use it, please
+refer to the Appendix, @sec:calibrating-OpenCV). Parts of the resulting output
+file (@cl:cameracalibyml) need to be merged into the `gaze.yaml`, namely the
+sections `camera_matrix` and `distortion_coefficients`. They need to be placed
+into the section `camera` inside the `meta` part. An example is already given
+inside the `gaze.default.yml` file (@cl:gazedefmeta).
 
 Note that the calibration is not necessary for testing and development
 purposes, as it is possible to use an estimated camera matrix $C$ without any
