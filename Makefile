@@ -58,9 +58,12 @@ $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	@if [ -f texput.log ]; then rm texput.log ; fi
 	$(call PRINT_INFO,$@)
 
-$(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) figures | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_FINAL_OPTIONS) -o $@ $(MD_FILES)
 
+.PHONY: figures
+figures:
+	@$(MAKE) -C ./scratch/figures
 
 # Allows to build `build/name.pdf` from `name`, where `name` is the name in
 # `src/name.md`, thus it's not needed to provide the full target name.
