@@ -187,7 +187,7 @@ scaling the rectangle by a factor of 1.5 from the center, and then cropping the
 surrounded area (Examples can be found inside the appendix,
 @fig:exampleeyechips).
 
-![68 landmarks as described by @Sagonas2013 and detected by Dlib. In Dlib, the indexing starts with 0. Figure used with kind permission by Stefanos Zafeiriou.](figure_68_markup_sagonas2013.jpg){ #fig:68landmarks }
+![68 landmarks as described by @Sagonas2013 (left) and detected by Dlib (right). In Dlib, the indexing starts with 0. Landmarks schema used with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
 
 ### Pupil center localization
@@ -202,22 +202,14 @@ the detected landmarks which correspond to the model points are extended to be
 transformation from the landmarks to the model is estimated using OpenCV's
 [`estimateAffine3D`](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga396afb6411b30770e56ab69548724715)
 function. Applying the result transformation to the pupils effectively
-moves them into the head model. In @fig:estimateAffine3D all landmarks are
-displayed next to the head model to get an idea of what transformation is
-needed. Note that the landmarks are upside-down compared to the 3D model. This
-is because the landmarks are in image coordinates which by convention have
-their origin in the top left corner, resulting in the $y$ axis pointing into
-the opposite direction than the $y$ axis in the 3D model does. The shift to the
-to left is because the face is roughly located at the center of the image,
-resulting in a shift of about half the images size. It should be noted that for
-@fig:estimateAffine3D the landmarks are scaled by a factor of \num{0.001} to
-account for the difference between the model size in \si{\meter} and the image
-in \si{{pixels}}. The right part of the image shows the pupils mapped into the
-model, alongside the eye ball centers.
+moves them into the head model. @fig:pupils3dmodel shows the 3D head model with
+pupils and eye ball centers after the transformation.
 
-![Left: The reference for the affine transformation from 0-extended image coordinates to model coordinates (Note that the landmarks (green) are scaled by a factor of \num{0.001} to fit into the image). Right: The transformation is applied to the pupils (COLOR), which are shown alongside the eye ball centers (COLOR) inside the 3D head model.](missing){ #fig:estimateAffine3D }
-
-TODO(shoeffner): combine first shot with a second shot to create figure. Maybe more about estimateAffine3D?
+![Left: Head pose estimation, the red markers are detected by dlib and the blue
+markers are a projection of the model to visualize the differences. Right: The
+pupils (cyan) and eye ball centers (magenta)
+inside the 3D model (yellow). The image was visually enhanced by increasing the
+dots and brightening the background.](pupils3dmodel.png){ #fig:pupils3dmodel }
 
 
 ### Head pose estimation
@@ -312,11 +304,15 @@ estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once foun
 parameters can be used together with the distance estimation
 (@sec:distance-estimation) to estimate the screen corners
 (@sec:calculation-of-screen-corners). In Gaze the Levenberg--Marquardt
-optimization is used because it subjectively performs better when subjects face the
-camera more directly, while the +EPnP becomes better when subjects turn their
-head (for a comparison see @fig:solvepnpcomparison). Since for gaze tracking
-subjects can be assumed to look more likely into the direction of the camera,
-it is more important to estimate frontal images better.
+optimization is used because it subjectively performs slightly better when
+subjects face the camera more directly, while the +EPnP becomes better when
+subjects turn their heads (A comparison can be found inside the Appendix, see
+@fig:solvepnpcomparison). Since for gaze tracking subjects can be assumed to
+look more likely into the direction of the camera, it is more important to
+estimate frontal images better. Problems will still arise when subjects point
+their noses directly into the camera: In such a case there are two possible
+solutions for the $z$ axis, either pointing outwards or pointing inwards of the
+head, leading to some false estimations.
 
 
 ### Distance estimation
