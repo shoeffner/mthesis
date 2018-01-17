@@ -175,20 +175,87 @@ as well as a list of landmark coordinates, ordered as labeled in the "300 Faces
 In-The-Wild Challenge" [@Sagonas2016]. The landmarks 37 and 46
 (@fig:68landmarks) correspond to the $\ex_r$ and $\ex_l$, respectively,
 similarly landmarks 40 and 43 denote $\en_r$ and $\en_l$. The eyes are
-extracted by placing a rectangle around the two corner points of each,
-scaling the rectangle by a factor of 1.5 from the center, and then cropping the
-surrounded area (Examples can be found inside the appendix,
-@fig:exampleeyechips).
+extracted by placing a rectangle with $\ex$ and $\en$ being opposite corners
+and detecting its center. The eye is cropped as a square with a side-length of 1.5 times the distance between the eye corners and centered around the rectangle's center (Examples of processed eyes can be found inside the appendix, @fig:pupildetectionexamples).
 
-![68 landmarks as described by @Sagonas2013 (left) and detected by Dlib (right). In Dlib, the indexing starts with 0. Landmarks schema used with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
+![68 landmarks as described by @Sagonas2013 (left) and detected by Dlib
+(right). In Dlib, the indexing starts with 0. Landmarks schema used with kind
+permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
 
-### Pupil center localization
+### Pupil localization
 
-For each eye, the pupil center needs to be located.
+Finding the pupil centers in the eyes is done following @Timm2011, inspired by
+the success of @Hume2012. The algorithm they propose assumes that the iris (the
+colored part of the eye) is a dark circle on a bright background (the sclera),
+which implies that there is a strong gradient at its boundary. The gradient at
+the boundary has a direction towards the sclera. To find the center, all points
+within the image (they cropped eye) are assigned a value by a target function
+and the point with the maximum value is chosen as the pupil center.
 
-TODO(shoeffner): explain pupil center localization!
+The pupil location $p \in \mathbb{N}^2$ can be found by solving [@Timm2011,
+adapted after @Hume2012]:
+\begin{align}
+p = \argmax_{\hat{p}} \left\{
+    \frac{1}{N} \sum_{i=1}^{N} w_i \left(
+       \max \left\{ \left(
+            \frac{x_i - \hat{p}}{\left\lVert x_i - \hat{p} \right\rVert_2}
+       \right)^\top \varphi\left(g_i, \vartheta\right), 0 \right\}
+    \right)^2
+\right\}, \label{eq:targetpupilloc}
+\end{align}
+where $p \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
+\mathbb{N}^2$ are all $N$ pixel locations of the image crop, $w_i \in
+\mathbb{R}$ are weights (see below) for those pixel locations, $g_i \in \Rtwo$ are
+the normalized gradients at each pixel location, respectively, and $\left\lVert
+\cdot \right\rVert_2$ is the euclidean norm. A very important function is
+$\varphi$, it is defined as:
+\begin{align}
+\varphi(x, \vartheta) = \begin{cases}
+\frac{x}{\left\lVert x \right\rVert_2} &\quad \text{if } x \ge \vartheta \\
+                                     0 &\quad \text{else}
+\end{cases} \label{eq:threshphi}
+\end{align}
+with $\vartheta \in \mathbb{R}$ as the dynamic threshold depending on all gradient magnitudes
+\begin{align}
+\vartheta = \mu_\text{mag} + \theta \sigma_\text{mag},
+\end{align}
+employing the mean and standard deviation $\mu_\text{mag}, \sigma_\text{mag}$
+over the gradient magnitudes $\text{mag}_i = \left\lVert g_i \right\rVert_2$,
+and the model parameter $\theta$, which described the number of standard
+deviations. In Gaze $\theta$ can be configured (@sec:pipeline-steps) and is set
+to \num{0.3} by default, following @Hume2012.
 
+So to detect a pupil center first the gradient image of the eye has to be
+calculated, for which Gaze uses the standard sobel filter. Using the gradient
+magnitudes and the model parameter $\theta$, a dynamic threshold $\vartheta$
+can be calculated to discard all low gradients and normalize those which are
+not discarded (@eq:threshphi). Then for each possible pupil center location $\hat{p}$,
+each other pixel location $x_i$ is used to evaluate the target function: If the
+direction from $x_i$ to $\hat{p}$ is similar to the gradient direction $g_i$,
+the value will be squared and added to $\hat{p}$'s target value. The similarity
+measurement is the scalar product: If the two (normalized) vectors point into
+the same direction, it evaluates to $1$, if they point to the opposite
+directions it evaluates to $-1$. @Hume2012 noted that in the paper all these
+values were taken into account, but vectors pointing inwards should not be
+considered at all. Thus @eq:targetpupilloc discards negative scalar products
+instead of squaring them by applying the $\max{\cdot, 0}$ function. The
+possible pupil center location which on average has the most directions to
+locations which have a gradient pointing into the same or similar directions
+will be the winning center point.
+
+This sometimes leads to problems where the eye crop has for example some
+wrinkles, shadows, eye lids, reflections on glasses, or other illumination changes.
+@Timm2011 use an inverted gaussian filtered image to calculate
+weights which should give the real pupil higher chances to be selected. The
+dark parts of the image (low gray values) will thus get higher weights. In
+Gaze, where Dlib uses \SI{8}{{bit}} image values, a dark pixel with a
+(smoothed) value of \num{15} would for example get a weight of $255-15=240$.
+The extension of discarding vectors facing inwards by @Hume2012 also leads to an
+improvement, especially because eye brows and eye lids no longer hint towards
+arbitrary points inside the sclera.
+
+Once the pupil centers are found, they need to be aligned with the 3D model.
 To project the pupil centers from image coordinates into model coordinates,
 the detected landmarks which correspond to the model points are extended to be
 3D coordinates, with their $z$ coordinates being set to 0. The affine
