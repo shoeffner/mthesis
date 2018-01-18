@@ -56,6 +56,8 @@ configure Gaze, as explained in @sec:camera-and-screen-parameters.
 
 ![Comparison of the solutions to the +PnP problem using +EPnP (left) and the iterative Levenberg--Marquardt optimization (right) in OpenCV's solvePnP function.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 
+![OpenCV checkerboard pattern to calibrate a camera.](pattern.png){ #fig:calibcheck }
+
 
 # Code Listings
 
