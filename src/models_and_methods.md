@@ -447,26 +447,68 @@ TODO(shoeffner): measurements!
 TODO(shoeffner): Add more figures to visualize steps
 
 
-## Library architecture
+## Implementation as a software library
 
+_To implement the model and make it usable, it ise implemented as the
+software library Gaze, which sets the goals to be
+- easy to integrate into other projects,
+- easy to extend,
+- free and open source,
+- and well documented.
 
-### Input: source capture
+To be easily integrable into other projects, Gaze is written in C++ and
+compiles into a static library. It uses CMake which is used in many C++
+projects and thus lots of developers should be already familiar with it.
+C++ was specifically chosen because it can often be integrated into other
+programming languages, since many languages already provide mechanisms to call
+for example system libraries, which are often written in C or C++. Another
+reason is that OpenCV and Dlib are natively written in C++, and while both have
+Python bindings, in general their C++ documentation is much more
+comprehensible. One important aspect in making Gaze integrable is the +API
+design. By first recreating an eye tracking experiment [@Judd2009] and finding
+out what the needs for such an experiment are, Gaze is developed around a very
+simple API. Extendability is given by a modular design. Gaze builds around a
+multi-purpose data processing pipeline in which each steps performs a small
+task. It is taken great care to allow for simple extensions using custom steps
+(see @sec:writing-a-custom-pipeline-step). One step towards easy extension is
+also making the source code available for free and as open source software.
+This way everyone can inspect it, reproduce the results of this thesis and
+extend Gaze, criticize it, modify it, or built upon it. These are the reasons
+why publishing the source code and software alongside scientific contributions
+is very crucial in science [@SCM]. To make it easy to do anything of the above
+with Gaze, it tries to follow many good practices and provides a thorough
+documentation (@sec:why-free-and-open-source-software).
 
-The first pipeline step uses
-[`cv::VideoCapture`](https://docs.opencv.org/3.1.0/d8/dfe/classcv_1_1VideoCapture.html)
-to capture the input specified inside the `gaze.yaml`.
+### Library architecture
 
+Gaze has three threads which loosely interact with each other if needed through
+an event system. The first thread is the calling program's main thread. If a
+program integrates Gaze, it needs to create a `GazeTracker` object and
+interacts with it. The `GazeTracker` object in turn starts two additional
+threads. This is done so that the calls from the main program to Gaze are fast
+and do not interfere with the main program's execution.
+The second thread is the GUI event thread. This thread is only
+used if Gaze's debug window is started and uses Dlib's GUI capabilities. The
+third thread is the most important part of Gaze: The pipeline. The pipeline
+thread is always started and processes the data in the background by creating a
+new data object and passing it from one pipeline step to the next.
+Whenever an object passed the pipeline, an event is emitted to notify the GUI
+and the main thread. The main thread can then store the latest tracking results
+to provide seemless access in feedback loops and the GUI can retrieve the latest
+data to update its visualizations.
 
+![Gaze's program architecture.](missing){ #fig:gazearch }
 
-
-
-- steps:
-  - source capture
-  - face/eye detection
-  - head pose estimation
-  - pupil detection
-  - gaze estimation
-- architecture/design (better move this to models and methods somehow)
+At the heart of Gaze lies the pipeline. Each step follows the same interface
+and has to implement two methods: `void process(util::Data&)` and
+`void visualize(util::Data&)`. The process method mutates the data
+object by performing some calculations and storing the result back. By
+convention each step should not overwrite the results of other steps, but if
+two steps perform the same task, this becomes almost inevitable. Each pipeline
+step's execution time is measured and stored inside the data object. To
+visualize the data, each pipeline step initializes a GUI widget into which data
+can be written. The GUI calls the visualize methods only for one step at a
+time, as it only visualizes one step at a time.
 
 
 ## An alternative approach: GazeCapture
