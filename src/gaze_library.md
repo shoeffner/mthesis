@@ -164,7 +164,7 @@ A similar notice accompanies Gaze. To avoid problems and allow commercial
 applications, initially the five landmarks model was tried to be incorporated into Gaze.
 But the five landmarks selected by King do not perform well to estimate the
 head pose in 3D, so the 68 landmarks model was chosen, resulting in this
-license clash.
+license disagreement.
 
 The same licensing problem arises when using the iTracker extension.
 The pre-trained model is released under a custom license which also does not
