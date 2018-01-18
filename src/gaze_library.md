@@ -60,7 +60,7 @@ author will keep working on the project, but potential other authors do not
 have to start from scratch and can use the code.
 
 Positive side effects of releasing Gaze's source code publicly are that the
-author tries to follow stricter coding guide lines , and provides a detailed source code
+author tries to follow stricter coding guide lines, and provides a detailed source code
 documentation[^docslink].
 
 [^docslink]: [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze)

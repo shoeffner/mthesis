@@ -48,6 +48,13 @@ configure Gaze, as explained in @sec:camera-and-screen-parameters.
 ```
 
 
+## Determining the focal length
+
+To determine the focal length the equation... measure etc.
+
+TODO: determine focal length
+
+
 # Figures
 
 ![Some example faces used to visualize or compare different pipeline steps. The numbers refer to the image names inside `tests/assets/pexel_faces`](pupil_detection_faces.png){ #fig:examplefaces }

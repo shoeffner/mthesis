@@ -239,7 +239,7 @@ the same direction, it evaluates to $1$, if they point to the opposite
 directions it evaluates to $-1$. @Hume2012 noted that in the paper all these
 values were taken into account, but vectors pointing inwards should not be
 considered at all. Thus @eq:targetpupilloc discards negative scalar products
-instead of squaring them by applying the $\max{\cdot, 0}$ function. The
+instead of squaring them by applying the $\max\left\{\cdot, 0\right\}$ function. The
 possible pupil center location which on average has the most directions to
 locations which have a gradient pointing into the same or similar directions
 will be the winning center point.
@@ -368,11 +368,83 @@ estimate frontal images better.
 
 ### Distance estimation
 
-- find distance between screen and head
+In general, to estimate the distance between an object and a
+camera from an image, it is important to know the real size of the
+object, the sensor size, the resolution, and the focal length. By using the
+intercept theorem and the pinhole camera model, the distance to an object can
+be determined. Let $o \in \mathbb{R}$ be the width of the object, $d \in
+\mathbb{R}$ be the distance between the image plane and the object, $f \in
+\mathbb{R}$ the focal length, $i \in \mathbb{R}$ the object's size on the
+image, and $p \in \mathbb{R}$ the pixel width. Then
+\begin{align}
+d = \frac{fo}{i}. \label{eq:distanceest}
+\end{align}
+Assume the sensor size to be \SI{0.00635}{\meter} and its aspect ratio as 16:9
+[@Luepke2005, for an Apple iSight]. Then the sensor width $s \in \mathbb{R}$ is
+\SI{0.0055}{\meter}. The pixel width $p$ can be found through division of the
+sensor width by the horizontal resolution, $w \in \mathbb{N}$, so $p =
+\frac{s}{w}$.
+In Gaze, the outercanthal width is used to determine the distance. It's model
+size $o$ is
+\begin{align}
+\left\lVert \ex_r - \ex_l \right\rVert_2 =
+\left\lVert \left( \begin{array}{S}
+-0.0433 \\
+ 0.0327 \\
+-0.026 \end{array} \right) - \left( \begin{array}{S}
+ 0.0433 \\
+ 0.0327 \\
+-0.026 \end{array} \right) \right\rVert_2 = \SI{0.0866}{\meter}.
+\end{align}
+The outercanthal width in the image $i$ is the distance between the landmarks 37
+and 46, which is detected by dlib. It has to be multiplied by $p$ to get its
+width in \si{\meter}. Thus, to determine $d$, the only missing
+value is $f$. An approximation for $f$ can be measured, for a MacBook Pro with
+the assumption of the above mentioned sensor size it is approximately
+\SI{1}{\meter} (see @sec:determining-the-focal-length).
+Substituting all variables into @eq:distanceest leads to
+\begin{align}
+d = \frac{fo}{i} = \frac{\SI{1}{\meter} \cdot \SI{0.0866}{\meter}}{i \si{pixels} \cdot \SI{0.0055}{\meter/{pixels}}} = \frac{15.75}{i}\si{\meter}.
+\end{align}
+This can be used an approximate distance measure, it is however only accurate
+if the head is parallel to the camera. For the purpose of this thesis, this
+approximation should be sufficent.
+
+TODO(shoeffner): Add focal length
 
 
 ### Calculation of screen corners
 
+The camera is at the origin of the camera coordinate system. A transformation
+between the model coordinate system and the camera coordinate system is found
+using `solvePnP` in @sec:head-pose-estimation. To express the camera in model
+coordinates it moved back into the translation direction, facing the model
+origin. Since the transformation from `solvePnP` is not taking the distance
+into account, the translation needs to be adjusted by normalizing it and then
+multiplying it by the estimated distance. Thus the camera position $c \in
+\Rthree$ in model coordinates is
+\begin{align}
+\mathit{cam} = \frac{-R^\top T}{\left\lVert -R^\top T \right\rVert_2} d.
+\end{align}
+The screen corners can be calculated by first defining them inside the
+model coordinate system and then performing almost the same transformation as
+was done for the camera. To get the first screen corner, the offset between the
+camera and the top left corner of the screen needs to be measured manually. For
+a MacBook Pro with a 15 inch screen the top left corner is
+\SI{17.25}{\centi\meter} left of and \SI{0.7}{\centi\meter} below the camera,
+so it can be defined as $\tl_\text{model} = (-0.1725, 0.007, 0)$. From there each other screen
+corner can be found by adding screen width and height where approriate,
+for example the bottom right corner would be
+$\br_\text{model} = (-0.1725, 0.007, 0) + (0.335, 0.207, 0) = (0.175, 0.214, 0).$ The screen
+corners need to be rotated about the model origin, again using the transposed
+rotation. After that, they have to be translated by the camera
+coordinates, since they were defined relative to the camera. So for screen
+corner $\tl$ the transformation is:
+$\tl = R^\top \tl_\text{model} + \mathit{cam}.$
+
+TODO(shoeffner): measurements!
+
+TODO(shoeffner): Add more figures to visualize steps
 
 
 ## Library architecture
@@ -398,3 +470,7 @@ to capture the input specified inside the `gaze.yaml`.
 
 
 ## An alternative approach: GazeCapture
+
+- model
+- usage
+- example
