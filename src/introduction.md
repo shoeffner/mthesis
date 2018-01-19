@@ -57,22 +57,15 @@ Following Huey's example, a surge of new eye tracking devices hit the research
 world. @Yarbus1967 became famous for his research on how a given task
 influences eye movements in comparison to a free exploration. The device he
 used is similar to Huey's, but it is attached to the eyes without plaster cast,
-but with small rubber caps.
+but with small rubber cups. These early methods by Huey and Yarbus are quite
+intrusive and others searched for non-intrusive methods.
 
-TODO(shoeffner): Add Yarbus paper, confirm it were indeed rubber caps
-
-These early methods by Huey and Yarbus are quite intrusive and others searched for non-intrusive methods.
-
-TODO(shoeffner): Something about Buswell, Rayner?
-
-Today, many different eye tracking tools exist. They can be categorized as
-
-- eye-attached, optical, electric potential measurement (EOG/EEG, ...)
-
-While the above mentioned early techniques fall into the eye-attached tracking
+Today, many different eye tracking tools exist.  While the above mentioned
+early techniques fall into the eye-attached tracking
 category, today optical tracking would be the method of choice for those
 studies.
 
+- eye-attached, optical, electric potential measurement (EOG/EEG, ...)
 - overview over optical tracking devices
 - distinction between eye and gaze tracking
 

@@ -511,8 +511,18 @@ can be written. The GUI calls the visualize methods only for one step at a
 time, as it only visualizes one step at a time.
 
 
-## An alternative approach: GazeCapture
+## An alternative approach: iTracker
 
-- model
-- usage
-- example
+As an alternative approach to the geometric model present above, a pre-trained
++CNN [@Krafka2016] is used. It is called iTracker and builds on the authors'
+dataset GazeCapture, which contains data of \num{1450} subjects, or about 2.5
+million frames. @Krafka2016 make their models publicly
+[available](https://github.com/CSAILVision/GazeCapture) on GitHub.
+Their network consists of four parts, one per detected eye, one for the face,
+and a face grid, which is a binary representation of where the face of a
+subject is located in respect to the original image. All the information except
+for the face grid is already used inside the geometric model, so it only needs
+to be adjusted to fit the input layers of the network. ITracker is implemented
+in [Caffe](http://caffe.berkeleyvision.org/) [@Jia2014], which can be
+integrated into C++ programs. One disadvantage of iTracker is, that it is only
+trained on iPhones and iPads.

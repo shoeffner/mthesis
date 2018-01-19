@@ -50,7 +50,28 @@ configure Gaze, as explained in @sec:camera-and-screen-parameters.
 
 ## Determining the focal length
 
-To determine the focal length the equation... measure etc.
+To find the effective focal length of a camera the angle of view needs to be
+measured, and the sensor size has to be known. For Gaze's examples the sensor width is
+assumed to be \SI{0.0055}{\meter}. After measuring the angle of view, it can be used to solve [@Wikipedia:aov]
+\begin{align}
+\alpha &= 2 \arctan \frac{d}{2f} \\
+f &= \frac{d}{2 \tan \frac{\alpha}{2}},
+\end{align}
+with $d$ being the sensor size (\SI{0.0055}{\meter}), $\alpha$ the angle of
+view and $f$ the focal length.
+To find $\alpha$ the camera is placed parallel to a wall, facing it. Then the
+distance $w$ between the left and the right most points still visible on the
+camera image and the distance between the camera and the wall $v$ are measured.
+Using trigonometry the angle of view can be calculated by substituting the
+values into
+\begin{align}
+\alpha = \arctan \frac{ \frac{w}{2} }{ v }.
+\end{align}
+For the examples in Gaze the focal length used is \SI{0.003}{\meter}:
+\begin{align}
+\alpha &= \arctan \frac{ \frac{ w }{2} }{ v } = \\
+f &= \frac{ \SI{0.0055}{\meter} }{ 2 \tan \frac{ \alpha }{2} } = \SI{0.003}{\meter}.
+\end{align}
 
 TODO: determine focal length
 
