@@ -62,7 +62,7 @@ def save():
     """Saves the currently selected eyes."""
     global current, eyes, images
     with open(get_csv_path(images[current]), 'w') as f:
-        eyes = sorted(eyes, key=lambda e: e[0], reverse=True)
+        eyes = sorted(eyes, key=lambda e: e[0])
         f.write('{0}, {1}\n{2}, {3}'.format(*eyes[0], *eyes[1]))
     next_image()
 
