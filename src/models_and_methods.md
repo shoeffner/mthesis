@@ -400,17 +400,15 @@ The outercanthal width in the image $i$ is the distance between the landmarks 37
 and 46, which is detected by dlib. It has to be multiplied by $p$ to get its
 width in \si{\meter}. Thus, to determine $d$, the only missing
 value is $f$. An approximation for $f$ can be measured, for a MacBook Pro with
-the assumption of the above mentioned sensor size it is approximately
-\SI{1}{\meter} (see @sec:determining-the-focal-length).
+the assumption of the above mentioned sensor size it is about
+\SI{0.01}{\meter} (see @sec:determining-the-focal-length).
 Substituting all variables into @eq:distanceest leads to
 \begin{align}
-d = \frac{fo}{i} = \frac{\SI{1}{\meter} \cdot \SI{0.0866}{\meter}}{i \si{pixels} \cdot \SI{0.0055}{\meter/{pixels}}} = \frac{15.75}{i}\si{\meter}.
+d = \frac{fo}{i} = \frac{\SI{0.01}{\meter} \cdot \SI{0.0866}{\meter}}{i \si{pixels} \cdot \SI{0.0055}{\meter/{pixels}}} = \frac{\num{0.1575}}{i}\si{\meter}.
 \end{align}
-This can be used an approximate distance measure, it is however only accurate
+This can be used as an approximate distance measure, it is however only accurate
 if the head is parallel to the camera. For the purpose of this thesis, this
-approximation should be sufficent.
-
-TODO(shoeffner): Add focal length
+should be sufficent.
 
 
 ### Calculation of screen corners
