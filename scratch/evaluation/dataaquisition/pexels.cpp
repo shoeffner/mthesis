@@ -41,7 +41,7 @@ int main(const int, const char** const) {
   std::chrono::high_resolution_clock::time_point end;
 
   // Write header
-  std::cout << "id,landmarks_time,face_width,face_height,pupildetection_time,"
+  std::cout << "id,landmarks_time,face_width,face_height,gaze_time,"
             << "eye_right_width,eye_right_height,target_right_x,target_right_y,gaze_right_x,gaze_right_y,"
             << "eye_left_width,eye_left_height,target_left_x,target_left_y,gaze_left_x,gaze_left_y,"
             << "eyelike_time,eyelike_right_x,eyelike_right_y,eyelike_left_x,eyelike_left_y,"
