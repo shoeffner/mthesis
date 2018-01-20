@@ -359,13 +359,12 @@ measured. At the time of writing, Gaze only supports cameras which are built
 into the laptop screen or in the same plane as the screen, and only cameras
 directed orthogonally away from the screen towards the subject. Thus, the camera
 position has to be provided using two values, the horizontal offset $x$ from
-the upper left screen corner, and the vertical offset $y$ from the same corner.
+the upper left screen corner, and the vertical offset $y$ from the same corner
+(here $x = \SI{0.1725}{\meter}, y = \SI{0.007}{\meter}$).
 @fig:measuringmetadata visualizes which measurements have to be taken.
 
 ```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-56 }
 ```
-
-TODO(shoeffner): Correctly measure dimensions, just in case. Also, change the default values to something more common.
 
 TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
 
@@ -386,16 +385,18 @@ their MacBook Pro. Its older versions uses a \SI{0.00635}{\meter}
 (\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect ratio of 4:3.
 The 15 inches MacBook Pro from mid 2015 used for Gaze's development has a
 default webcam resolution of \SI{1280 x 720}{{pixels}}, which leads to an
-aspect ratio of 16:9. The sensor size is \SI{0.00635}{\meter}\todo{update sensor size if needed}.
+aspect ratio of 16:9. Since the sensor size is unknown, the best available
+approximation is to use the old known value, \SI{0.00635}{\meter}. It follows
+that the sensor size is \SI{0.0055 x 0.0031}{\meter}, although it is likely
+that they use a different size in reality since the aspect ratio changed.
 
 [^cnetisight]: https://www.cnet.com/products/apple-isight/specs/, Accessed: 2018-01-09.
 
-TODO(shoeffner): Remeasure sensor size using reference image and explain procedure
 
 Additionally to setting the sensor parameters, the webcam can be calibrated for
 the use with OpenCV. Calibration in this case means to estimate the camera
 matrix and distortion coefficients of a camera, which can be used to undistort
-the images.  Gaze does not directly undistort the images to process them
+the images. Gaze does not directly undistort the images to process them
 further, but algorithms like
 [`cv::solvePnP`](https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
 which is used by Gaze, benefit from exact values.

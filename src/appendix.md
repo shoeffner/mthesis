@@ -57,8 +57,9 @@ assumed to be \SI{0.0055}{\meter}. After measuring the angle of view, it can be 
 \alpha &= 2 \arctan \frac{d}{2f} \\
 f &= \frac{d}{2 \tan \frac{\alpha}{2}},
 \end{align}
-with $d$ being the sensor size (\SI{0.0055}{\meter}), $\alpha$ the angle of
-view and $f$ the focal length.
+with $d$ being the sensor size (\SI{0.0055}{\meter} horizontal,
+\SI{0.0031}{\meter} vertical, see @sec:camera-and-screen-parameters), $\alpha$
+the angle of view and $f$ the focal length.
 To find $\alpha$ the camera is placed parallel to a wall, facing it. Then the
 distance $w$ between the left and the right most points still visible on the
 camera image and the distance between the camera and the wall $v$ are measured.
@@ -67,13 +68,17 @@ values into
 \begin{align}
 \alpha = \arctan \frac{ \frac{w}{2} }{ v }.
 \end{align}
-For the examples in Gaze the focal length used is \SI{0.003}{\meter}:
+For the examples in Gaze the focal length used is \SI{0.01}{\meter}, which is
+the approximate mean of the measured values for the horizontal and vertical
+focal lengths ($f_h, f_v$), measured using a folding rule at a distance of
+\SI{1.04}{\meter} for a Macbook Pro:
 \begin{align}
-\alpha &= \arctan \frac{ \frac{ w }{2} }{ v } = \\
-f &= \frac{ \SI{0.0055}{\meter} }{ 2 \tan \frac{ \alpha }{2} } = \SI{0.003}{\meter}.
+f_h = \frac{\SI{0.0055}{\meter}}{ 2 \tan \left( \frac{ \arctan \left( \frac{ \frac{ w_h }{ 2 } } { v } \right) }{ 2 } \right) } \\
+f_h = \frac{\SI{0.0055}{\meter}}{ 2 \tan \left( \frac{ \arctan \left( \frac{ \frac{ \SI{1.13}{\meter} }{ 2 } } { \SI{1.04}{\meter} } \right) }{ 2 } \right) } \approx \SI{0.011}{\meter} \\
+f_v = \frac{\SI{0.0031}{\meter}}{ 2 \tan \left( \frac{ \arctan \left( \frac{ \frac{ w_v }{ 2 } } { v } \right) }{ 2 } \right) } \\
+f_v = \frac{\SI{0.0031}{\meter}}{ 2 \tan \left( \frac{ \arctan \left( \frac{ \frac{ \SI{0.66}{\meter} }{ 2 } } { \SI{1.04}{\meter} } \right) }{ 2 } \right) } \approx \SI{0.01}{\meter} \\
+f = \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \SI{0.0105}{\meter} \approx \SI{0.01}{\meter}.
 \end{align}
-
-TODO: determine focal length
 
 
 # Figures
