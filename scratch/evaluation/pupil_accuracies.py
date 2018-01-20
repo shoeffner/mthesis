@@ -74,7 +74,7 @@ if __name__ == '__main__':
             if all(f'{method}_time' in list(df) for method in METHODS):
                 results[f'{dataset[:-4]}/{condition}/comptimes'] = computation_times(df)
 
-    # Although this script calculates all those things, I only need to compare
+    # Although this script calculates all accuracies, I only need to compare
     # accuracy for BioID with Timm2011 and Hume2012, so I will only write that
     # to a csv
     bioid_result = results['bioid/all/accuracy'].copy()
@@ -82,4 +82,8 @@ if __name__ == '__main__':
     timm11.fill(np.nan)
     timm11[(0, 5, 10, 15, 20, 25), ] = np.array((0, 0.825, 0.934, 0.952, 0.964, 0.98))
     bioid_result['Timm2011'] = timm11
-    bioid_result.to_csv('../../assets/gen_files/bioid_accuracy_vs_error.csv', index_label='error')
+    #bioid_result.to_csv('../../assets/gen_files/bioid_accuracy_vs_error.csv', index_label='error')
+
+    # The computation times are still interesting
+    comp = results['pexels/all/comptimes']
+    # TODO(shoeffner): print tables for appendix!

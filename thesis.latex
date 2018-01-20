@@ -22,6 +22,8 @@ $endif$
 
 \usepackage{xcolor}
 
+\usepackage{pgfplots}
+
 $if(graphics)$
     \usepackage[$if(draft)$draft$endif$]{graphicx}
     \usepackage{grffile}

@@ -440,19 +440,18 @@ coordinates, since they were defined relative to the camera. So for screen
 corner $\tl$ the transformation is:
 $\tl = R^\top \tl_\text{model} + \mathit{cam}.$
 
-TODO(shoeffner): measurements!
-
 TODO(shoeffner): Add more figures to visualize steps
 
 
 ## Implementation as a software library
 
-_To implement the model and make it usable, it ise implemented as the
+To implement the model and make it usable, it is realized in the
 software library Gaze, which sets the goals to be
 - easy to integrate into other projects,
 - easy to extend,
 - free and open source,
-- and well documented.
+- well documented,
+- and available on multiple platforms.
 
 To be easily integrable into other projects, Gaze is written in C++ and
 compiles into a static library. It uses CMake which is used in many C++
