@@ -363,7 +363,7 @@ the upper left screen corner, and the vertical offset $y$ from the same corner
 (here $x = \SI{0.1725}{\meter}, y = \SI{0.007}{\meter}$).
 @fig:measuringmetadata visualizes which measurements have to be taken.
 
-```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-56 }
+```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-59 }
 ```
 
 TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
@@ -372,23 +372,24 @@ The camera's resolution can also be configured alongside the target +FPS. Many
 webcams are limited in their +FPS capabilities, so even by providing high
 values it is possible that the camera does not reach more than about 30 +FPS.
 For online gaze tracking this does not matter much, as Gaze is slower than
-30 +FPS on a common MacBook Pro. But better hardware might result in better
-computation times, possibly allowing Gaze to be faster.
-
-TODO(shoeffner): Add ref for Gaze's performance.
+30 +FPS on a common MacBook Pro (@sec:computation-times). But better hardware
+(for example a dedicated GPU to improve Dlib's or caffe's speeds) might result
+in better computation times, possibly allowing Gaze to be faster.
 
 Crucial settings for the camera to estimate distances properly are the sensor's
-size and its aspect ratio. These values are difficult to measure and many
-device vendors do not report them, as producing smaller sensors and cameras
-using higher resolutions is cheaper @citationneeded. Apple uses the iSight for
-their MacBook Pro. Its older versions uses a \SI{0.00635}{\meter}
-(\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect ratio of 4:3.
-The 15 inches MacBook Pro from mid 2015 used for Gaze's development has a
-default webcam resolution of \SI{1280 x 720}{{pixels}}, which leads to an
-aspect ratio of 16:9. Since the sensor size is unknown, the best available
-approximation is to use the old known value, \SI{0.00635}{\meter}. It follows
-that the sensor size is \SI{0.0055 x 0.0031}{\meter}, although it is likely
-that they use a different size in reality since the aspect ratio changed.
+size, its aspect ratio, and the focal length. These values are difficult to
+measure and many device vendors do not report them, as producing smaller
+sensors and cameras using higher resolutions is cheaper @citationneeded. Apple
+uses the iSight for their MacBook Pro. Its older versions uses a
+\SI{0.00635}{\meter} (\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect
+ratio of 4:3. The 15 inches MacBook Pro from mid 2015 used for Gaze's
+development has a default webcam resolution of \SI{1280 x 720}{{pixels}}, which
+leads to an aspect ratio of 16:9. Since the sensor size is unknown, the best
+available approximation is to use the old known value, \SI{0.00635}{\meter}. It
+follows that the sensor size is \SI{0.0055 x 0.0031}{\meter}, although it is
+likely that they use a different size in reality, since the aspect ratio
+changed. The focal length can be measured manually if it is not provided by the
+manufacturer (see @sec:determining-the-focal-length).
 
 [^cnetisight]: https://www.cnet.com/products/apple-isight/specs/, Accessed: 2018-01-09.
 
@@ -440,7 +441,7 @@ implementations of @Timm2011 can be exchanged without recompiling Gaze by just
 changing the configuration file. The default pipeline configuration can again
 be found inside the `gaze.default.yaml` (@cl:gazedefpipeline).
 
-```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefpipeline caption="The default pipeline configuration block for Gaze." .stripcomments lines=58-200 }
+```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefpipeline caption="The default pipeline configuration block for Gaze." .stripcomments lines=61-200 }
 ```
 
 All pipeline steps are identified by a type, which by convention maps to their
