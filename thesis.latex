@@ -19,6 +19,7 @@ $endif$
 \usepackage{amssymb,amsmath}
 
 \usepackage{booktabs}
+\usepackage{multirow}
 
 \usepackage{xcolor}
 
