@@ -419,7 +419,7 @@ using `solvePnP` in @sec:head-pose-estimation. To express the camera in model
 coordinates it moved back into the translation direction, facing the model
 origin. Since the transformation from `solvePnP` is not taking the distance
 into account, the translation needs to be adjusted by normalizing it and then
-multiplying it by the estimated distance. Thus the camera position $c \in
+multiplying it by the estimated distance. Thus the camera position $\mathit{cam} \in
 \Rthree$ in model coordinates is
 \begin{align}
 \mathit{cam} = \frac{-R^\top T}{\left\lVert -R^\top T \right\rVert_2} d.
