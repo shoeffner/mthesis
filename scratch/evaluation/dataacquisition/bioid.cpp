@@ -24,8 +24,8 @@ int main(const int, const char** const) {
     IMAGES.push_back(s.str());
   }
 
-  std::string IMAGE_PATH("bio/");
-  std::string ANNOTATIONS_PATH("bio/");
+  std::string IMAGE_PATH("../../../BioIDImages/bio");
+  std::string ANNOTATIONS_PATH("../../../BioIDImages/bio");
   std::string COMMA(",");
   std::string C0("#LX");
   std::string C1("LY");

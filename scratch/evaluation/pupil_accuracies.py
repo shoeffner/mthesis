@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-DATASETS = ('pexels.csv', 'BioID.csv')
+DATASETS = ('pexels', 'BioID')
 METHODS = ('gaze', 'eyelike')
 SIDES = ('left', 'right')
 METRICS = {'min': min, 'max': max, 'mean': lambda x, y: (x + y) / 2}
@@ -83,8 +83,36 @@ Computation times [\\si{{\milli\second}}] Eye size  `PupilLocalization`  `EyeLik
 
 
 def write_relative_errors(dataset, result):
-    pass
+    r = result[f'{dataset}/all/accuracy']
+    max_timm11 = np.array((0.825, 0.934, 0.952, 0.964, 0.98))
+    indices = [0.05, 0.1, 0.15, 0.2, 0.25]
+    max_eyelike = r['eyelike_max_normalized_error'][indices].values
+    max_gaze = r['gaze_max_normalized_error'][indices].values
+    mean_eyelike = r['eyelike_mean_normalized_error'][indices].values
+    mean_gaze = r['gaze_mean_normalized_error'][indices].values
+    min_eyelike = r['eyelike_min_normalized_error'][indices].values
+    min_gaze = r['gaze_min_normalized_error'][indices].values
+    comptable = f"""
+Table: Different accuracies per relative error thresholds on the {dataset}
+dataset. """
+    if dataset == 'BioID': comptable += f"""While @Timm2011 provide a graph of their results, only their $\\max$
+values are reported. """
+    comptable += f"""\\label{{tab:{dataset}-pupil-detection-accuracies}}
 
+Error type                       Method               0.05  0.10  0.15  0.20  0.25
+-------------------------------- ------------------- ----- ----- ----- ----- -----
+\\multirow{{3}}{{*}}{{$\\max$}}          `EyeLike`           {max_eyelike[0]:4.3f} {max_eyelike[1]:4.3f} {max_eyelike[2]:4.3f} {max_eyelike[3]:4.3f} {max_eyelike[4]:4.3f}
+                                 `PupilLocalization` {max_gaze[0]:4.3f} {max_gaze[1]:4.3f} {max_gaze[2]:4.3f} {max_gaze[3]:4.3f} {max_gaze[4]:4.3f}"""
+    if dataset == 'BioID': comptable += f"""
+                                 [@Timm2011]         {max_timm11[0]:4.3f} {max_timm11[1]:4.3f} {max_timm11[2]:4.3f} {max_timm11[3]:4.3f} {max_timm11[4]:4.3f}"""
+    comptable += f"""
+\\midrule\\multirow{{3}}{{*}}{{$\\mean$}} `EyeLike`           {mean_eyelike[0]:4.3f} {mean_eyelike[1]:4.3f} {mean_eyelike[2]:4.3f} {mean_eyelike[3]:4.3f} {mean_eyelike[4]:4.3f}
+                                 `PupilLocalization` {mean_gaze[0]:4.3f} {mean_gaze[1]:4.3f} {mean_gaze[2]:4.3f} {mean_gaze[3]:4.3f} {mean_gaze[4]:4.3f}
+\\midrule\\multirow{{3}}{{*}}{{$\\min$}}  `EyeLike`           {min_eyelike[0]:4.3f} {min_eyelike[1]:4.3f} {min_eyelike[2]:4.3f} {min_eyelike[3]:4.3f} {min_eyelike[4]:4.3f}
+                                 `PupilLocalization` {min_gaze[0]:4.3f} {min_gaze[1]:4.3f} {min_gaze[2]:4.3f} {min_gaze[3]:4.3f} {min_gaze[4]:4.3f}
+"""
+    with open(f'{OUTPATH}/table-relative-errors-{dataset}.md', 'w') as f:
+        print(comptable, file=f)
 
 def store_accuracy_vs_error(dataset, result):
     timm11 = np.empty(26)
@@ -93,21 +121,6 @@ def store_accuracy_vs_error(dataset, result):
     result['Timm2011'] = timm11
     result.to_csv(f'{OUTPATH}/{dataset}_accuracy_vs_error.csv', index_label='error')
 
-'''
-Table: Different relative error accuracies on the BioID dataset. \label{tab:bioid_accuracies}
-
-                            0.00   0.05   0.10   0.15   0.20   0.25
--------------------------- ------ ------ ------ ------ ------ ------
-max `EyeLike`
-max `PupilLocalization`
-max @Timm2011
-mean `EyeLike`
-mean `PupilLocalization`
-mean @Timm2011
-min `EyeLike`
-min `PupilLocalization`
-min @Timm2011
-'''
 
 if __name__ == '__main__':
     conditions = {'all': lambda df: df,
@@ -118,18 +131,18 @@ if __name__ == '__main__':
     results = {}
     for dataset in DATASETS:
         for condition, select in conditions.items():
-            df = pd.read_csv(dataset)
+            df = pd.read_csv(dataset + '.csv')
             df = select(df)
             add_eye_vecs(df)
             add_normalized_errors(df)
-            results[f'{dataset[:-4]}/{condition}/accuracy'] = create_accuracy_error_curves(df)
+            results[f'{dataset}/{condition}/accuracy'] = create_accuracy_error_curves(df)
             if all(f'{method}_time' in list(df) for method in METHODS):
-                results[f'{dataset[:-4]}/{condition}/comptimes'] = computation_times(df)
-        if all(f'{dataset[:-4]}/{condition}/comptimes' in results.keys() for condition in conditions):
-            write_computation_times(dataset[:-4],
-                results[f'{dataset[:-4]}/all/comptimes'],
-                results[f'{dataset[:-4]}/eyes<=50/comptimes'],
-                results[f'{dataset[:-4]}/eyes>50/comptimes'])
+                results[f'{dataset}/{condition}/comptimes'] = computation_times(df)
+        if all(f'{dataset}/{condition}/comptimes' in results.keys() for condition in conditions):
+            write_computation_times(dataset,
+                                    results[f'{dataset}/all/comptimes'],
+                                    results[f'{dataset}/eyes<=50/comptimes'],
+                                    results[f'{dataset}/eyes>50/comptimes'])
 
-    store_accuracy_vs_error(dataset[:-4], results[f'{dataset[:-4]}/all/accuracy'].copy())
-
+        store_accuracy_vs_error(dataset, results[f'{dataset}/all/accuracy'].copy())
+        write_relative_errors(dataset, results)

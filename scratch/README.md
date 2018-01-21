@@ -13,6 +13,7 @@ These files are used for the final thesis.
 - [Visual comparison between EPNP and ITERATIVE algorithms of OpenCV's solvePnP](solvePnPcomparison)
 - [A reference MWE to get GazeCapture's model working in caffe.](caffe-test)
 - [Tools to generate figures](figures)
+- [Tools to generate other evaluation materials](evaluation)
 
 
 ## Outdated
