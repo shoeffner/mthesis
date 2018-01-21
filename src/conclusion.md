@@ -46,9 +46,9 @@ different errors, $\min, \max,$ and $\mean$, can be found in
 \begin{figure}
     \begin{tikzpicture}
         \begin{axis}[xlabel={relative error}, ylabel={accuracy}]
-            \addplot[color=blue] table [x=error, y=Timm2011, col sep=comma] {assets/gen_files/bioid_accuracy_vs_error.csv};
-            \addplot[color=red] table [x=error, y=gaze_max_normalized_error, col sep=comma] {assets/gen_files/bioid_accuracy_vs_error.csv};
-            \addplot[color=green] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/bioid_accuracy_vs_error.csv};
+            \addplot[color=blue] table [x=error, y=Timm2011, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+            \addplot[color=red] table [x=error, y=gaze_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+            \addplot[color=green] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
         \end{axis}
     \end{tikzpicture}
     \caption{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and Gaze's \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:bioid_accuracies} for a tabular version of all relative errors.}
@@ -58,16 +58,19 @@ TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
 
 While the accuracy of `PupilLocalization` is very good, `EyeLike` is faster
 and, since it always scales images to the same size, has much more predictable
-computation times as can be see in \Cref{@tab:comptimes}. Gaze is especially
-slow in the beginning and whenever it needs to build up a bigger lookup table,
-leading to very high maximum and mean computation times. It can be concluded,
-that for real time scenarios `EyeLike` is the better choice as it is faster with
-only a small loss in performance. For accurate processing when time is of no
-critical importance, for example during offline analysis of recorded video
-data, Gaze's `PupilLocalization` is the better option.
-
-TODO: mention times for different image sizes (?)
-- gaze tracking not working
+computation times as can be see in \Cref{tab:comptimes-pexels} and
+\Cref{tab:comptimes-BioID}. Gaze is especially slow in the beginning and
+whenever it needs to build up a bigger lookup table, leading to very high
+maximum and mean computation times for the bigger pexels images. For the
+smaller BioID images, Gaze's `PupilLocalization` performs faster. It can be
+concluded, that for real time scenarios with modern image resolutions,
+`EyeLike` is the better choice as it is faster with only a small loss in
+performance. For accurate processing when time is of no critical importance,
+for example during offline analysis of recorded video data, Gaze's
+`PupilLocalization` is the better option -- up to a certain image size, beyond
+which the computation times grow too much. In general it should be noted, that
+with `PupilLocalization` and `eyeLike` there are at least  two successful
+replications of the eye center detection approach by @Timm2011.
 
 
 ### Face detection
@@ -86,6 +89,7 @@ TODO: mention times for different image sizes (?)
 
 ### Gaze point estimation
 
+- gaze tracking not working
 - distance, projection problems
 
 
