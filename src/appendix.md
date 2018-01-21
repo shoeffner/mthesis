@@ -87,12 +87,18 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 @file:assets/gen_files/table-comptimes-BioID.md
 
+@file:assets/gen_files/table-relative-errors-pexels.md
+
+@file:assets/gen_files/table-relative-errors-BioID.md
+
 
 # Figures
 
-![Some example faces used to visualize or compare different pipeline steps. The numbers refer to the image names inside `tests/assets/pexel_faces`](pupil_detection_faces.png){ #fig:examplefaces }
+![Some example faces from the pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
 ![Comparison of eyeLike (top) and Gaze's pupil detections. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
+
+![Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
 
 ![Comparison of the solutions to the +PnP problem using +EPnP (left) and the iterative Levenberg--Marquardt optimization (right) in OpenCV's solvePnP function.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 

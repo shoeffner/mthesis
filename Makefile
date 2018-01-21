@@ -64,6 +64,7 @@ $(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) figures 
 .PHONY: figures
 figures:
 	@$(MAKE) -C ./scratch/figures
+	@$(MAKE) -C ./scratch/BioIDImages all
 
 .PHONY: evaluation
 evaluation:
