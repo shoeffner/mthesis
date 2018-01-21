@@ -83,39 +83,9 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 # Tables
 
-Table: Different relative error accuracies on the BioID dataset. \label{tab:bioid_accuracies}
+@file:assets/gen_files/table-comptimes-pexels.md
 
-                            0.00   0.05   0.10   0.15   0.20   0.25
--------------------------- ------ ------ ------ ------ ------ ------
-max `EyeLike`
-max `PupilLocalization`
-max @Timm2011
-mean `EyeLike`
-mean `PupilLocalization`
-mean @Timm2011
-min `EyeLike`
-min `PupilLocalization`
-min @Timm2011
-
-Table: Comparison of computation times between `EyeLike` and `PupilLocalization`. Data measured on the pexel faces. \label{tab:comptimes}
-
-\begingroup\endgroup  `PupilLocalization`  `EyeLike`
---------------------- -------------------- -------------------
-median comp | small
-median comp | big
-median comp | comb
-min comp  | small
-min comp  | big
-min comp  | comb
-mean comp | small
-mean comp | big
-mean comp | comb
-max comp  | small
-max comp  | big
-max comp  | comb
-
-TODO: create tables properly
-
+@file:assets/gen_files/table-comptimes-BioID.md
 
 
 # Figures

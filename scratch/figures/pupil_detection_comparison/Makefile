@@ -1,6 +1,6 @@
 IMLIST=$(shell ls eye*b.png | sed 's/eyeLike//' | sed 's/b.png//')
 
-IMAGE_DIR ?= $(abspath ../../../assets/gen_figures)
+IMAGE_DIR ?= $(abspath ../../../assets/gen_files)
 
 all: faces comparison
 

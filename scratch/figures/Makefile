@@ -1,7 +1,7 @@
 IMAGES = 68landmarks pupils3dmodel
 EXTERNALS = pupil_detection_comparison solvePnPcomparison
 
-IMAGE_DIR ?= $(abspath ../../assets/gen_figures)
+IMAGE_DIR ?= $(abspath ../../assets/gen_files)
 EXTERNAL_MAKE = IMAGE_DIR=$(IMAGE_DIR) $(MAKE) -C $(1)
 
 all: $(foreach im,$(IMAGES),$(IMAGE_DIR)/$(im).png) $(EXTERNALS)

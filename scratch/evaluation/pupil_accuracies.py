@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 
-DATASETS = ('pexels.csv', 'bioid.csv')
+DATASETS = ('pexels.csv', 'BioID.csv')
 METHODS = ('gaze', 'eyelike')
 SIDES = ('left', 'right')
 METRICS = {'min': min, 'max': max, 'mean': lambda x, y: (x + y) / 2}
+OUTPATH = '../../assets/gen_files'
 
 
 def add_eye_vecs(df):
@@ -57,6 +58,57 @@ def computation_times(df):
     return times
 
 
+def write_computation_times(dataset, allcomp, smallcomp, bigcomp):
+    comptable = f"""
+Table: Comparison of computation times between `EyeLike` and
+`PupilLocalization`. Data measured on the {dataset} dataset. \\label{{tab:comptimes-{dataset}}}
+
+Computation times [\\si{{\milli\second}}] Eye size  `PupilLocalization`  `EyeLike`
+-------------------------------------- -------- -------------------- ----------
+\\multirow{{3}}{{*}}{{Median}}                $\le 50$   {smallcomp['gaze/median']:>4.0f}               {smallcomp['eyelike/median']:>4.0f}
+                                       $> 50$     {bigcomp['gaze/median']:>4.0f}               {bigcomp['eyelike/median']:>4.0f}
+                                       all        {allcomp['gaze/median']:>4.0f}               {allcomp['eyelike/median']:>4.0f}
+\\midrule\\multirow{{3}}{{*}}{{Min}}           $\le 50$   {smallcomp['gaze/min']:>4.0f}               {smallcomp['eyelike/min']:>4.0f}
+                                       $> 50$     {bigcomp['gaze/min']:>4.0f}               {bigcomp['eyelike/min']:>4.0f}
+                                       all        {allcomp['gaze/min']:>4.0f}               {allcomp['eyelike/min']:>4.0f}
+\\midrule\\multirow{{3}}{{*}}{{Mean}}          $\le 50$   {smallcomp['gaze/mean']:>4.0f}               {smallcomp['eyelike/mean']:>4.0f}
+                                       $> 50$     {bigcomp['gaze/mean']:>4.0f}               {bigcomp['eyelike/mean']:>4.0f}
+                                       all        {allcomp['gaze/mean']:>4.0f}               {allcomp['eyelike/mean']:>4.0f}
+\\midrule\\multirow{{3}}{{*}}{{Max}}           $\le 50$   {smallcomp['gaze/max']:>4.0f}               {smallcomp['eyelike/max']:>4.0f}
+                                       $> 50$     {bigcomp['gaze/max']:>4.0f}               {bigcomp['eyelike/max']:>4.0f}
+                                       all        {allcomp['gaze/max']:>4.0f}               {allcomp['eyelike/max']:>4.0f}
+"""
+    with open(f'{OUTPATH}/table-comptimes-{dataset}.md', 'w') as f:
+        print(comptable, file=f)
+
+
+def write_relative_errors(dataset, result):
+    pass
+
+
+def store_accuracy_vs_error(dataset, result):
+    timm11 = np.empty(26)
+    timm11.fill(np.nan)
+    timm11[(0, 5, 10, 15, 20, 25), ] = np.array((0, 0.825, 0.934, 0.952, 0.964, 0.98))
+    result['Timm2011'] = timm11
+    result.to_csv(f'{OUTPATH}/{dataset}_accuracy_vs_error.csv', index_label='error')
+
+'''
+Table: Different relative error accuracies on the BioID dataset. \label{tab:bioid_accuracies}
+
+                            0.00   0.05   0.10   0.15   0.20   0.25
+-------------------------- ------ ------ ------ ------ ------ ------
+max `EyeLike`
+max `PupilLocalization`
+max @Timm2011
+mean `EyeLike`
+mean `PupilLocalization`
+mean @Timm2011
+min `EyeLike`
+min `PupilLocalization`
+min @Timm2011
+'''
+
 if __name__ == '__main__':
     conditions = {'all': lambda df: df,
                   'eyes<=50': lambda df: df[(df['eye_right_width'] <= 50)
@@ -73,17 +125,11 @@ if __name__ == '__main__':
             results[f'{dataset[:-4]}/{condition}/accuracy'] = create_accuracy_error_curves(df)
             if all(f'{method}_time' in list(df) for method in METHODS):
                 results[f'{dataset[:-4]}/{condition}/comptimes'] = computation_times(df)
+        if all(f'{dataset[:-4]}/{condition}/comptimes' in results.keys() for condition in conditions):
+            write_computation_times(dataset[:-4],
+                results[f'{dataset[:-4]}/all/comptimes'],
+                results[f'{dataset[:-4]}/eyes<=50/comptimes'],
+                results[f'{dataset[:-4]}/eyes>50/comptimes'])
 
-    # Although this script calculates all accuracies, I only need to compare
-    # accuracy for BioID with Timm2011 and Hume2012, so I will only write that
-    # to a csv
-    bioid_result = results['bioid/all/accuracy'].copy()
-    timm11 = np.empty(26)
-    timm11.fill(np.nan)
-    timm11[(0, 5, 10, 15, 20, 25), ] = np.array((0, 0.825, 0.934, 0.952, 0.964, 0.98))
-    bioid_result['Timm2011'] = timm11
-    #bioid_result.to_csv('../../assets/gen_files/bioid_accuracy_vs_error.csv', index_label='error')
+    store_accuracy_vs_error(dataset[:-4], results[f'{dataset[:-4]}/all/accuracy'].copy())
 
-    # The computation times are still interesting
-    comp = results['pexels/all/comptimes']
-    # TODO(shoeffner): print tables for appendix!

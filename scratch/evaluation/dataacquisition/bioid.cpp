@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <numeric>
 
@@ -8,6 +9,9 @@
 #include "gaze/util/data.h"
 #include "gaze/util/pipeline_utils.h"
 
+double td(std::chrono::high_resolution_clock::time_point start, std::chrono::high_resolution_clock::time_point end) {
+  return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+}
 
 int main(const int, const char** const) {
   // create list of image file names
@@ -33,14 +37,18 @@ int main(const int, const char** const) {
   gaze::pipeline::PupilLocalization pupil_localization;
   gaze::pipeline::EyeLike eye_like;
 
+  // Create stopwatch
+  std::chrono::high_resolution_clock::time_point start;
+  std::chrono::high_resolution_clock::time_point end;
+
   int target_x[] = {0, 0};
   int target_y[] = {0, 0};
 
   // Write header
-  std::cout << "id,face_width,face_height,"
+  std::cout << "id,landmarks_time,face_width,face_height,gaze_time,"
             << "eye_right_width,eye_right_height,target_right_x,target_right_y,gaze_right_x,gaze_right_y,"
             << "eye_left_width,eye_left_height,target_left_x,target_left_y,gaze_left_x,gaze_left_y,"
-            << "eyelike_right_x,eyelike_right_y,eyelike_left_x,eyelike_left_y"
+            << "eyelike_time,eyelike_right_x,eyelike_right_y,eyelike_left_x,eyelike_left_y"
             << std::endl;
 
   for (auto FACE : IMAGES) {
@@ -60,11 +68,14 @@ int main(const int, const char** const) {
     dlib::assign_image(data.image, dlib::cv_image<dlib::bgr_pixel>(data.source_image));
 
     // Face landmarks
+    start = std::chrono::high_resolution_clock::now();
     landmarks.process(data);
+    end = std::chrono::high_resolution_clock::now();
     if (data.landmarks.num_parts() == 0) {
       continue;
     }
     std::cout << FACE << COMMA
+              << td(start, end) << COMMA
               << data.landmarks.get_rect().width() << COMMA
               << data.landmarks.get_rect().height() << COMMA;
 
@@ -72,7 +83,10 @@ int main(const int, const char** const) {
       gaze::util::get_eyes_chip_details(data.landmarks);
 
     // pupil localization
+    start = std::chrono::high_resolution_clock::now();
     pupil_localization.process(data);
+    end = std::chrono::high_resolution_clock::now();
+    std::cout << td(start, end) << COMMA;
     for (int i = 0; i < 2; ++i) {
       std::cout << details[i].rect.width() << COMMA
                 << details[i].rect.height() << COMMA
@@ -82,7 +96,10 @@ int main(const int, const char** const) {
                 << details[i].rect.top() + data.centers[i].y() << COMMA;
     }
 
+    start = std::chrono::high_resolution_clock::now();
     eye_like.process(data);
+    end = std::chrono::high_resolution_clock::now();
+    std::cout << td(start, end) << COMMA;
     for (int i = 0; i < 2; ++i) {
       std::cout << details[i].rect.left() + data.centers[i].x() << COMMA
                 << details[i].rect.top() + data.centers[i].y() << (i == 0 ? COMMA : "");

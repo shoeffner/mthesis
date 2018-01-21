@@ -1,4 +1,4 @@
-IMAGE_DIR ?= $(abspath ../../../assets/gen_figures)
+IMAGE_DIR ?= $(abspath ../../../assets/gen_files)
 
 IMAGES = $(foreach num,0000 0025 0031 0044,$(foreach type,EPnP iter,solvePnP$(type)_$(num).png))
 
