@@ -523,3 +523,51 @@ to be adjusted to fit the input layers of the network. ITracker is implemented
 in [Caffe](http://caffe.berkeleyvision.org/) [@Jia2014], which can be
 integrated into C++ programs. One disadvantage of iTracker is, that it is only
 trained on iPhones and iPads.
+
+
+## Datasets
+
+Some datasets were needed during the development and tests for Gaze. While
+for most ad-hoc tests the webcam live stream is enough, it is not enough to
+allow for reproducibility of the results.
+
+The first dataset, pexels, is a custom dataset with 120 images from
+[Pexels.com](https://pexels.com). These images are released under the CC0
+license [@CC0License], which allows to reuse, modify and redistribute them. The
+images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
+the smallest image measures \SI{640x332}{{pixels}}, the biggest
+\SI{640x1137}{{pixels}}. Most images are portrait photographs using different
+backgrounds, poses, facial expressions, lighting conditions, and more. The
+majority of images are color images and contain a single person's face, with
+few exceptions to this rule (exceptions are partial faces, full body
+photographs, multiple people, or cats). The people in the images are of
+different sexes, ages, and colors, but the vast majority are young white
+females (about 71). Another 20 people are young white males. Only a handful of
+people appear to be older than 50, and only about 10 people are of other
+ethnicies. Less than five people appear in more than one
+picture[^pexelsnumbersapprox]. A few example faces can be seen in
+@fig:examplefaces. Because the dataset was downloaded for this thesis and is
+used to detect eye centers, to evaluate the results they are annotated by hand.
+The annotations and scaled images can be found as supplementary material at the
+[thesis' GitHub repository](GITHUBARCHIVELINK). A script is provided inside the
+thesis' code repository to download the original images and perform the
+annotations.
+
+TODO(shoeffner): Replace GITHUBARCHIVELINK with correct link
+
+[^pexelsnumbersapprox]: All numbers are only approximate counts to get an idea
+  of the dataset, as the age is always difficult to guess and even sex and skin
+  color can become difficult depending on pose, lighting, or accessories.
+
+To compare the pupil detection with the original implementations (see
+@sec:pupil-localization-evaluation), the [BioID
+dataset](https://www.bioid.com/facedb/) [@Jesorsky2001] is used.
+It contains 1521 gray images with a fixed resolution of \SI{384x286}{{pixels}}.
+The BioID dataset features only 23 different people but multiple images of
+each. Thirty arbitrary example photos can be found in @fig:bioid_examples.
+
+As described in @sec:an-alternative-approach-itracker, the iTracker is trained
+using the GazeCapture dataset [@Krafka2016]. It includes photos of \num{1450} subjects
+and almost 2.5 million frames. Unfortunately the download of the raw data is
+hidden behind a registration, but @Krafka2016 describe the dataset thoroughly
+and give some example images.
