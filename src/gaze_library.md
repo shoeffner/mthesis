@@ -141,7 +141,7 @@ does not apply directly, but it is reasonable to assume that the services are
 available most of the time for free users as well.
 
 
-### Licensing issues
+### License issues
 
 While Gaze is licensed under the +MIT License, it can not be used for commercial
 applications at the time of writing this thesis. This is because the license of

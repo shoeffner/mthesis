@@ -98,7 +98,9 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![Comparison of eyeLike (top) and Gaze's pupil detections. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
 
-![Comparison of the solutions to the +PnP problem using +EPnP (left) and the iterative Levenberg--Marquardt optimization (right) in OpenCV's solvePnP function.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
+![Comparison of solutions to the +PnP problem using +EPnP (left) and the iterative Levenberg--Marquardt optimization (right) in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
+
+![Comparison of solutions to the +PnP problem using five landmarks (left and middle) and six (out of 68) landmarks. Pexels images 0000, 0025, 0031, 0044; cropped. See also @sec:head-pose-estimation-1](landmarkscomparison.png){ #fig:landmarkscomparison }
 
 ![Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
 
