@@ -25,7 +25,15 @@ The geometrical model proposed to track gaze is not working. While parts of it
 work well, other parts are not as successful. In the following sections the
 individual parts will evaluated.
 
-What works well is the pupil center detection [@Timm2011]. Using
+
+### Face detection
+
+- dlib over OpenCV, advantages/shortcomings
+
+
+### Pupil localization evaluation
+
+One successful part of Gaze is the pupil center localization [@Timm2011]. Using
 the BioID dataset [@Jesorsky2001] and the *relative error* introduced by @Jesorsky2001
 the accuracy of Gaze's `PupilLocalization` can be benchmarked. The relative error
 is defined as
