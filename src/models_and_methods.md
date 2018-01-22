@@ -447,6 +447,7 @@ TODO(shoeffner): Add more figures to visualize steps
 
 To implement the model and make it usable, it is realized in the
 software library Gaze, which sets the goals to be
+
 - easy to integrate into other projects,
 - easy to extend,
 - free and open source,
