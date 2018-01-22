@@ -10,7 +10,7 @@
 #include "gaze/util/pipeline_utils.h"
 
 double td(std::chrono::high_resolution_clock::time_point start, std::chrono::high_resolution_clock::time_point end) {
-  return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+  return static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
 }
 
 int main(const int, const char** const) {
@@ -52,7 +52,7 @@ int main(const int, const char** const) {
             << std::endl;
 
   for (auto FACE : IMAGES) {
-    std::ifstream target_reader(ANNOTATIONS_PATH + "BioID_" + FACE + ".eye");
+    std::ifstream target_reader(ANNOTATIONS_PATH + "/BioID_" + FACE + ".eye");
     target_reader >> C0 >> C1 >> C2 >> C3
                   >> target_x[1]
                   >> target_y[1]
@@ -64,7 +64,7 @@ int main(const int, const char** const) {
 
     // Create data object and load test image
     gaze::util::Data data;
-    data.source_image = cv::imread(IMAGE_PATH + "BioID_" + FACE + ".pgm");
+    data.source_image = cv::imread(IMAGE_PATH + "/BioID_" + FACE + ".pgm");
     dlib::assign_image(data.image, dlib::cv_image<dlib::bgr_pixel>(data.source_image));
 
     // Face landmarks

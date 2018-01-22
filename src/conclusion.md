@@ -41,7 +41,7 @@ compared using the $\max$ relative error. To measure the accuracy,
 the error $e_{\max}$ is calculated and the percentage of faces for which the
 error is below or equal the thresholds is reported. A comparison of all three
 different errors, $\min, \max,$ and $\mean$, can be found in
-\Cref{tab:bioid_accuracies}.
+\Cref{tab:BioID-pupil-detection-accuracies}.
 
 \begin{figure}
     \begin{tikzpicture}
@@ -51,7 +51,7 @@ different errors, $\min, \max,$ and $\mean$, can be found in
             \addplot[color=green] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
         \end{axis}
     \end{tikzpicture}
-    \caption{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and Gaze's \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:bioid_accuracies} for a tabular version of all relative errors.}
+    \caption{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and Gaze's \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:BioID-pupil-detection-accuracies} for a tabular version of all relative errors.}
 \end{figure}
 
 TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
@@ -61,21 +61,20 @@ and, since it always scales images to the same size, has much more predictable
 computation times as can be see in \Cref{tab:comptimes-pexels} and
 \Cref{tab:comptimes-BioID}. Gaze is especially slow in the beginning and
 whenever it needs to build up a bigger lookup table, leading to very high
-maximum and mean computation times for the bigger pexels images. For the
+maximum and mean computation times for the bigger pexels images. Still, for the
 smaller BioID images, Gaze's `PupilLocalization` performs faster. It can be
 concluded, that for real time scenarios with modern image resolutions,
-`EyeLike` is the better choice as it is faster with only a small loss in
+`EyeLike` is the better choice, as it is faster with only a small loss in
 performance. For accurate processing when time is of no critical importance,
 for example during offline analysis of recorded video data, Gaze's
 `PupilLocalization` is the better option -- up to a certain image size, beyond
 which the computation times grow too much. In general it should be noted, that
-with `PupilLocalization` and `eyeLike` there are at least  two successful
-replications of the eye center detection approach by @Timm2011.
-
-
-### Face detection
-
-- dlib over OpenCV, advantages/shortcomings
+with `PupilLocalization` and `eyeLike` there are two successful
+replications of the eye center detection approach by @Timm2011. Comparing the
+different accuracies per dataset (\Cref{tab:pexels-pupil-detection-accuracies}
+and \Cref{tab:BioID-pupil-detection-accuracies}), it becomes clear that the
+algorithm works better with the images from the BioID dataset, but still
+performs reasonably well on the pexels dataset.
 
 
 ### Head pose estimation
@@ -94,6 +93,10 @@ replications of the eye center detection approach by @Timm2011.
 
 
 ## Computation times
+
+@file:assets/gen_files/table-pipeline-step-times.md
+
+@file:assets/gen_files/table-pipeline-times.md
 
 
 ## iTracker

@@ -10,9 +10,11 @@ def fileinput(elem, doc):
             and isinstance(elem.content[0], pf.Cite)
             and isinstance(elem.content[0].content[0], pf.Str)):
         pathstr = elem.content[0].content[0].text[6:]
-        pf.debug(f'Including {pathstr}')
-        with open(pathstr, 'r') as f:
-            return pf.convert_text(f.read())
+        try:
+            with open(pathstr, 'r') as f:
+                return pf.convert_text(f.read())
+        except FileNotFoundError:
+            pf.debug(f'Can not include {pathstr}: File not found.')
 
 
 def main(doc=None):

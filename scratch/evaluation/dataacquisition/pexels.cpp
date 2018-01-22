@@ -10,7 +10,7 @@
 #include "gaze/util/pipeline_utils.h"
 
 double td(std::chrono::high_resolution_clock::time_point start, std::chrono::high_resolution_clock::time_point end) {
-  return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+  return static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
 }
 
 int main(const int, const char** const) {

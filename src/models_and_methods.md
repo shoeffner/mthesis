@@ -114,7 +114,7 @@ The eye ball centers are an exception as they are only important for the
 raycast and do not have conventional soft tissue landmark abbreviations nor
 model points in the original model. \label{tab:3dheadmodel}
 
-Landmark                Abbr.   Index  Gaze (\si{\milli\meter})   @Mallick2016
+Landmark                Abbr.   Index  Gaze [\si{\milli\meter}]   @Mallick2016
 ---------------------- ------- ------ -------------------------- --------------------
 Pronasal               $\prn$      31 $(0, 0, 0)$                $(0, 0, 0)$
 Gnathion               $\gn$        9 $(0, -63.6, -12.5)$        $(0, -330, -65)$

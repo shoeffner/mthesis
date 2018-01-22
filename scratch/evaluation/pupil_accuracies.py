@@ -6,6 +6,7 @@ METHODS = ('gaze', 'eyelike')
 SIDES = ('left', 'right')
 METRICS = {'min': min, 'max': max, 'mean': lambda x, y: (x + y) / 2}
 OUTPATH = '../../assets/gen_files'
+SI_PREFIX = r'\micro'
 
 
 def add_eye_vecs(df):
@@ -63,20 +64,20 @@ def write_computation_times(dataset, allcomp, smallcomp, bigcomp):
 Table: Comparison of computation times between `EyeLike` and
 `PupilLocalization`. Data measured on the {dataset} dataset. \\label{{tab:comptimes-{dataset}}}
 
-Computation times [\\si{{\milli\second}}] Eye size  `PupilLocalization`  `EyeLike`
--------------------------------------- -------- -------------------- ----------
-\\multirow{{3}}{{*}}{{Median}}                $\le 50$   {smallcomp['gaze/median']:>4.0f}               {smallcomp['eyelike/median']:>4.0f}
-                                       $> 50$     {bigcomp['gaze/median']:>4.0f}               {bigcomp['eyelike/median']:>4.0f}
-                                       all        {allcomp['gaze/median']:>4.0f}               {allcomp['eyelike/median']:>4.0f}
-\\midrule\\multirow{{3}}{{*}}{{Min}}           $\le 50$   {smallcomp['gaze/min']:>4.0f}               {smallcomp['eyelike/min']:>4.0f}
-                                       $> 50$     {bigcomp['gaze/min']:>4.0f}               {bigcomp['eyelike/min']:>4.0f}
-                                       all        {allcomp['gaze/min']:>4.0f}               {allcomp['eyelike/min']:>4.0f}
-\\midrule\\multirow{{3}}{{*}}{{Mean}}          $\le 50$   {smallcomp['gaze/mean']:>4.0f}               {smallcomp['eyelike/mean']:>4.0f}
-                                       $> 50$     {bigcomp['gaze/mean']:>4.0f}               {bigcomp['eyelike/mean']:>4.0f}
-                                       all        {allcomp['gaze/mean']:>4.0f}               {allcomp['eyelike/mean']:>4.0f}
-\\midrule\\multirow{{3}}{{*}}{{Max}}           $\le 50$   {smallcomp['gaze/max']:>4.0f}               {smallcomp['eyelike/max']:>4.0f}
-                                       $> 50$     {bigcomp['gaze/max']:>4.0f}               {bigcomp['eyelike/max']:>4.0f}
-                                       all        {allcomp['gaze/max']:>4.0f}               {allcomp['eyelike/max']:>4.0f}
+Computation times [\\si{{{SI_PREFIX}\\second}}] Eye size        `PupilLocalization`        `EyeLike`
+-------------------------------------- -------- -------------------------- ----------------
+\\multirow{{3}}{{*}}{{Median}}                $\le 50$   \\num{{{smallcomp['gaze/median']:>8.0f}}}            \\num{{{smallcomp['eyelike/median']:>8.0f}}}
+                                       $> 50$     \\num{{{bigcomp['gaze/median']:>8.0f}}}            \\num{{{bigcomp['eyelike/median']:>8.0f}}}
+                                       all        \\num{{{allcomp['gaze/median']:>8.0f}}}            \\num{{{allcomp['eyelike/median']:>8.0f}}}
+\\midrule\\multirow{{3}}{{*}}{{Min}}           $\le 50$   \\num{{{smallcomp['gaze/min']:>8.0f}}}            \\num{{{smallcomp['eyelike/min']:>8.0f}}}
+                                       $> 50$     \\num{{{bigcomp['gaze/min']:>8.0f}}}            \\num{{{bigcomp['eyelike/min']:>8.0f}}}
+                                       all        \\num{{{allcomp['gaze/min']:>8.0f}}}            \\num{{{allcomp['eyelike/min']:>8.0f}}}
+\\midrule\\multirow{{3}}{{*}}{{Mean}}          $\le 50$   \\num{{{smallcomp['gaze/mean']:>8.0f}}}            \\num{{{smallcomp['eyelike/mean']:>8.0f}}}
+                                       $> 50$     \\num{{{bigcomp['gaze/mean']:>8.0f}}}            \\num{{{bigcomp['eyelike/mean']:>8.0f}}}
+                                       all        \\num{{{allcomp['gaze/mean']:>8.0f}}}            \\num{{{allcomp['eyelike/mean']:>8.0f}}}
+\\midrule\\multirow{{3}}{{*}}{{Max}}           $\le 50$   \\num{{{smallcomp['gaze/max']:>8.0f}}}            \\num{{{smallcomp['eyelike/max']:>8.0f}}}
+                                       $> 50$     \\num{{{bigcomp['gaze/max']:>8.0f}}}            \\num{{{bigcomp['eyelike/max']:>8.0f}}}
+                                       all        \\num{{{allcomp['gaze/max']:>8.0f}}}            \\num{{{allcomp['eyelike/max']:>8.0f}}}
 """
     with open(f'{OUTPATH}/table-comptimes-{dataset}.md', 'w') as f:
         print(comptable, file=f)
@@ -92,6 +93,7 @@ def write_relative_errors(dataset, result):
     mean_gaze = r['gaze_mean_normalized_error'][indices].values
     min_eyelike = r['eyelike_min_normalized_error'][indices].values
     min_gaze = r['gaze_min_normalized_error'][indices].values
+    mr = 3 if dataset == 'BioID' else 2  # special case for Timm2011
     comptable = f"""
 Table: Different accuracies per relative error thresholds on the {dataset}
 dataset. """
@@ -101,14 +103,14 @@ values are reported. """
 
 Error type                       Method               0.05  0.10  0.15  0.20  0.25
 -------------------------------- ------------------- ----- ----- ----- ----- -----
-\\multirow{{3}}{{*}}{{$\\max$}}          `EyeLike`           {max_eyelike[0]:4.3f} {max_eyelike[1]:4.3f} {max_eyelike[2]:4.3f} {max_eyelike[3]:4.3f} {max_eyelike[4]:4.3f}
+\\multirow{{{mr}}}{{*}}{{$\\max$}}          `EyeLike`           {max_eyelike[0]:4.3f} {max_eyelike[1]:4.3f} {max_eyelike[2]:4.3f} {max_eyelike[3]:4.3f} {max_eyelike[4]:4.3f}
                                  `PupilLocalization` {max_gaze[0]:4.3f} {max_gaze[1]:4.3f} {max_gaze[2]:4.3f} {max_gaze[3]:4.3f} {max_gaze[4]:4.3f}"""
     if dataset == 'BioID': comptable += f"""
                                  [@Timm2011]         {max_timm11[0]:4.3f} {max_timm11[1]:4.3f} {max_timm11[2]:4.3f} {max_timm11[3]:4.3f} {max_timm11[4]:4.3f}"""
     comptable += f"""
-\\midrule\\multirow{{3}}{{*}}{{$\\mean$}} `EyeLike`           {mean_eyelike[0]:4.3f} {mean_eyelike[1]:4.3f} {mean_eyelike[2]:4.3f} {mean_eyelike[3]:4.3f} {mean_eyelike[4]:4.3f}
+\\midrule\\multirow{{2}}{{*}}{{$\\mean$}} `EyeLike`           {mean_eyelike[0]:4.3f} {mean_eyelike[1]:4.3f} {mean_eyelike[2]:4.3f} {mean_eyelike[3]:4.3f} {mean_eyelike[4]:4.3f}
                                  `PupilLocalization` {mean_gaze[0]:4.3f} {mean_gaze[1]:4.3f} {mean_gaze[2]:4.3f} {mean_gaze[3]:4.3f} {mean_gaze[4]:4.3f}
-\\midrule\\multirow{{3}}{{*}}{{$\\min$}}  `EyeLike`           {min_eyelike[0]:4.3f} {min_eyelike[1]:4.3f} {min_eyelike[2]:4.3f} {min_eyelike[3]:4.3f} {min_eyelike[4]:4.3f}
+\\midrule\\multirow{{2}}{{*}}{{$\\min$}}  `EyeLike`           {min_eyelike[0]:4.3f} {min_eyelike[1]:4.3f} {min_eyelike[2]:4.3f} {min_eyelike[3]:4.3f} {min_eyelike[4]:4.3f}
                                  `PupilLocalization` {min_gaze[0]:4.3f} {min_gaze[1]:4.3f} {min_gaze[2]:4.3f} {min_gaze[3]:4.3f} {min_gaze[4]:4.3f}
 """
     with open(f'{OUTPATH}/table-relative-errors-{dataset}.md', 'w') as f:

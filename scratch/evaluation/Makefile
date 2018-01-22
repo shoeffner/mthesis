@@ -4,21 +4,43 @@ PUPIL_ACCURACIES = table-comptimes-pexels.md table-comptimes-BioID.md \
 				   table-relative-errors-pexels.md table-relative-errors-BioID.md \
 				   pexels_accuracy_vs_error.csv BioID_accuracy_vs_error.csv
 
-FILES = $(PUPIL_ACCURACIES)
+PIPELINE_TIMES = table-pipeline-step-times.md table-pipeline-times.md
+
+FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES)
 
 all: $(foreach f,$(FILES),$(TARGET_DIR)/$(f))
 
 $(foreach f,$(PUPIL_ACCURACIES),$(TARGET_DIR)%$(f)): pupil_accuracies.py BioID.csv pexels.csv Makefile
 	python ./pupil_accuracies.py
 
+$(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv Makefile
+	python ./pipeline_times.py
+
 BioID.csv: dataacquisition/build/bioid | ../BioIDImages/bio
-	$(shell cd dataacquisition/build && ./bioid > ../../BioID.csv)
+	cd dataacquisition/build && ./bioid > ../../BioID.csv || true
 
 pexels.csv: dataacquisition/build/pexels | ../BioIDImages/bio
-	$(shell cd dataacquisition/build && ./pexels > ../../pexels.csv)
+	cd dataacquisition/build && ./pexels > ../../pexels.csv || true
 
-dataacquisition/build/%: | dataacquisition/build
-	cd dataacquisition/build && make $*
+MODEL_FILES=itracker_deploy.prototxt snapshots/itracker25x_iter_92000.caffemodel \
+			mean_images/mean_face_224.binaryproto mean_images/mean_left_224_new.binaryproto mean_images/mean_right_224.binaryproto
+
+dataacquisition/build/bioid: dataacquisition/bioid.cpp dataacquisition/build/shape_predictor_68_face_landmarks.dat $(foreach m,$(MODEL_FILES),dataacquisition/build/models/$(m)) dataacquisition/CMakeLists.txt | dataacquisition/build
+	cd dataacquisition/build && make bioid
+
+dataacquisition/build/pexels: dataacquisition/pexels.cpp dataacquisition/build/shape_predictor_68_face_landmarks.dat $(foreach m,$(MODEL_FILES),dataacquisition/build/models/$(m)) dataacquisition/CMakeLists.txt | dataacquisition/build
+	cd dataacquisition/build && make pexels
+
+dataacquisition/build/shape_predictor_68_face_landmarks.dat: | dataacquisition/build
+	curl -L -o $@.bz2 https://github.com/davisking/dlib-models/raw/master/shape_predictor_68_face_landmarks.dat.bz2
+	cd dataacquisition/build && bunzip2 -ck shape_predictor_68_face_landmarks.dat.bz2 > shape_predictor_68_face_landmarks.dat
+
+dataacquisition/build/models/%: | dataacquisition/build/models
+	curl -L -o $@ https://github.com/CSAILVision/GazeCapture/raw/master/models/$*
+
+dataacquisition/build/models:
+	@mkdir -p dataacquisition/build/models/mean_images
+	@mkdir -p dataacquisition/build/models/snapshots
 
 dataacquisition/build:
 	@mkdir -p dataacquisition/build
