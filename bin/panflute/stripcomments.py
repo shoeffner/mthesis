@@ -13,27 +13,29 @@ def is_code(line):
 
 
 def replace_refs(elem, doc):
-    if isinstance(elem, pf.CodeBlock) and (
-            'lines' in elem.attributes or 'stripcomments' in elem.classes):
-        lines = elem.text.splitlines()
-        if 'lines' in elem.attributes:
-            nl = []
-            for r in elem.attributes['lines'].split(','):
-                if ':' in r:
-                    f, t = r.split(':')
-                elif '-' in r:
-                    f, t = r.split('-')
-                else:
-                    f, t = r, r
-                f, t = int(f), int(t)
-                nl += lines[f - 1:t + 1]
-            lines = nl
+    if isinstance(elem, pf.CodeBlock):
+        elem.classes.append('numberLines')
+        if 'lines' in elem.attributes or 'stripcomments' in elem.classes:
+            lines = elem.text.splitlines()
+            if 'lines' in elem.attributes:
+                nl = []
+                for r in elem.attributes['lines'].split(','):
+                    if ':' in r:
+                        f, t = r.split(':')
+                    elif '-' in r:
+                        f, t = r.split('-')
+                    else:
+                        f, t = r, r
+                    f, t = int(f), int(t)
+                    nl += lines[f - 1:t + 1]
+                lines = nl
+                # elem.attributes['startFrom'] = str(f)  # Start at 1 for now
 
-        if 'stripcomments' in elem.classes:
-            text = '\n'.join(l for l in lines if is_code(l))
-        else:
-            text = '\n'.join(l for l in lines)
-        elem.text = text
+            if 'stripcomments' in elem.classes:
+                text = '\n'.join(l for l in lines if is_code(l))
+            else:
+                text = '\n'.join(l for l in lines)
+            elem.text = text
 
 
 def main(doc=None):
