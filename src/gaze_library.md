@@ -36,11 +36,11 @@ Ubuntu 14.04 LTS as well[^nowindows].
 
 ## Free and open-source software
 
-Gaze is free and open-source, its soure code can be found on
+Gaze is free and open-source, its source code can be found on
 [GitHub](https://github.com/shoeffner/gaze). That means it is publicly available and the source code
 and software can be modified and redistributed without any limitations. It is
 released under the MIT License, which is open and permissive: It allows
-commercial and private use, redistribution, and modificatiion of the source
+commercial and private use, redistribution, and modification of the source
 code without any conditions other than keeping the license with the
 files [@MITLicense].
 
@@ -270,7 +270,7 @@ chosen images. Their task was to just view the image for three seconds.
 Each of the images was followed by gray screen for one second, in which
 subjects were asked to fixate the center of the screen. In the original task,
 the experiment was split into two blocks of 500 images each. The
-re-implementaion does not perform this split, as it is mostly used as an
+re-implementation does not perform this split, as it is mostly used as an
 example on how Gaze can be integrated into typical experiments. To run the
 experiment, first the subject identifier must be entered and the directory
 containing the stimuli needs to be selected. Then a gray screen opens up and
@@ -486,7 +486,7 @@ important factor as it dominates the algorithm's complexity. A third
 implementation detail is that `EyeLike` is implemented using OpenCV, while
 `PupilLocalization` uses Dlib. A very interesting difference is the choice of
 gradient functions. `EyeLike` uses a gradient function inspired by Matlab
-[@Hume2012], `PupilLocalization` uses the standard sobel edge detector as Dlib
+[@Hume2012], `PupilLocalization` uses the standard Sobel edge detector as Dlib
 implements it. For both implementations the `relative_threshold` can be set. It
 is used to discard possible eye center locations if the gradient magnitude at
 the tested location is below $\mu_\text{mag} + \theta \sigma_\text{mag}$ (with

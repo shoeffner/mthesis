@@ -71,7 +71,7 @@ the angle of view can be calculated by substituting the values into
 For the examples in Gaze the focal length used is \SI{0.01}{\meter}, which is
 the approximate mean of the measured values for the horizontal and vertical
 focal lengths ($f_h, f_v$), measured using a folding rule at a distance of
-\SI{1.04}{\meter} for a Macbook Pro:
+\SI{1.04}{\meter} for a MacBook Pro:
 \begin{align}
 f_h &= \frac{\SI{0.0055}{\meter}}{ 2 \tan \left( \frac{1}{2} \arctan \left( \frac{ w_h }{ 2v } \right) \right) }
 = \frac{\SI{0.0055}{\meter}}{ 2 \tan \left( \frac{1}{2} \arctan \left( \frac{ \SI{1.13}{\meter} }{ 2 \cdot \SI{1.04}{\meter} } \right) \right) } \approx \SI{0.011}{\meter} \\

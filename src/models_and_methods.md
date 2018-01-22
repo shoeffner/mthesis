@@ -14,8 +14,8 @@ an alternative deep learning model for gaze tracking.
 ## Geometric model
 
 The goal of the geometric model is to detect the pupil centers of both eyes and
-perform a raycast from the eye ball centers through the pupils. The
-intersections of the screen plane and the raycast are the gaze points. The
+perform a ray cast from the eye ball centers through the pupils. The
+intersections of the screen plane and the ray cast are the gaze points. The
 line--plane intersection (formulae adapted from
 @Wikipedia:lineplaneintersection) can be expressed using three points of the
 screen plane, the eye ball center and the pupil in the same 3D coordinate
@@ -94,7 +94,7 @@ model is converted to the metric system to be useful for Gaze using data from
 @Facebase, in particular the mean outercanthal width (that is the width from
 the left and right eyes outer corners, or from $\ex_r$ to $\ex_l$). @Facebase
 report data a mean outercanthal width of \SI{86.71}{\milli\meter}, measured
-using 3D stereophotogrammetry and within \num{1845} european caucasian
+using 3D stereophotogrammetry and within \num{1845} European Caucasian
 individuals above the age of 18. In the 3D model, the outercantal width is
 \num{450}. Since the idealized head model assumes symmetry along the
 mid-saggital plane it follows that $\num{225} = \SI{43.355}{\milli\meter}$, or
@@ -111,7 +111,7 @@ and names its abbreviation [@Swennen2006], followed by the "300 Faces
 In-The-Wild Challenge" index [@Sagonas2016]. Then the 3D model coordinates are
 described as used by Gaze and in the original model.
 The eye ball centers are an exception as they are only important for the
-raycast and do not have conventional soft tissue landmark abbreviations nor
+ray cast and do not have conventional soft tissue landmark abbreviations nor
 model points in the original model. \label{tab:3dheadmodel}
 
 Landmark                Abbr.   Index  Gaze [\si{\milli\meter}]   @Mallick2016
@@ -150,9 +150,9 @@ $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 Before finding the pupil centers to project them into the 3D model the face of
 the subject needs to be found. There are various methods available,
 @Frischholz2018 lists 15 +FOSS libraries providing some sort of face detection,
-and additional lists of websites and commercial softwares. One method is to use
+and additional lists of websites and commercial software. One method is to use
 [OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
-of haar feature detection using AdaBoost (Based on @Viola2001). But this
+of Haar feature detection using AdaBoost (Based on @Viola2001). But this
 method, albeit popular, only finds face and eye boundaries. @King2014 released
 a face detector in [Dlib](https://dlib.net) which uses five +HoG models and
 +MMOD [@King2015]. While outperforming OpenCV with a much lower false alarm
@@ -227,7 +227,7 @@ deviations. In Gaze $\theta$ can be configured (@sec:pipeline-steps) and is set
 to \num{0.3} by default, following @Hume2012.
 
 So to detect a pupil center first the gradient image of the eye has to be
-calculated, for which Gaze uses the standard sobel filter. Using the gradient
+calculated, for which Gaze uses the standard Sobel filter. Using the gradient
 magnitudes and the model parameter $\theta$, a dynamic threshold $\vartheta$
 can be calculated to discard all low gradients and normalize those which are
 not discarded (@eq:threshphi). Then for each possible pupil center location $\hat{p}$,
@@ -246,7 +246,7 @@ will be the winning center point.
 
 This sometimes leads to problems where the eye crop has for example some
 wrinkles, shadows, eye lids, reflections on glasses, or other illumination changes.
-@Timm2011 use an inverted gaussian filtered image to calculate
+@Timm2011 use an inverted Gaussian filtered image to calculate
 weights which should give the real pupil higher chances to be selected. The
 dark parts of the image (low gray values) will thus get higher weights. In
 Gaze, where Dlib uses \SI{8}{{bit}} image values, a dark pixel with a
@@ -265,7 +265,7 @@ function. Applying the result transformation to the pupils effectively
 moves them into the head model. @fig:pupils3dmodel shows the 3D head model with
 pupils and eye ball centers after the transformation.
 
-![Left: Head pose estimation, the red markers are detected by dlib and the blue
+![Left: Head pose estimation, the red markers are detected by Dlib and the blue
 markers are a projection of the model to visualize the differences. Right: The
 pupils (cyan) and eye ball centers (magenta)
 inside the 3D model (yellow). The image was visually enhanced by increasing the
@@ -274,7 +274,7 @@ dots and brightening the background.](pupils3dmodel.png){ #fig:pupils3dmodel }
 
 ### Head pose estimation
 
-To properly estimate the screen–head realation the head pose needs to be known.
+To properly estimate the screen–head relation the head pose needs to be known.
 A pose consists of a position (also called location) $(x, y, z) \in
 \Rthree$ and an orientation $(\alpha, \beta, \gamma),$ with $\alpha,
 \gamma \in \{x \in \mathbb{R} | -\pi < x \leq \pi \},$ and $\beta \in \{x \in
@@ -408,7 +408,7 @@ d = \frac{fo}{i} = \frac{\SI{0.01}{\meter} \cdot \SI{0.0866}{\meter}}{i \si{pixe
 \end{align}
 This can be used as an approximate distance measure, it is however only accurate
 if the head is parallel to the camera. For the purpose of this thesis, this
-should be sufficent.
+should be sufficient.
 
 
 ### Calculation of screen corners
@@ -492,7 +492,7 @@ thread is always started and processes the data in the background by creating a
 new data object and passing it from one pipeline step to the next.
 Whenever an object passed the pipeline, an event is emitted to notify the GUI
 and the main thread. The main thread can then store the latest tracking results
-to provide seemless access in feedback loops and the GUI can retrieve the latest
+to provide seamless access in feedback loops and the GUI can retrieve the latest
 data to update its visualizations.
 
 ![Gaze's program architecture.](missing){ #fig:gazearch }
@@ -529,7 +529,7 @@ trained on iPhones and iPads.
 ## Datasets
 
 Some datasets were needed during the development and tests for Gaze. While
-for most ad-hoc tests the webcam live stream is enough, it is not enough to
+for most ad hoc tests the webcam live stream is enough, it is not enough to
 allow for reproducibility of the results.
 
 The first dataset, pexels, is a custom dataset with 120 images from
@@ -545,7 +545,7 @@ photographs, multiple people, or cats). The people in the images are of
 different sexes, ages, and colors, but the vast majority are young white
 females (about 71). Another 20 people are young white males. Only a handful of
 people appear to be older than 50, and only about 10 people are of other
-ethnicies. Less than five people appear in more than one
+ethnicities. Less than five people appear in more than one
 picture[^pexelsnumbersapprox]. A few example faces can be seen in
 @fig:examplefaces. Because the dataset was downloaded for this thesis and is
 used to detect eye centers, to evaluate the results they are annotated by hand.

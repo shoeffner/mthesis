@@ -7,7 +7,7 @@ optics" (German: "Handbuch der physiologischen Optik", @Helmholtz1866), which is
 exhaustive summary and critical review of about 150 years of research about the
 eye, especially its inner workings and functions, and, more importantly, about
 visual sensation and perception. While a great part of the handbook focuses
-on eyeball movements and lens accomodation, attention is frequently brought
+on eyeball movements and lens accommodation, attention is frequently brought
 up.
 
 > Erst indem wir unsere Sinnesorgane nach eigenem Willen in verschiedene
@@ -118,8 +118,7 @@ middle of sentences, they will be placed inside footnotes.
 During the development of Gaze several photographs of faces differing in
 backgrounds, poses, lightings, and other conditions, are used. Unless otherwise
 noted, all photographs in this thesis are either taken by the author or
-downloaded from the website [pexels.com](https://pexels.com). Pexels.com
-releases all images into the public domain, using the +CC0 license. This allows
+downloaded from the website [Pexels](https://pexels.com). Pexels releases all images into the public domain, using the +CC0 license. This allows
 the usage of the photographs without the need of any attribution [@CC0License].
 
 
