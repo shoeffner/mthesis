@@ -16,8 +16,7 @@ an alternative deep learning model for gaze tracking.
 The goal of the geometric model is to detect the pupil centers of both eyes and
 perform a ray cast from the eye ball centers through the pupils. The
 intersections of the screen plane and the ray cast are the gaze points. The
-line--plane intersection (formulae adapted from
-@Wikipedia:lineplaneintersection) can be expressed using three points of the
+line--plane intersection [@Wikipedia:lineplaneintersection] can be expressed using three points of the
 screen plane, the eye ball center and the pupil in the same 3D coordinate
 system.
 Given an eye ball center $c$ and a pupil center $p$, $c, p \in \Rthree$, the points on the line
@@ -85,26 +84,25 @@ metric system but coordinates within "some arbitrary reference frame"
 [@Mallick2016]. The model uses the nose tip as the origin and spans the
 coordinate system parallel to the standard anatomical planes. The $x$ axis is
 parallel to the coronal and transverse planes, with the positive values to the
-left from the head's perspective[^xdirectiondiff]. The $z$ axis is parallel to
+left from the head's perspective. @Mallick2016 uses left and right from the viewers
+perspective. Gaze uses left and right from the head's perspective which is
+more in line with @Swennen2006. Thus when looking at the model, the $x$ axis
+go to the right.
+The $z$ axis is parallel to
 the transverse plane and lies inside the mid-sagittal plane, pointing away from
 the face. The $y$ axis is orthogonal to the $x$ and $z$ axes, it points upwards
-(in relation to the head). \Cref{tab:3dheadmodel} summarizes the data points
+in relation to the head. \Cref{tab:3dheadmodel} summarizes the data points
 and @fig:3dheadlandmarks visualizes the locations and coordinate system. The
 model is converted to the metric system to be useful for Gaze using data from
-@Facebase, in particular the mean outercanthal width (that is the width from
-the left and right eyes outer corners, or from $\ex_r$ to $\ex_l$). @Facebase
+@Facebase, in particular the mean outercanthal width. This is the width from
+the left and right eyes outer corners, from $\ex_r$ to $\ex_l$. @Facebase
 report data a mean outercanthal width of \SI{86.71}{\milli\meter}, measured
 using 3D stereophotogrammetry and within \num{1845} European Caucasian
 individuals above the age of 18. In the 3D model, the outercantal width is
 \num{450}. Since the idealized head model assumes symmetry along the
 mid-saggital plane it follows that $\num{225} = \SI{43.355}{\milli\meter}$, or
-$\num{1} \approx \SI{0.19269}{\milli\meter}$.  This relation can be used to
+$\num{1} \approx \SI{0.19269}{\milli\meter}$. This relation can be used to
 calculate the metric model, as it is done in \Cref{tab:3dheadmodel}.
-
-[^xdirectiondiff]: @Mallick2016 uses left and right from the viewers
-  perspective. Gaze uses left and right from the head's perspective which is
-  more in line with @Swennen2006. Thus when looking at the model, the $x$ axis
-  go to the right.
 
 Table: 3D head model by @Mallick2016. The first columns describe the landmark
 and names its abbreviation [@Swennen2006], followed by the "300 Faces
@@ -126,12 +124,12 @@ Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 
 An initial idea to model the eye ball center was to use place it at the center
-of the palpebral fissure (the distance between both eye corners) and move it
-inside the head until the $\ex$ and $\en$ (endocanthion, the inner eye corner)
+of the palpebral fissure -- the distance between both eye corners, the exocanthion and endocanthion -- and move it
+inside the head until the $\ex$ and $\en$
 are on the eye ball surface. The problem with this idea is that the mean
 palpebral fissure length is \SI{28.19}{\milli\meter} [@Facebase] but the mean
-eye ball diameter is much less than that (\SI{24}{\milli\meter} [@Davson2017],
-\SI{22.0}{\milli\meter} to \SI{24.8}{\milli\meter} [@Bekerman2014]). Instead of
+eye ball diameter is much less than that: It is commonly reported to be about \SI{24}{\milli\meter} [@Davson2017], or
+\SI{22.0}{\milli\meter} to \SI{24.8}{\milli\meter} [@Bekerman2014]. Instead of
 solving the equations with a greater diameter or by accounting for the distance
 between the eye ball surface and the $\ex$ and $\en$, the mid point between
 $\ex$ and $\en$ is just moved back along the $z$ axis by
@@ -152,7 +150,7 @@ the subject needs to be found. There are various methods available,
 @Frischholz2018 lists 15 +FOSS libraries providing some sort of face detection,
 and additional lists of websites and commercial software. One method is to use
 [OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
-of Haar feature detection using AdaBoost (Based on @Viola2001). But this
+of Haar feature detection using AdaBoost [@Viola2001]. But this
 method, albeit popular, only finds face and eye boundaries. @King2014 released
 a face detector in [Dlib](https://dlib.net) which uses five +HoG models and
 +MMOD [@King2015]. While outperforming OpenCV with a much lower false alarm
@@ -164,33 +162,38 @@ classifier because it offers an advantage over OpenCV's classifier: It detects
 the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection step is needed after the face is detected.
-There is one downside to using Dlib, which is licensing
-(@sec:licensing-issues). A possible solution is to use the 5 landmark model,
+In @sec:licensing-issues there is one downside to using Dlib's model explained: Licensing.
+A possible solution is to use the 5 landmark model,
 but it does not detect all landmarks included in the 3D head model, and using a
-3D head model containing the five instead of the 68 landmarks was not stable
-enough for the head pose estimation (@sec:head-pose-estimation).
+3D head model containing the five instead of the 68 landmarks is not stable
+enough for the head pose estimation as detailed in @sec:head-pose-estimation.
 
 Dlib describes detected faces with a bounding box around the detected landmarks
 as well as a list of landmark coordinates, ordered as labeled in the "300 Faces
 In-The-Wild Challenge" [@Sagonas2016]. The landmarks 37 and 46
-(@fig:68landmarks) correspond to the $\ex_r$ and $\ex_l$, respectively,
+in @fig:68landmarks correspond to the $\ex_r$ and $\ex_l$, respectively,
 similarly landmarks 40 and 43 denote $\en_r$ and $\en_l$. The eyes are
 extracted by placing a rectangle with $\ex$ and $\en$ being opposite corners
-and detecting its center. The eye is cropped as a square with a side-length of 1.5 times the distance between the eye corners and centered around the rectangle's center (Examples of processed eyes can be found inside the appendix, @fig:pupildetectionexamples).
+and detecting its center. The eye is cropped to a square with a side-length of
+1.5 times the distance between the eye corners and centered around the
+rectangle's center. To visualize this, examples of processed eyes can be found inside the
+appendix in @fig:pupildetectioncomparison.
 
-![68 landmarks as described by @Sagonas2013 (left) and detected by Dlib
-(right). In Dlib, the indexing starts with 0. Landmarks schema used with kind
-permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
+TODO(shoffner): Maybe replace figure pupildetectioncomparison with another at this point
+
+![Left: 68 landmarks as described by @Sagonas2013. Right: The landmarks
+detected by Dlib. In Dlib, the indexing starts with 0. Landmarks schema used
+with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
 
 ### Pupil localization
 
 Finding the pupil centers in the eyes is done following @Timm2011, inspired by
-the success of @Hume2012. The algorithm they propose assumes that the iris (the
-colored part of the eye) is a dark circle on a bright background (the sclera),
+the success of @Hume2012. The algorithm they propose assumes that the iris, the
+colored part of the eye, is a dark circle on a bright background, the sclera,
 which implies that there is a strong gradient at its boundary. The gradient at
 the boundary has a direction towards the sclera. To find the center, all points
-within the image (they cropped eye) are assigned a value by a target function
+within the image of the cropped eye are assigned a value by a target function
 and the point with the maximum value is chosen as the pupil center.
 
 The pupil location $p \in \mathbb{N}^2$ can be found by solving [@Timm2011,
@@ -206,7 +209,7 @@ p = \argmax_{\hat{p}} \left\{
 \end{align}
 where $p \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
 \mathbb{N}^2$ are all $N$ pixel locations of the image crop, $w_i \in
-\mathbb{R}$ are weights (see below) for those pixel locations, $g_i \in \Rtwo$ are
+\mathbb{R}$ are weights for those pixel locations, $g_i \in \Rtwo$ are
 the normalized gradients at each pixel location, respectively, and $\left\lVert
 \cdot \right\rVert_2$ is the euclidean norm. A very important function is
 $\varphi$, it is defined as:
@@ -223,18 +226,18 @@ with $\vartheta \in \mathbb{R}$ as the dynamic threshold depending on all gradie
 employing the mean and standard deviation $\mu_\text{mag}, \sigma_\text{mag}$
 over the gradient magnitudes $\text{mag}_i = \left\lVert g_i \right\rVert_2$,
 and the model parameter $\theta$, which described the number of standard
-deviations. In Gaze $\theta$ can be configured (@sec:pipeline-steps) and is set
+deviations. As explained in @sec:pipeline-steps, in Gaze $\theta$ can be configured and is set
 to \num{0.3} by default, following @Hume2012.
 
 So to detect a pupil center first the gradient image of the eye has to be
 calculated, for which Gaze uses the standard Sobel filter. Using the gradient
 magnitudes and the model parameter $\theta$, a dynamic threshold $\vartheta$
 can be calculated to discard all low gradients and normalize those which are
-not discarded (@eq:threshphi). Then for each possible pupil center location $\hat{p}$,
+not discarded, as defined in @eq:threshphi. Then, for each possible pupil center location $\hat{p}$,
 each other pixel location $x_i$ is used to evaluate the target function: If the
 direction from $x_i$ to $\hat{p}$ is similar to the gradient direction $g_i$,
 the value will be squared and added to $\hat{p}$'s target value. The similarity
-measurement is the scalar product: If the two (normalized) vectors point into
+measurement is the scalar product: If the two normalized vectors point into
 the same direction, it evaluates to $1$, if they point to the opposite
 directions it evaluates to $-1$. @Hume2012 noted that in the paper all these
 values were taken into account, but vectors pointing inwards should not be
@@ -248,9 +251,9 @@ This sometimes leads to problems where the eye crop has for example some
 wrinkles, shadows, eye lids, reflections on glasses, or other illumination changes.
 @Timm2011 use an inverted Gaussian filtered image to calculate
 weights which should give the real pupil higher chances to be selected. The
-dark parts of the image (low gray values) will thus get higher weights. In
+dark parts of the image -- low gray values -- will thus get higher weights. In
 Gaze, where Dlib uses \SI{8}{{bit}} image values, a dark pixel with a
-(smoothed) value of \num{15} would for example get a weight of $255-15=240$.
+smoothed value of \num{15} would for example get a weight of $255-15=240$.
 The extension of discarding vectors facing inwards by @Hume2012 also leads to an
 improvement, especially because eye brows and eye lids no longer hint towards
 arbitrary points inside the sclera.
@@ -260,34 +263,29 @@ To project the pupil centers from image coordinates into model coordinates,
 the detected landmarks which correspond to the model points are extended to be
 3D coordinates, with their $z$ coordinates being set to 0. The affine
 transformation from the landmarks to the model is estimated using OpenCV's
-[`estimateAffine3D`](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga396afb6411b30770e56ab69548724715)
-function. Applying the result transformation to the pupils effectively
+`estimateAffine3D` function. Applying the result transformation to the pupils effectively
 moves them into the head model. @fig:pupils3dmodel shows the 3D head model with
 pupils and eye ball centers after the transformation.
 
 ![Left: Head pose estimation, the red markers are detected by Dlib and the blue
 markers are a projection of the model to visualize the differences. Right: The
-pupils (cyan) and eye ball centers (magenta)
-inside the 3D model (yellow). The image was visually enhanced by increasing the
+cyan pupils and magenta eye ball centers
+inside the yellow 3D model. The image was visually enhanced by increasing the
 dots and brightening the background.](pupils3dmodel.png){ #fig:pupils3dmodel }
 
 
 ### Head pose estimation
 
 To properly estimate the screen–head relation the head pose needs to be known.
-A pose consists of a position (also called location) $(x, y, z) \in
+A pose consists of a position or location $(x, y, z) \in
 \Rthree$ and an orientation $(\alpha, \beta, \gamma),$ with $\alpha,
 \gamma \in \{x \in \mathbb{R} | -\pi < x \leq \pi \},$ and $\beta \in \{x \in
-\mathbb{R} | 0 \leq x \leq \pi\}$[^raddouble]. Of course, in its own coordinate
+\mathbb{R} | 0 \leq x \leq \pi\}$. Of course, in its own coordinate
 system defined above, the head pose is always at $(0, 0, 0)$ with an
 orientation of $(0, 0, 0)$. But by estimating the head pose in terms of the
 camera coordinate system, it is possible to derive the camera location, which
 in turn is fix in relation to the screen. So by knowing the camera location,
 the screen corners needed to solve @eq:matrix-intersection can be found trivially.
-
-[^raddouble]: Because OpenCV uses floating points numbers with no limited
-  ranges to represent orientations, it is possible that the values are outside
-  of the defined intervals in the actual OpenCV implementation.
 
 In Gaze head pose estimation is performed closely following the approach
 outlined by @Mallick2016. The pose only needs to be estimated indirectly by
@@ -326,8 +324,8 @@ p_z \\
 \end{align}
 describes the projection from the 3D model point $p \in \Rthree$ to the 2D
 image point $p' \in \Rtwo$, using homogenous coordinates. It uses the camera
-matrix $C \in \mathbb{R}^{3 \times 3}$ (which can be found via calibration or
-approximated by the image size, see @sec:camera-and-screen-parameters), a
+matrix $C \in \mathbb{R}^{3 \times 3}$, which can be found via calibration or
+approximated by the image size, as presented in @sec:camera-and-screen-parameters. It also uses a
 projection matrix $P \in \mathbb{R}^{3 \times 4}$ which reduces the dimensions
 from three to two, and the affine transformation from the model coordinate
 system into the camera coordinate system. Finding the values for $R$ and $T$ is
@@ -340,8 +338,8 @@ reprojection error, that is minimizing the error $e \in \mathbb{R}$
 e = \sum_{i=1}^N \left\lVert p_i' - q_i \right\rVert_2^2, \label{eq:projerror}
 \end{align}
 where $\left\lVert \cdot \right\rVert_2$ is the euclidean norm. Thus the
-distance between the measured projected points $p_i'$ and the estimated
-(by solving @eq:projmodel) projected point $q_i$ should be minimized using
+distance between the measured projected points $p_i'$ and the in @eq:projmodel estimated
+projected point $q_i$ should be minimized using
 this quadratic error function. OpenCV offers multiple algorithms to choose from
 when using `solvePnP`, but some are currently disabled due to instabilities or
 are for sets of exactly four point correspondences. The two remaining options
@@ -356,12 +354,12 @@ that
 where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
 estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found, the
 parameters can be used together with the distance estimation
-(@sec:distance-estimation) to estimate the screen corners
-(@sec:calculation-of-screen-corners). In Gaze the Levenberg--Marquardt
+from @sec:distance-estimation to estimate the screen corners
+as described in @sec:calculation-of-screen-corners. In Gaze the Levenberg--Marquardt
 optimization is used because it subjectively performs slightly better when
 subjects face the camera more directly, while the +EPnP becomes better when
-subjects turn their heads (A comparison can be found inside the Appendix, see
-@fig:solvepnpcomparison). Since for gaze tracking subjects can be assumed to
+subjects turn their heads. A comparison is shown in @fig:solvepnpcomparison.
+Since for gaze tracking subjects can be assumed to
 look more likely into the direction of the camera, it is more important to
 estimate frontal images better.
 
@@ -401,7 +399,7 @@ and 46, which is detected by dlib. It has to be multiplied by $p$ to get its
 width in \si{\meter}. Thus, to determine $d$, the only missing
 value is $f$. An approximation for $f$ can be measured, for a MacBook Pro with
 the assumption of the above mentioned sensor size it is about
-\SI{0.01}{\meter} (see @sec:determining-the-focal-length).
+\SI{0.01}{\meter}, which is found using the procedure in @sec:determining-the-focal-length.
 Substituting all variables into @eq:distanceest leads to
 \begin{align}
 d = \frac{fo}{i} = \frac{\SI{0.01}{\meter} \cdot \SI{0.0866}{\meter}}{i \si{pixels} \cdot \SI{0.0055}{\meter/{pixels}}} = \frac{\num{0.1575}}{i}\si{\meter}.
@@ -467,8 +465,8 @@ design. By first recreating an eye tracking experiment [@Judd2009] and finding
 out what the needs for such an experiment are, Gaze is developed around a very
 simple API. Extendability is given by a modular design. Gaze builds around a
 multi-purpose data processing pipeline in which each steps performs a small
-task. It is taken great care to allow for simple extensions using custom steps
-(see @sec:writing-a-custom-pipeline-step). One step towards easy extension is
+task. It is taken great care to allow for simple extensions using custom steps, for which instructions are provided in
+@sec:writing-a-custom-pipeline-step. One step towards easy extension is
 also making the source code available for free and as open source software.
 This way everyone can inspect it, reproduce the results of this thesis and
 extend Gaze, criticize it, modify it, or built upon it. These are the reasons
@@ -540,15 +538,18 @@ the smallest image measures \SI{640x332}{{pixels}}, the biggest
 \SI{640x1137}{{pixels}}. Most images are portrait photographs using different
 backgrounds, poses, facial expressions, lighting conditions, and more. The
 majority of images are color images and contain a single person's face, with
-few exceptions to this rule (exceptions are partial faces, full body
-photographs, multiple people, or cats). The people in the images are of
-different sexes, ages, and colors, but the vast majority are young white
-females (about 71). Another 20 people are young white males. Only a handful of
+few exceptions to this rule, like are partial faces, full body
+photographs, multiple people, or cats. The people in the images are of
+different sexes, ages, and colors, but with about 71 the vast majority are young white
+females. Another 20 people are young white males. Only a handful of
 people appear to be older than 50, and only about 10 people are of other
 ethnicities. Less than five people appear in more than one
-picture[^pexelsnumbersapprox]. A few example faces can be seen in
-@fig:examplefaces. Because the dataset was downloaded for this thesis and is
-used to detect eye centers, to evaluate the results they are annotated by hand.
+picture. Note that all numbers are only approximate counts to get an idea
+of the dataset, as the age is always difficult to guess and even sex and skin
+color can become difficult depending on pose, lighting, or accessories.
+A few example faces can be seen in @fig:examplefaces. Because the dataset was
+downloaded for this thesis and is
+used to evaluate the results of the eye center detection, they are annotated by hand.
 The annotations and scaled images can be found as supplementary material at the
 [thesis' GitHub repository](GITHUBARCHIVELINK). A script is provided inside the
 thesis' code repository to download the original images and perform the
@@ -556,16 +557,15 @@ annotations.
 
 TODO(shoeffner): Replace GITHUBARCHIVELINK with correct link
 
-[^pexelsnumbersapprox]: All numbers are only approximate counts to get an idea
-  of the dataset, as the age is always difficult to guess and even sex and skin
-  color can become difficult depending on pose, lighting, or accessories.
-
-To compare the pupil detection with the original implementations (see
-@sec:pupil-localization-evaluation), the [BioID
+To compare the pupil detection with the original implementations referenced in
+@sec:pupil-localization-evaluation, the [BioID
 dataset](https://www.bioid.com/facedb/) [@Jesorsky2001] is used.
 It contains 1521 gray images with a fixed resolution of \SI{384x286}{{pixels}}.
-The BioID dataset features only 23 different people but multiple images of
+The BioID dataset features only 23 different people with multiple images of
 each. Thirty arbitrary example photos can be found in @fig:bioid_examples.
+The dataset is often used to compare face and pupil detection algorithms [@Timm2011]
+and Gaze's implementation will be compared to the original implementation by
+@Timm2011.
 
 As described in @sec:an-alternative-approach-itracker, the iTracker is trained
 using the GazeCapture dataset [@Krafka2016]. It includes photos of \num{1450} subjects

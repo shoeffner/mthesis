@@ -22,19 +22,20 @@ implementations, leveraging Gaze's modular architecture and extendability.
 
 Gaze provides a flexible data pipeline consisting of multiple pre-defined
 steps. It is possible to add custom steps by altering Gaze's source code in
-very few places (see @sec:writing-a-custom-pipeline-step). Once
+very few places, as is explained in @sec:writing-a-custom-pipeline-step. Additionally Gaze
+features a debug +GUI, which visualizes each pipeline step individually. Once
 implemented, the gaze tracker, the pipeline
 and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
-The software works best with the camera sensor being in the same plane as the
+The library works best with the camera sensor being in the same plane as the
 screen surface, thus built-in webcams are recommended. This is because
 currently the configuration for the camera position assumes only offsets along
 and across the screen, the orientation and depth can not be changed. Gaze can
-process live webcam streams, video files, and images (see @sec:input-source-capture).
+process live webcam streams, video files, and images.
 The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
 estimates the head orientation, and also estimates the distance between camera
 and subject. From these measured and estimated information, Gaze calculates an
 approximate gaze point.
-Gaze has been developed using macOS High Sierra, but builds on Ubuntu 14.04 LTS as well.
+Gaze has been developed using macOS High Sierra, but also builds on Ubuntu 14.04 LTS.
 
 
 ## Free and open-source software
@@ -69,21 +70,21 @@ author tries to follow stricter coding guide lines, and provides a detailed sour
 
 ### Development process
 
-A good practice is to manage code and other projects with a +VCS. Version
+A good practice is to manage code and other projects with a +vcs. Version
 control allows to roll back changes if needed, retains a change history and,
 since it can usually be synchronized between multiple devices, provides a
-simple way to create backups. The +VCS used for Gaze is
+simple way to create backups. The +vcs used for Gaze is
 [Git](https://git-scm.com), which is very popular among software developers:
 @stosurvey2017 finds in the [stackoverflow Developer Survey
 2017](https://insights.stackoverflow.com/survey/2017), that about \SI{70}{{\%}} of
-30,730 responses claim to be using (at least) Git for version control, followed
+30,730 responses claim to be using at least Git for version control, followed
 by [Subversion](https://subversion.apache.org/) with about \SI{10}{{\%}}. Of course
 this data has to be taken into account
 carefully, as most respondents are in some way users of
 [Stack Overflow](https://stackoverflow.com), a programming related questions
 and answers website. But the results mean that many people are already
 familiar with Git and can easily join the project and collaborate without
-having to overcome high entrance barriers like learning a new +VCS.
+having to overcome high entrance barriers like learning a new +vcs.
 
 An exemplary workflow with Git starts with cloning the code
 repository, that means downloading the latest source code. Then, for each
@@ -109,7 +110,7 @@ are developed and pushed onto a common branch, the so called trunk or master.
 
 Gaze is published on the source code hosting service
 [GitHub](https://github.com). When a new commit is
-pushed (i.e. uploaded) to the GitHub servers, a web request is sent to the
+pushed, that means uploaded, to the GitHub servers, a web request is sent to the
 continuous integration service [Semaphore CI](https://semaphoreci.com).
 Semaphore will compile the published version and run the unit tests, which test a
 few methods for integrity. On success, the commit is considered valid and the
@@ -127,8 +128,8 @@ its features: static page hosting. All contents on the `gh-pages` branch are pub
 at a specific +URL. This way, the [source code
 documentation](https://shoeffner.github.io/gaze) is always available online and
 contains the latest changes. "Always" is a slight simplification, as failures
-can always happen: GitHub has a +SLA uptime of \SI{99.95}{{\%}} for its
-business customers. Since Gaze is only hosted as a free repository, this +SLA
+can always happen: GitHub has a +sla uptime of \SI{99.95}{{\%}} for its
+business customers. Since Gaze is only hosted as a free repository, this +sla
 does not apply directly, but it is reasonable to assume that the services are
 available most of the time for free users as well.
 
@@ -269,15 +270,20 @@ implementation of `where_people_look` and implemented in Gaze.
 
 Table: Functions of the Gaze gaze tracker and their corresponding API methods. \label{tab:gazeapi}
 
-Function                          API method(s)
+Function                          API methods
 --------------------------------- -----------------------------------------------
 \multirow{2}{*}{Initialization}   `void init(std::string, bool)`
                                   `GazeTracker(std::string, bool)`
+\begingroup\endgroup              \begingroup\endgroup
 Calibration                       `void calibrate()`
+\begingroup\endgroup              \begingroup\endgroup
 \multirow{2}{*}{Trial annotation} `void start_trial(std::string)`
                                   `void stop_trial()`
+\begingroup\endgroup              \begingroup\endgroup
 Result storage                    None
+\begingroup\endgroup              \begingroup\endgroup
 Latest gaze location              `std::pair<int, int> get_current_gaze_point()`
+
 
 The initialization of the `GazeTracker` is done by either calling the default
 constructor followed by its `init()` function, or by using the two argument
@@ -285,7 +291,7 @@ constructor directly. In @cl:gaze_simple.cpp, the two
 argument constructor is called with the subject identifier `"1"` and the
 default value `false` for the debug flag. The subject identifier will be used
 to store results on the hard drive. The debug flag decides whether the debug
-+GUI (@fig:gazedebuggui) should be opened (`true`), or not. This is mostly of
++GUI which is shown in @fig:gazedebuggui should be opened by supplying `true`, or not. This is mostly of
 interest during the development process and not during actual experiments,
 which is why the default is `false`. If the debug +GUI should be shown when
 starting the program, but not during the experiment, it can be simply be opened
@@ -315,26 +321,39 @@ result calculated by the Gaze pipeline.
 
 There are two ways to customize Gaze. The first is to configure it using the
 `gaze.yaml`, the second is to write a custom pipeline step. In the following
-section, both options will be briefly explored.
+section, both options will be briefly explored to make it easy to integrate
+with Gaze and to extend it. This should make it easier to adjust Gaze
+to one's own needs and to contribute pipeline steps to the project.
 
 
 ### Configuring Gaze
 
-The `gaze.yaml` can be used to configure Gaze. By copying (and renaming) the
-`gaze.default.yaml` to the directory from which Gaze is executed, the default
-values can be overwritten. This works because Gaze first loads the default
-values and then replaces them by any changes made in a potential `gaze.yaml`.
-The `gaze.yaml` consists of two major parts: The meta configuration block to
-configure the camera and screen parameters and the pipeline configuration.
+The `gaze.yaml` can be used to configure Gaze. By creating a `gaze.yaml` file
+inside the directory from which the program integrating Gaze is executed, the
+default configuration values can be overwritten. This works because Gaze first
+loads the default values and then replaces them by any changes made in a
+potential `gaze.yaml`. This is done to allow customization of parameters
+without recompiling the source code, thus making it easy to install Gaze once
+and use it in several different projects with different needs and settings.
+
+The `gaze.yaml` consists of two major parts: The meta
+configuration block to configure the camera and screen parameters and the
+pipeline configuration. To get an idea of the default values and to get started
+writing a custom `gaze.yaml`, the project contains a `gaze.default.yaml`, which
+exhibits the default values used by Gaze and contains a lot of information
+about how each parameter affects the program and how it should be chosen. To
+complement the documentation inside the file, the following two sections give
+some hints about how to decide the values for which parameters.
 
 
 #### Camera and screen parameters
 
-Inside the meta configuration block (@cl:gazedefmeta) reside the setup related parameters, that
+Inside the meta configuration block which is seen in @cl:gazedefmeta reside the
+setup related parameters, that
 is the camera and screen settings. The screen settings consist of a resolution
 in pixels and measurements in meters. For example, the laptop used for the
 development process had a resolution of \SI{2880 x 1800}{{pixels}}, and
-its screen width and height were \SIlist{0.335;0.207}{\meter}. Since screen
+its screen width and height were \SIlist{33.5;20.7}{\centi\meter}. Since screen
 sizes are usually provided in inches across the diagonal, the screen width and
 height have to be measured manually.
 Additionally to the screen width and height, the camera position has to be
@@ -343,28 +362,38 @@ into the laptop screen or in the same plane as the screen, and only cameras
 directed orthogonally away from the screen towards the subject. Thus, the camera
 position has to be provided using two values, the horizontal offset $x$ from
 the upper left screen corner, and the vertical offset $y$ from the same corner
-(here $x = \SI{0.1725}{\meter}, y = \SI{0.007}{\meter}$).
+, here $x = \SI{17.25}{\centi\meter},$ and $y = \SI{0.7}{\centi\meter}$.
 @fig:measuringmetadata visualizes which measurements have to be taken.
+The target parameters allow to specify an area of interest: Instead of mapping
+the measured gaze coordinates to the screen coordinates, they will be mapped
+into a regular grid with the dimensions mentioned inside the target parameters.
 
 ```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for Gaze." .stripcomments lines=1-59 }
 ```
 
 TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
 
-The camera's resolution can also be configured alongside the target +FPS. Many
-webcams are limited in their +FPS capabilities, so even by providing high
-values it is possible that the camera does not reach more than about 30 +FPS.
-For online gaze tracking this does not matter much, as Gaze is slower than
-30 +FPS on a common MacBook Pro (@sec:computation-times). But better hardware
-(for example a dedicated GPU to improve Dlib's or caffe's speeds) might result
-in better computation times, possibly allowing Gaze to be faster.
+The camera's resolution can also be configured alongside the target +fps. Many
+webcams are limited in their +fps capabilities, so even by providing high
+values it is possible that the camera does not reach more than about 30 +fps.
+For online fixation tracking this does not matter much, as Gaze is slower than
+30 +fps on a common MacBook Pro which is detailed in @sec:computation-times.
+Still it means that Gaze will not be able to properly track saccades in online
+settings because its sampling rate is simply too slow. In offline settings,
+when analyzing pre-recorded video data, Gaze does not have these problems, as
+the frame rate is defined by the video material.
+The computation speed is additionally highly dependent on the image
+sizes, so smaller resolutions lead to faster computation times.
+Better hardware, for example a dedicated GPU to improve Dlib's or Caffe's
+speeds, might also result in better computation times, possibly allowing for
+faster performance of Gaze.
 
 Crucial settings for the camera to estimate distances properly are the sensor's
 size, its aspect ratio, and the focal length. These values are difficult to
 measure and many device vendors do not report them, as producing smaller
 sensors and cameras using higher resolutions is cheaper @citationneeded. Apple
 uses the iSight for their MacBook Pro. Its older versions uses a
-\SI{6.35}{\milli\meter} (\SI{1/4}{{inches}}) sensor [@Luepke2005] with an aspect
+\SI{6.35}{\milli\meter} sensor [@Luepke2005] with an aspect
 ratio of 4:3. The 15 inches MacBook Pro from mid 2015 used for Gaze's
 development has a default webcam resolution of \SI{1280 x 720}{{pixels}}, which
 leads to an aspect ratio of 16:9. Since the sensor size is unknown, the best
@@ -466,18 +495,19 @@ implementation detail is that `EyeLike` is implemented using OpenCV, while
 `PupilLocalization` uses Dlib. A very interesting difference is the choice of
 gradient functions. `EyeLike` uses a gradient function inspired by Matlab
 [@Hume2012], `PupilLocalization` uses the standard Sobel edge detector as Dlib
-implements it. For both implementations the `relative_threshold` can be set. It
+implements it. For both implementations the `relative_threshold` can be set. In both steps it
 is used to discard possible eye center locations if the gradient magnitude at
-the tested location is below $\mu_\text{mag} + \theta \sigma_\text{mag}$ (with
-$\theta$ being the `relative_threshold`, see @sec:pupil-localization), in both
-steps. By default the `PupilLocalization` with a relative threshold of $0.3$ is
+the tested location is below $\mu_\text{mag} + \theta \sigma_\text{mag}$ with
+the `relative_threshold` $\theta$, which is detailed in @sec:pupil-localization.
+By default the `PupilLocalization` with a relative threshold of $0.3$ is
 used.
 
 The final step of the default pipeline, `GazePointCalculation`, uses a simple
-model to map the detected pupils onto the 3D head model and perform a ray cast
-towards the screen (see @sec:geometric-model). For this to work, the position of
-the screen in relation to the head is determined first, that is the distance
-and direction from head to screen are estimated (see @sec:distance-estimation).
+model to map the detected pupils onto the 3D head model and performs a ray cast
+towards the screen as explained in @sec:geometric-model. For this to work, the
+position of the screen in relation to the head is determined first. As
+explained in @sec:distance-estimation, this is done by estimating the direction
+and distance between head and screen.
 
 
 ### Writing a custom pipeline step
@@ -487,12 +517,11 @@ start is to add some configuration to the `gaze.default.yaml`, it only needs
 to contain the type: `- type: NewStep`. When Gaze is used with such a
 "faulty" configuration, the `FallbackStep` will be used. It explains
 which changes have to be made to implement a custom pipeline step. The
-documentation for
-[`PipelineStep`](https://shoeffner.github.io/gaze/1.0/classgaze_1_1_pipeline_step.html)
-covers the procedure additionally. First, a new header file needs to be
+documentation for `PipelineStep` covers the procedure additionally. First, a
+new header file needs to be
 created. A template like @cl:newsteph is provided inside the documentation.
-For the new pipeline step, the names have to be adjusted (lines 1, 2, 13, 18,
-29) to represent the new type chosen above.
+For the new pipeline step, the names have to be adjusted in lines 1, 2, 13, 18,
+and 29 to represent the new type chosen above.
 In line 15 the visualization type can be changed, allowed choices
 are `Label`, `Image`, and `Perspective` visualizations. The choice determines
 which widget is used for the pipeline step inside the debug +GUI. The last
@@ -505,7 +534,7 @@ file. Similarly, the header file must be included in
 `init_pipeline()` function inside `src/gaze/gaze_tracker.cpp` which is seen in
 @cl:initpipeline. Now the new step is readily available.
 
-```{ .cpp file=assets/examples/pipeline_steps/new_step.h label=cl:newsteph caption="The template header for a new pipeline step. The names are modified to match the file name (`MY_STEP` becomes `NEW_STEP` in this example)." pathdepth=2 }
+```{ .cpp file=assets/examples/pipeline_steps/new_step.h label=cl:newsteph caption="The template header for a new pipeline step. The names are modified to match the file name, so `MY_STEP` becomes `NEW_STEP` in the example." pathdepth=2 }
 ```
 
 ### GazeCapture

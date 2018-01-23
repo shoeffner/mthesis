@@ -3,9 +3,11 @@
 
 ## Library implementation
 
+TOOD(shoeffner): Add more overall results and show that the implamentation is good.
+
 Gaze's goals to be easily integrable, extendable, to be +FOSS, well documented,
 and cross-platform are partly fulfilled. While it is sufficiently easy to
-integrate Gaze into software (@sec:using-gaze), it is not possible to extend
+integrate Gaze into software as shown in @sec:building-installing-and-using-gaze, it is not possible to extend
 Gaze with a custom pipeline step without building it from source. It would have
 been a bigger success if Gaze truly followed a multi-purpose plugin architecture
 to quickly prototype custom pipeline steps and test new models. But because Gaze
@@ -69,19 +71,19 @@ the thresholds is reported. A comparison of all three different errors, $\min,
 TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
 
 The accuracy of `PupilLocalization` is very good and reaches the same accuracy
-as @Timm2011. It performs faster than the implementation of `EyeLike` on the
+as @Timm2011. Inspecting the times in \Cref{tab:comptimes-BioID} it becomes clear that `PupilLocalization` performs faster than the implementation of `EyeLike` on the
 BioID dataset with a median computation time of \SI{1.838}{\milli\second},
 compared to `EyeLike`'s median computation time of \SI{24.780}{\milli\second}
-across the whole dataset (\Cref{tab:comptimes-BioID}). Even the maximum
+across the whole dataset. Even the maximum
 computation time is still on par, but for `PupilLocalization` this probably
 stems from resizing the lookup table. Still, since the eye size is a quadratic
 factor in the implementation, the computation time of `PupilLocalization`
 changes dramatically with bigger images, while `EyeLike`'s computation times
-are relatively stable. This can be seen in the pexels dataset, which contains
-bigger images (\Cref{tab:comptimes-pexels}): The median computation time is
+are relatively stable. This can be seen in \Cref{tab:comptimes-pexels} for the Pexels dataset, which contains
+bigger images: The median computation time is
 still better for the whole dataset, but while inspecting only results where
-both eye patches have a side length of more than \SI{50}{{pixels}} (the size to
-which `EyeLike` scales the eye patches to), `EyeLike` outperforms
+both eye patches have a side length of more than \SI{50}{{pixels}}, the size to
+which `EyeLike` scales the eye patches to, `EyeLike` outperforms
 `PupilLocalization` by a factor of about $4$.
 
 It can be concluded that for real time scenarios with modern image
@@ -91,8 +93,8 @@ importance, for example during offline analysis of recorded video data, Gaze's
 `PupilLocalization` is usually the better option. In general it should be
 noted, that with `PupilLocalization` and eyeLike [@Hume2012] there are two successful
 replications of the eye center detection approach by @Timm2011. Comparing the
-different accuracies per dataset (\Cref{tab:pexels-pupil-detection-accuracies}
-and \Cref{tab:BioID-pupil-detection-accuracies}), it becomes clear that the
+different accuracies per dataset which are listed in \Cref{tab:pexels-pupil-detection-accuracies}
+and \Cref{tab:BioID-pupil-detection-accuracies}, it becomes clear that the
 algorithm works better with the images from the BioID dataset, but still
 performs reasonably well on the pexels dataset.
 
@@ -100,9 +102,9 @@ performs reasonably well on the pexels dataset.
 ### Head pose estimation
 
 The head pose estimation works well in most cases. If a subject is looking
-straight into the camera (that is in the extreme case, when the nose points
+straight into the camera, in the extreme case, when the nose points
 directly towards the camera and the coronal plane is parallel to the screen
-plane), there are two equally likely possible solutions: the $z$ axis pointing
+plane, there are two equally likely possible solutions: the $z$ axis pointing
 outwards or inwards. In most cases this is not a problem, as it is unlikely
 that this happens. But sometimes this causes different results from frame to
 frame.
@@ -114,15 +116,15 @@ established that the +EPnP version of the `solvePnP` algorithm does not work as
 well as the iterative version, thus here the difference between the five and
 the 68 landmarks models will be shown.
 
-The problem with the 68 landmarks model is, that it is only allowed for
-research usage (@sec:license-issues). As an alternative
+The problem with the 68 landmarks model is, as stated in @sec:license-issues, that it is only allowed for
+research usage. As an alternative
 the five landmarks model by Dlib was tried using a custom 3D head model.
 Unfortunately the 3D head model used in Gaze [@Mallick2016] relies on the six
 landmarks pronasal, gnathion, exocanthions left and right, and the cheilions
 left and right, which are not all present in the five landmarks model. It uses
-the two exocanthions, the subnasal (the point below the nose), and the
+the two exocanthions, the subnasal -- the point below the nose -- and the
 endocanthions. To be able to estimate a head pose, a
-different 3D model is used (@cl:5lm-model, Model&nbsp;A). It is difficult to find
+different 3D model is used, Model&nbsp;A in @cl:5lm-model. It is difficult to find
 accurate relational measurements for these landmarks, so for the endocanthions
 the same model assumption is made as is for the eye ball centers, that they are
 offset towards the center by the length of the palpebral fissure [@Facebase].
@@ -154,10 +156,10 @@ model: [
 As can be seen in @fig:landmarkscomparison, this model is not sufficient. The
 reason is that four of its five points are located on the same line. Thus the
 vectors can no longer span three linear independent vectors. A few adjustments
-are tried to resolve this issue, for example using Model&nbsp;B (@cl:5lm-model)
+are tried to resolve this issue, for example using Model&nbsp;B in @cl:5lm-model
 which just moves the endocanthions about a centimeter outwards of the face.
-For some faces this works better, for others worse (see 0031 and 0044 in
-@fig:landmarkscomparison). It remains unclear whether the five landmarks can be
+For some faces like 0031 in @fig:landmarkscomparison this works slightly better, for others like 0044 worse.
+It remains unclear whether the five landmarks can be
 used with a proper model to estimate head poses accurately, or if the points
 really do not contain enough information to properly span three dimensions
 between them.

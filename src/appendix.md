@@ -11,7 +11,7 @@ are not important enough to appear in the main text.
 
 OpenCV offers a tool to store camera calibration settings which can be used for
 certain functions to improve their results. Gaze benefits from such functions,
-among others it uses `solvePnP` (@sec:head-pose-estimation). This section
+among others it uses `solvePnP` which is used to estimate the head pose in @sec:head-pose-estimation. This section
 explains briefly how to use the calibration tool. Please note that there is
 also a
 [tutorial](https://docs.opencv.org/3.0-beta/doc/tutorials/calib3d/camera_calibration/camera_calibration.html)
@@ -58,13 +58,13 @@ assumed to be \SI{0.0055}{\meter}. After measuring the angle of view, it can be 
 \alpha &= 2 \arctan \frac{d}{2f} \\
 f &= \frac{d}{2 \tan \frac{\alpha}{2}},
 \end{align}
-with $d$ being the sensor size (\SI{0.0055}{\meter} horizontal,
-\SI{0.0031}{\meter} vertical, see @sec:camera-and-screen-parameters), $\alpha$
-the angle of view and $f$ the focal length.
+with $d$ being the sensor size, either \SI{0.0055}{\meter} for horizontal calculations,
+or \SI{0.0031}{\meter} for vertical one. These values are taken from @sec:camera-and-screen-parameters. $\alpha$
+is the angle of view and $f$ is the focal length.
 To find $\alpha$ the camera is placed parallel to a wall, facing it. Then the
-distance $w$ between the left most and the right most points (horizontal;
-vertical: bottom and top) which are still visible on the camera image, and the
-distance between the camera and the wall $v$ are measured. Using trigonometry
+distance $w$ between the left most and the right most points
+which are still visible on the camera image, and the
+distance between the camera and the wall $v$ are measured for the horizontal calculations. For applying this to the vertical case, the top and bottom most points need to be used. Using trigonometry
 the angle of view can be calculated by substituting the values into
 \begin{align}
 \alpha = \arctan \frac{w}{2v}.
@@ -97,11 +97,11 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![Some example faces from the pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
-![Comparison of eyeLike (top) and Gaze's pupil detections. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
+![Comparison of eyeLike and Gaze's pupil detections, showing eyeLike's images above Gaze's. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
 
-![Comparison of solutions to the PnP problem using EPnP (left) and the iterative Levenberg--Marquardt optimization (right) in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
+![Comparison of solutions to the PnP problem using EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 
-![Comparison of solutions to the PnP problem using five landmarks (left and middle) and six (out of 68) landmarks. Pexels images 0000, 0025, 0031, 0044; cropped. See also @sec:head-pose-estimation-1](landmarkscomparison.png){ #fig:landmarkscomparison }
+![Comparison of solutions to the PnP problem using five landmarks and six out of 68 landmarks. The left column is Model A described in @sec:head-pose-estimation-1, the middle column Model B. Pexels images 0000, 0025, 0031, 0044; cropped.](landmarkscomparison.png){ #fig:landmarkscomparison }
 
 ![Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
 
