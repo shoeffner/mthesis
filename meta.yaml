@@ -11,6 +11,7 @@ abstract: src/abstract.tex
 acknowledgements: src/acknowledgements.tex
 header-includes:
     - \usepackage{siunitx}
+    - \def\Gaze{\textsf{Gaze}}
 header-files:
     - assets/math.tex
 panflute-filters:

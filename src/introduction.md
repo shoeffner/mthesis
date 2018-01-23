@@ -75,10 +75,10 @@ tracks subjects gazing at a computer screen and estimates where on the screen
 the subject gazes at. In the first part, different eye and gaze tracking
 solutions will be evaluated and an overview over the current state of the art
 established. Then the methods and models will be presented, starting with
-geometric model of gaze, the direction of view, and the architecture of Gaze,
+geometric model of gaze, the direction of view, and the architecture of \Gaze{},
 the library implementing the model. As an alternative to the
 geometric model, a pre-trained neural network by @Krafka2016 will be
-introduced and employed. After the introduction of the methods and models, the Gaze library
+introduced and employed. After the introduction of the methods and models, the \Gaze{} library
 will be described in more detail, to explain, how the geometric model is
 implemented and how the library can be used or extended. One example for such
 an extension is the incorporation of the pre-trained model of @Krafka2016.
@@ -112,7 +112,7 @@ middle of sentences, they will be placed inside footnotes.
 
 #### Photographs from Pexels
 
-During the development of Gaze, several photographs of faces differing in
+During the development of \Gaze{}, several photographs of faces differing in
 backgrounds, poses, lightings, and other conditions, are used. Unless otherwise
 noted, all photographs in this thesis are either taken by the author or
 downloaded from the website [Pexels](https://pexels.com). Pexels releases all images into the public domain, using the +CC0 license. This allows
@@ -128,7 +128,7 @@ the thesis source code's `assets/examples` directory. It should become clear
 from the context, whichever is correct. In case you did not receive this thesis
 in a print format with an attached +SDcard, you can find the thesis' source
 material online at https://github.com/shoeffner/mthesis and the pdf version at
-https://shoeffner.github.io/mthesis. The source code for the Gaze library is
+https://shoeffner.github.io/mthesis. The source code for the \Gaze{} library is
 available at https://github.com/shoeffner/gaze and its documentation can
 be found at https://shoeffner.github.io/gaze/latest.
 

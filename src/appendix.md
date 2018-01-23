@@ -3,14 +3,14 @@
 
 # Additional information
 
-This chapter contains information to help reproduce the results of Gaze but
+This chapter contains information to help reproduce the results of \Gaze{} but
 are not important enough to appear in the main text.
 
 
 ## Calibrating OpenCV
 
 OpenCV offers a tool to store camera calibration settings which can be used for
-certain functions to improve their results. Gaze benefits from such functions,
+certain functions to improve their results. \Gaze{} benefits from such functions,
 among others it uses `solvePnP` which is used to estimate the head pose in @sec:head-pose-estimation. This section
 explains briefly how to use the calibration tool. Please note that there is
 also a
@@ -42,7 +42,7 @@ variations can occur depending on page orientation, zoom levels, margins,
 printer settings, and other factors. In the example the printed version's
 squares' side lengths were \SI{1.5}{\milli\meter}. After a successful calibration,
 `camera_calib.yml` will be written into the directory. It can be used to
-configure Gaze, as explained in @sec:camera-and-screen-parameters.
+configure \Gaze{}, as explained in @sec:camera-and-screen-parameters.
 
 ```{ .bash caption="Using the OpenCV calibration tool to calibrate the camera." label=cl:cvcalibcall }
 ./cpp-example-calibration -h=6 -w=9 -n=10 -d=1000 -s=0.0015 -o=camera_calib.yml
@@ -52,7 +52,7 @@ configure Gaze, as explained in @sec:camera-and-screen-parameters.
 ## Determining the focal length
 
 To find the effective focal length of a camera the angle of view needs to be
-measured, and the sensor size has to be known. For Gaze's examples the sensor width is
+measured, and the sensor size has to be known. For \Gaze{}'s examples the sensor width is
 assumed to be \SI{0.0055}{\meter}. After measuring the angle of view, it can be used to solve [@Wikipedia:aov]
 \begin{align}
 \alpha &= 2 \arctan \frac{d}{2f} \\
@@ -69,7 +69,7 @@ the angle of view can be calculated by substituting the values into
 \begin{align}
 \alpha = \arctan \frac{w}{2v}.
 \end{align}
-For the examples in Gaze the focal length used is \SI{0.01}{\meter}, which is
+For the examples in \Gaze{} the focal length used is \SI{0.01}{\meter}, which is
 the approximate mean of the measured values for the horizontal and vertical
 focal lengths ($f_h, f_v$), measured using a folding rule at a distance of
 \SI{1.04}{\meter} for a MacBook Pro:
@@ -97,7 +97,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![Some example faces from the pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
-![Comparison of eyeLike and Gaze's pupil detections, showing eyeLike's images above Gaze's. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
+![Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
 
 ![Comparison of solutions to the PnP problem using EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 
