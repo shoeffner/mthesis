@@ -532,7 +532,7 @@ allow for reproducibility of the results.
 
 The first dataset, pexels, is a custom dataset with 120 images from
 [Pexels](https://pexels.com). These images are released under the CC0
-license [@CC0License], which allows to reuse, modify and redistribute them. The
+license [@CC0License], which allows to reuse, modify, and redistribute them. The
 images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
 the smallest image measures \SI{640x332}{{pixels}}, the biggest
 \SI{640x1137}{{pixels}}. Most images are portrait photographs using different
@@ -564,11 +564,21 @@ It contains 1521 gray images with a fixed resolution of \SI{384x286}{{pixels}}.
 The BioID dataset features only 23 different people with multiple images of
 each. Thirty arbitrary example photos can be found in @fig:bioid_examples.
 The dataset is often used to compare face and pupil detection algorithms [@Timm2011]
-and \Gaze{}'s implementation will be compared to the original implementation by
+and \Gaze{}'s implementation is be compared to the original implementation by
 @Timm2011.
 
 As described in @sec:an-alternative-approach-itracker, the iTracker is trained
 using the GazeCapture dataset [@Krafka2016]. It includes photos of \num{1450} subjects
 and almost 2.5 million frames. Unfortunately the download of the raw data is
 hidden behind a registration, but @Krafka2016 describe the dataset thoroughly
-and give some example images.
+and give some example images. The data was recorded using iPhones and iPads and
+contains images featuring various backgrounds, head poses, accessories, and
+lighting conditions.
+
+The remaining datasets are those Dlib's shape detectors are based on. One is
+the 300 Faces In-The-Wild challenge's dataset [@Sagonas2013], which consists of
+600 images with 68 landmark annotations, which were produced
+semi-automatically. The other dataset is the dlib 5-point face landmark
+dataset, containing 7198 faces. It was labeled using only five landmarks by King.
+Both datasets are only used indirectly in \Gaze{}, as only the models are used
+to track facial landmarks and determine the head pose.
