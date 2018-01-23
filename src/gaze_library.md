@@ -1,11 +1,21 @@
 # Gaze -- A gaze tracking library
 
-Gaze is a software library to perform gaze tracking in relaxed laboratory
-conditions. *Relaxed* laboratory conditions means that, unlike for other eye
-tracking solutions, no special setup is needed. Gaze works with normal lighting
-conditions and just a laptop with an attached webcam in front of the
-participant. It was programmed with many best practices for +FOSS in mind and
-tries to provide a transparent +API to track user gaze using a common webcam.
+Gaze is the software library developed during this thesis. It is supposed to
+perform gaze tracking in relaxed laboratory conditions. *Relaxed* laboratory
+conditions means that, unlike for other eye tracking solutions, no special
+setup or calibration is needed. Gaze works with normal lighting conditions and
+just a laptop with an attached webcam in front of the participant. It was
+programmed with many best practices for +FOSS in mind and tries to provide a
+transparent +API to track user gaze using a common webcam.
+
+This chapter gives an overview over the library and its features and provides
+detailed instructions on how to build and use it. The level of detail for the
+instructions is very high to also give people without a strong
+background in software development enough information to compile and run it.
+Because Gaze is +FOSS, this should enable many interested researchers to
+reproduce the results presented in @chap:results-evaluations-and-comparisons.
+Or they can try out other methods by using their own configurations and
+implementations, leveraging Gaze's modular architecture and extendability.
 
 
 ## Features of Gaze
@@ -24,19 +34,12 @@ The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
 estimates the head orientation, and also estimates the distance between camera
 and subject. From these measured and estimated information, Gaze calculates an
 approximate gaze point.
-Gaze has been developed using macOS Sierra and macOS High Sierra, but works on
-Ubuntu 14.04 LTS as well[^nowindows].
-
-[^nowindows]: macOS Sierra has been used in the early development process, but
-  after the macOS High Sierra update in September 2017, development was done
-  under MacOS High Sierra. Ubuntu 14.04 LTS v1711 was not tested live, but
-  built and unit-tested on the Semaphore CI service. Unfortunately Gaze was not
-  tested on a Microsoft Windows system.
+Gaze has been developed using macOS High Sierra, but builds on Ubuntu 14.04 LTS as well.
 
 
 ## Free and open-source software
 
-Gaze is free and open-source, its source code can be found on
+Gaze is +FOSS, its source code can be found on
 [GitHub](https://github.com/shoeffner/gaze). That means it is publicly available and the source code
 and software can be modified and redistributed without any limitations. It is
 released under the MIT License, which is open and permissive: It allows
@@ -52,8 +55,8 @@ done because the author strongly believes that Open Source and Open Access are
 important for research. By allowing everyone to use and modify the software and
 to access the accompanying documentation and thesis, other researchers can
 verify and reproduce the results. Other individuals can get all available
-information about the project without having to pay for a journal or buying a
-software license. In case they are interested in the project, they can improve
+information about the project without having to pay for a license.
+In case they are interested in the project, they can improve
 it and contribute their modifications back, or build their own software out of
 it. Especially due to the nature of thesis projects, it is unlikely that the
 author will keep working on the project, but potential other authors do not
@@ -61,30 +64,28 @@ have to start from scratch and can use the code.
 
 Positive side effects of releasing Gaze's source code publicly are that the
 author tries to follow stricter coding guide lines, and provides a detailed source code
-documentation[^docslink].
-
-[^docslink]: [https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze)
+[documentation](https://shoeffner.github.io/gaze).
 
 
 ### Development process
 
-A good practice is to manage code (and other projects) with a +VCS. Version
+A good practice is to manage code and other projects with a +VCS. Version
 control allows to roll back changes if needed, retains a change history and,
 since it can usually be synchronized between multiple devices, provides a
-simple way to create backups. The author's +VCS of choice for Gaze is
+simple way to create backups. The +VCS used for Gaze is
 [Git](https://git-scm.com), which is very popular among software developers:
 @stosurvey2017 finds in the [stackoverflow Developer Survey
 2017](https://insights.stackoverflow.com/survey/2017), that about \SI{70}{{\%}} of
-30,730 responses claim to be using (at least) Git for version control (followed
-by [Subversion](https://subversion.apache.org/) with about \SI{10}{{\%}}). Of course
+30,730 responses claim to be using (at least) Git for version control, followed
+by [Subversion](https://subversion.apache.org/) with about \SI{10}{{\%}}. Of course
 this data has to be taken into account
-carefully, as most respondents are in some way users of the website
-[stackoverflow.com](https://stackoverflow.com), a programming related questions
+carefully, as most respondents are in some way users of
+[Stack Overflow](https://stackoverflow.com), a programming related questions
 and answers website. But the results mean that many people are already
 familiar with Git and can easily join the project and collaborate without
 having to overcome high entrance barriers like learning a new +VCS.
 
-A typical workflow with Git starts with cloning the code
+An exemplary workflow with Git starts with cloning the code
 repository, that means downloading the latest source code. Then, for each
 feature to be added to the project, these steps are performed:
 
@@ -93,9 +94,8 @@ feature to be added to the project, these steps are performed:
 2. Modify the code in the branch to build the feature.
 3. Create a commit, which is comparable to a checkpoint to which you can always
    return. It also gives the code a unique version number, since a commit
-   creates a unique hash for the current code[^hashadvantages].
-4. Publish the commit to the original host[^onlydiffpushed] (this is called
-   pushing).
+   creates a unique hash for the current code.
+4. Publish the commit to the original host, which is called pushing.
 5. After verifying that the commit does not break the functionality and follows
    the project's coding standards, the changes can be merged into the
    original code.
@@ -106,13 +106,6 @@ beginning. Gaze does not use a specific develop and release branch, instead
 finished features get pushed to the master branch directly, which makes the
 process look more like a traditional trunk-based workflow, where all features
 are developed and pushed onto a common branch, the so called trunk or master.
-
-[^hashadvantages]: Having a unique hash for a code has other advantages as
-  well, for example it can be used to verify the integrity of source code.
-  While for SHA1, the algorithm behind git's hash creation, a hash collision
-  has been found [@Stevens2017], Git takes steps against it.
-[^onlydiffpushed]: Technically, only the differences between the original and
-  the changed version are submitted, plus some meta information.
 
 Gaze is published on the source code hosting service
 [GitHub](https://github.com). When a new commit is
@@ -130,10 +123,9 @@ If a commit updates the master branch, Semaphore performs an additional step.
 It builds the documentation for Gaze and pushes it to a specially named branch,
 the `gh-pages` branch. This branch is orphaned, which means it has no direct
 relation to the other source code. GitHub uses this special branch for one of
-its features: static page hosting. All content on the `gh-pages` branch is
-published at the +URL
-[https://shoeffner.github.io/gaze](https://shoeffner.github.io/gaze).
-This way the documentation is always available online and
+its features: static page hosting. All contents on the `gh-pages` branch are published
+at a specific +URL. This way, the [source code
+documentation](https://shoeffner.github.io/gaze) is always available online and
 contains the latest changes. "Always" is a slight simplification, as failures
 can always happen: GitHub has a +SLA uptime of \SI{99.95}{{\%}} for its
 business customers. Since Gaze is only hosted as a free repository, this +SLA
@@ -143,95 +135,84 @@ available most of the time for free users as well.
 
 ### License issues
 
-While Gaze is licensed under the +MIT License, it can not be used for commercial
-applications at the time of writing this thesis. This is because the license of
-the training data [@Sagonas2016] for the 68 face landmarks' model [@King2009]
-(`shape_predictor_68_face_landmarks.dat`), which is used for the face and
-landmark detection, does not allow commercial uses. On the website accompanying
+While Gaze is licensed under the MIT License, it can not be used for commercial
+applications at the time of writing this thesis, although the license gives
+this impression. This is because the license of the training data
+[@Sagonas2016] for the 68 face landmarks' model
+`shape_predictor_68_face_landmarks.dat` [@King2009], which is used for the face
+and landmark detection, does not allow commercial uses. On the website accompanying
 the dataset it is explicitly stated that "the annotations are provided for
 research purposes ONLY (NO commercial products)"[^quoteibug], and King
-emphasizes this in the `README.md` accompanying the model:
+emphasizes in the
+[`README.md`](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md)
+accompanying the model that the derived model falls under the same license.
 
 [^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/), Accessed: 2018-01-10.
-
-> The license for this dataset excludes commercial use and Stefanos Zafeiriou,
-> one of the creators of the dataset, asked me to include a note here saying
-> that the trained model therefore can't be used in a commerical product.
->
-> \raggedleft --- <cite>Davis King, [README.md](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md), Accessed: 2018-01-10.</cite>
 
 A similar notice accompanies Gaze. To avoid problems and allow commercial
 applications, initially the five landmarks model was tried to be incorporated into Gaze.
 But the five landmarks selected by King do not perform well to estimate the
-head pose in 3D, so the 68 landmarks model was chosen, resulting in this
+head pose in 3D as is explained in @sec:head-pose-estimation-1. Thus the 68 landmarks model was chosen, resulting in this
 license disagreement.
 
 The same licensing problem arises when using the iTracker extension.
 The pre-trained model is released under a custom license which also does not
-permit non-research usage:
-
-> The Licensed Material will only be used for research
-> purposes and will not be used nor included in commercial applications in any
-> form (such as original files, encrypted files, files containing extracted
-> features, models trained on dataset, other derivative works, etc).
->
-> \raggedleft --- <cite>Aditya Khosla, [License agreement for use of GazeCapture database and iTracker models](https://github.com/CSAILVision/GazeCapture/blob/03e687b039a822e7d5bc70673f101def0cba7255/LICENSE.md#section-2--scope), Accessed 2018-01-13.</cite>
+permit non-research usage, as Khosla states in the repositories
+["License agreement for use of GazeCapture database and iTracker models"](https://github.com/CSAILVision/GazeCapture/blob/03e687b039a822e7d5bc70673f101def0cba7255/LICENSE.md#section-2--scope).
+This usage restriction is surprising: The paper presenting the dataset and
+the models is called "Eye Tracking for Everyone" [@Krafka2016], a bold claim
+which does not seem to hold.
 
 
 ## Setting up Gaze
 
 Reproducing the results achieved with Gaze is possible by following a couple of
 setup steps. The source code should be downloaded, built, and tested using one
-of the provided example programs, or a custom test program. Gaze's source code
-can be found at
-[https://github.com/shoeffner/gaze](https://github.com/shoeffner/gaze).
+of the provided example programs, or a custom test program.
 
-Gaze has some dependencies which need to be installed before building Gaze. A
-C++17 compiler is inevitable, as Gaze uses
-[`shared_mutex`](http://en.cppreference.com/w/cpp/thread/shared_mutex). For
-example on macOS High Sierra Clang 9 compiles Gaze properly,
-for Ubuntu 14.04 g++ 7 works well[^testedonsemaphore].
-Additional requirements are OpenCV (3.3.1), CMake (3.10.0-rc3), and Dlib
-(v19.8)[^hardrequirements].
-
-[^testedonsemaphore]: Tested only on Semaphore.
-[^hardrequirements]: The required versions for CMake and Dlib are minimal
-  requirements, for OpenCV some lower versions might work as well (but are
-  untested). CMake requires a version 3.10 to find the correct boost libraries
-  needed for one example program, Dlib contains a bug fix in version 19.8 which
-  was made for the development of this thesis
-  ([Dlib pull request 957](https://github.com/davisking/dlib/pull/957)).
+Gaze builds on other free software and thus has some pre-requisites which need
+to be fulfilled before building Gaze. A C++17 compiler is inevitable, as Gaze uses
+`std::shared_mutex` from the C++ standard library, which was introduced in the
+[C++17 standard](http://en.cppreference.com/w/cpp/thread/shared_mutex). For
+example on macOS High Sierra this can be Clang 9, which compiles Gaze properly,
+for Ubuntu 14.04 g++7 works well, as was tested on Semaphore CI's build system.
+Additional requirements are OpenCV 3.3.1, CMake 3.10.0, boost 1.55.0, and Dlib
+version 19.8. Usually different versions of the software dependencies should
+work fine, but for Dlib version 19.8 is a hard minimal requirement, as it
+contains a [bug fix](https://github.com/davisking/dlib/pull/957) for a bug
+discovered during the Gaze's development.
 
 
-### Building and installing Gaze
+## Building, installing, and using Gaze
 
-Under normal circumstances, building Gaze just requires two steps (from the
-`gaze` directory):
+Building Gaze just requires two steps from the
+`gaze` directory as is shown in @cl:buildgaze.
+The `configure.sh` script in line 1 executes CMake to create the
+required build files. Afterwards `make` compiles the project. To install Gaze, `make
+install` can be issued as a followup command; it installs all header files and
+the library to the proper system locations.
 
-```{ .bash caption="Building Gaze." }
+```{ .bash caption="Building Gaze." label=cl:buildgaze }
 ./configure.sh
 cd build
-make -j8
+make
 ```
 
-The `configure.sh` script executes [CMake](https://cmake.org/) to create the
-needed build files. Afterwards `make` compiles the project. Adding `make
-install` as a followup command installs all header files and the library to the
-proper system locations.
-
-
-## Using Gaze
-
 Gaze is a library, so it can not be used alone but only by incorporating it
-into other programs. A minimal program to integrate gaze might look like
-this:
+into other programs. A minimal program to integrate Gaze is demonstrated in
+@cl:gaze_simple.cpp. The program `gaze_simple` will start the gaze tracker in
+line 8 and track twenty webcam frames during the `for` loop in lines 9--12. The
+only additional prerequisite is to have the
+`shape_predictor_68_face_landmarks.dat` in the same directory as the executable
+`gaze_simple`.
+To compile the program, only a short CMake configuration file as shown in
+@cl:cmakegazesimple is needed. It configures the compiler to link the
+executable to Dlib, OpenCV and Gaze by searching the library locations in lines
+5--7 and linking against them in lines 10--11. By calling `cmake .. && make`
+from a `build` directory next to the source file, the program will be built.
 
 ```{ .cpp file=assets/examples/gaze_simple/gaze_simple.cpp pathdepth=2 .caption label=cl:gaze_simple.cpp }
 ```
-
-The program `gaze_simple` (see @cl:gaze_simple.cpp) will start the gaze tracker and track twenty webcam frames,
-given the `shape_predictor_68_face_landmarks.dat` is next to the executable.
-To compile the program, only a short CMake configuration file like @cl:cmakegazesimple is needed.
 
 ```{ .cmake file=assets/examples/gaze_simple/CMakeLists.txt pathdepth=2 .caption label=cl:cmakegazesimple }
 ```
@@ -241,40 +222,40 @@ To compile the program, only a short CMake configuration file like @cl:cmakegaze
 
 The Gaze repository contains two example programs:
 `simple_tracking` and `where_people_look`. To compile and use them, it is
-necessary to run the configure step again, this time using the `--examples`
-option (@cl:configureshexamples).
-
-```{ .bash caption="Building Gaze usage examples." label=cl:configureshexamples }
-./configure.sh --examples
-cd build
-make -j8
-```
-
-After building the examples using `make`, two executables can be found in the
+necessary to run the configure step in @cl:buildgaze again, this time appending the `--examples`
+option. After building the examples using `make`, two executables can be found in the
 `build` directory.
 
-The simple tracker just opens up a black screen containing a green cross which
-denotes the current gaze point, alongside the gaze tracker's debug +GUI (@fig:gazedebuggui). The
-debug view can be used to visualize the various pipeline steps and inspect the
-computation times each step needs.
+The `simple_tracking` program demos the debug +GUI shown in @fig:gazedebuggui.
+The debug view can be used to visualize Gaze's various pipeline steps and
+inspect the computation times each step needs. The tab bar at the top of the
+window can be used to switch between the different pipeline step
+visualizations. The debug +GUI uses a tabbed bar to only visualize one step at
+a time, as drawing many +GUI widgets at once is a computationally expensive
+process. Additionally to the debug +GUI, a small window showing the current
+measured gaze point using a green cross on a black background is shown when
+using `simple_tracking`. It also implements the main loop of the program: As
+soon as it is closed, Gaze will close its debug +GUI as well and stop tracking.
 
-![Gaze's debug +GUI. On the left the pipeline steps are listed along with their
-computation times in \si{\micro\second}.](gazedebuggui.png){#fig:gazedebuggui}
+![Gaze's debug GUI. On the left the pipeline steps are listed along with their
+computation times in \si{\micro\second}. The tabs can be used to switch between
+pipeline step visualizations.](gazedebuggui.png){#fig:gazedebuggui}
 
 TODO(shoeffner): Replace photograph with less distracting one (maybe convert image to grayscale)
 
-Where people look is a re-implementation of @Judd2009's experiment using Gaze.
-In their paper, @Judd2009 investigate salient regions of images. Therefor they
-designed an experiment in which subjects were presented with 1000 randomly
-chosen images. Their task was to just view the image for three seconds.
-Each of the images was followed by gray screen for one second, in which
-subjects were asked to fixate the center of the screen. In the original task,
+In their paper, @Judd2009 investigate salient regions of images. The program
+`where_people_look` is a re-implementation of @Judd2009's experiment using
+Gaze. In then experiment, subjects are presented with 1000 randomly
+chosen images. Their task is just to freely view each image for three seconds.
+Each of the images is followed by gray screen for one second, in which
+subjects are asked to fixate the center of the screen. In the original task,
 the experiment was split into two blocks of 500 images each. The
 re-implementation does not perform this split, as it is mostly used as an
 example on how Gaze can be integrated into typical experiments. To run the
 experiment, first the subject identifier must be entered and the directory
-containing the stimuli needs to be selected. Then a gray screen opens up and
-when the subject is ready the space key starts the experiment.
+containing the stimuli needs to be selected. The stimuli are downloaded during
+the build process. After selecting the stimuli, a gray screen opens up and
+once the subject is ready, the experiment can be started by pressing the space key.
 
 
 ### Gaze's application programming interface
@@ -286,26 +267,28 @@ a behavior driven way. The tasks in \Cref{tab:gazeapi} were observed during the
 implementation of `where_people_look` and implemented in Gaze.
 
 
-Table: Functions of the Gaze gaze tracker and their corresponding +API methods. \label{tab:gazeapi}
+Table: Functions of the Gaze gaze tracker and their corresponding API methods. \label{tab:gazeapi}
 
-Function                    +API method(s)
---------------------------- -----------------------------------------------------------
-Initialization              `init(std::string, bool)`, `GazeTracker(std::string, bool)`
-Calibration                 `calibrate()`
-Trial annotation            `start_trial(std::string)`, `stop_trial()`
-Result storage              None
-Live access gaze locations  `std::pair<int, int> get_current_gaze_point()`
+Function                          API method(s)
+--------------------------------- -----------------------------------------------
+\multirow{2}{*}{Initialization}   `void init(std::string, bool)`
+                                  `GazeTracker(std::string, bool)`
+Calibration                       `void calibrate()`
+\multirow{2}{*}{Trial annotation} `void start_trial(std::string)`
+                                  `void stop_trial()`
+Result storage                    None
+Latest gaze location              `std::pair<int, int> get_current_gaze_point()`
 
 The initialization of the `GazeTracker` is done by either calling the default
 constructor followed by its `init()` function, or by using the two argument
-constructor directly. In the example above (@cl:gaze_simple.cpp), the two
+constructor directly. In @cl:gaze_simple.cpp, the two
 argument constructor is called with the subject identifier `"1"` and the
 default value `false` for the debug flag. The subject identifier will be used
 to store results on the hard drive. The debug flag decides whether the debug
 +GUI (@fig:gazedebuggui) should be opened (`true`), or not. This is mostly of
 interest during the development process and not during actual experiments,
 which is why the default is `false`. If the debug +GUI should be shown when
-starting the program but not during the experiment, it can be simply be opened
+starting the program, but not during the experiment, it can be simply be opened
 by setting the flag to `true`. When the window is no longer needed, it can
 be closed, without interfering any other windows needed for the experiment and
 without interfering with Gaze's functionality.
@@ -381,56 +364,48 @@ size, its aspect ratio, and the focal length. These values are difficult to
 measure and many device vendors do not report them, as producing smaller
 sensors and cameras using higher resolutions is cheaper @citationneeded. Apple
 uses the iSight for their MacBook Pro. Its older versions uses a
-\SI{0.00635}{\meter} (\SI{1/4}{{inches}}) sensor[^cnetisight] with an aspect
+\SI{6.35}{\milli\meter} (\SI{1/4}{{inches}}) sensor [@Luepke2005] with an aspect
 ratio of 4:3. The 15 inches MacBook Pro from mid 2015 used for Gaze's
 development has a default webcam resolution of \SI{1280 x 720}{{pixels}}, which
 leads to an aspect ratio of 16:9. Since the sensor size is unknown, the best
-available approximation is to use the old known value, \SI{0.00635}{\meter}. It
-follows that the sensor size is \SI{0.0055 x 0.0031}{\meter}, although it is
+available approximation is to use the old known value, \SI{6.35}{\milli\meter}. It
+follows that the sensor size is \SI{5.5 x 3.1}{\milli\meter}, although it is
 likely that they use a different size in reality, since the aspect ratio
 changed. The focal length can be measured manually if it is not provided by the
-manufacturer (see @sec:determining-the-focal-length).
-
-[^cnetisight]: https://www.cnet.com/products/apple-isight/specs/, Accessed: 2018-01-09.
-
+manufacturer; this is shown in @sec:determining-the-focal-length.
 
 Additionally to setting the sensor parameters, the webcam can be calibrated for
 the use with OpenCV. Calibration in this case means to estimate the camera
 matrix and distortion coefficients of a camera, which can be used to undistort
 the images. Gaze does not directly undistort the images to process them
-further, but algorithms like
-[`cv::solvePnP`](https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d),
+further, but algorithms like `cv::solvePnP`,
 which is used by Gaze, benefit from exact values.
 OpenCV provides a calibration tool which
-outputs the needed settings (For detailed instructions on how to use it, please
-refer to the Appendix, @sec:calibrating-OpenCV). Parts of the resulting output
-file (@cl:cameracalibyml) need to be merged into the `gaze.yaml`, namely the
+outputs the needed matrices. Detailed instructions on how to use it
+are inside the appendix in @sec:calibrating-OpenCV. Parts of the resulting output
+file in @cl:cameracalibyml need to be merged into the `gaze.yaml`, namely the
 sections `camera_matrix` and `distortion_coefficients`. They need to be placed
 into the section `camera` inside the `meta` part. An example is already given
-inside the `gaze.default.yml` file (@cl:gazedefmeta).
+inside the `gaze.default.yml` file in @cl:gazedefmeta.
 
 Note that the calibration is not necessary for testing and development
 purposes, as it is possible to use an estimated camera matrix $C$ without any
-distortions. According to @Mallick2016, a good approximation is
+distortions. According to @Mallick2016, a good approximation can be made using
+the image width $w$ and its height $h$. For the example configuration of a 16:9
+image with dimensions \SI{640 x 360}{{pixels}}, a possible estimated camera
+matrix using the approximation would be
 \begin{align}\def\arraystretch{2.2}
 C = \left(\begin{array}{ccc}
 w & 0 & \dfrac{w}{2} \\
 0 & w & \dfrac{h}{2} \\
 0 & 0 & 1
-\end{array}\right),
-\end{align}
-with $w$ being the image width and $h$ the image height in pixels. Thus for the
-example configuration of a 16:9 image with dimensions \SI{640 x 360}{{pixels}},
-a possible estimated camera matrix would be
-\begin{align}
-C = \left(\begin{array}{ccc}
+\end{array}\right)
+= \left(\begin{array}{ccc}
 640 & 0 & 320 \\
 0 & 640 & 180 \\
 0 & 0 & 1
 \end{array}\right).
 \end{align}
-
-TODO(shoeffner): Should I call out the unused `target` parameters?
 
 
 #### Pipeline steps
@@ -438,8 +413,8 @@ TODO(shoeffner): Should I call out the unused `target` parameters?
 The pipeline step order as well as each individual pipeline step can be
 configured using various options. This is useful as for example the different
 implementations of @Timm2011 can be exchanged without recompiling Gaze by just
-changing the configuration file. The default pipeline configuration can again
-be found inside the `gaze.default.yaml` (@cl:gazedefpipeline).
+changing the configuration file. The default pipeline configuration can
+be found inside the `gaze.default.yaml` as well, it is shown in @cl:gazedefpipeline.
 
 ```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefpipeline caption="The default pipeline configuration block for Gaze." .stripcomments lines=61-200 }
 ```
@@ -456,25 +431,29 @@ needed, thus this is the default. The setting can also be set to an image or
 video path, allowing to analyze static images and video files as needed.
 
 The `FaceLandmarks` step employs Dlib's +HoG classifier with a pre-trained
-model (see @sec:detecting-faces-and-eyes). The model path can be adjusted using the `model`
-attribute. By default it is `shape_predictor_68_face_landmarks.dat`, which is
-the model file downloaded during Gaze's build process. The path has to be
-specified relative to the model directory.
+model as explained in @sec:detecting-faces-and-eyes. The model path can be
+adjusted using the `model` attribute. By default it is
+`shape_predictor_68_face_landmarks.dat`, which is the model file downloaded
+during Gaze's build process. The path has to be specified relative to the model
+directory.
 
 To estimate the head pose the `HeadPoseEstimation` step is configured with
 an abstract 3D model of the head. The model is defined using the three
 parameters `landmark_indices`, `model`, and `model_scale`. The landmark indices
 are a list of integers corresponding to the landmarks of @Sagonas2016, but with
 an offset of $-1$ since @Sagonas2016 use 1-based indexing, while Dlib uses 0-based
-indexing. The default model uses six landmarks (see @sec:detecting-faces-and-eyes).
+indexing. The default model uses six landmarks as outlined in
+@sec:detecting-faces-and-eyes, but in @sec:head-pose-estimation-1 some other
+models have been tried.
 
 The steps `EyeLike` and `PupilLocalization` are fully exchangeable since both
-are implementations of @Timm2011 (`EyeLike` is a copy of Hume's code eyeLike
-[@Hume2012], hence the name. It was adjusted to fit into Gaze). They have some
-slight implementation differences. `EyeLike` scales the image patches
-containing the eyes to a specific size, while `PupilLocalization` avoids this.
-Usually this means that if a subject sits closer to the camera (and thus the
-eyes are larger), `EyeLike` will perform faster, while `PupilLocalization` is
+are implementations of @Timm2011. `EyeLike` is a copy of Hume's code eyeLike
+[@Hume2012], hence the name; It was adjusted to fit into Gaze. The two steps
+have some slight implementation differences. `EyeLike` scales the image patches
+containing the eyes to a specific size of \SI{50x50}{{pixels}}, while
+`PupilLocalization` avoids this.
+Usually this means that if a subject sits closer to the camera and thus the
+eyes are larger, `EyeLike` will perform faster, while `PupilLocalization` is
 much faster for subjects which are further away from the camera. The precision
 for both implementations is similar, but depending on whether the scale affects
 precision or not, either one can outperform the other in certain circumstances.
@@ -505,25 +484,40 @@ and direction from head to screen are estimated (see @sec:distance-estimation).
 
 To add a new pipeline step to Gaze, a few changes have to be made. The best
 start is to add some configuration to the `gaze.default.yaml`, it only needs
-to contain the type: `- type: NewTypename`{.changelog}. When Gaze is used with such a
+to contain the type: `- type: NewStep`. When Gaze is used with such a
 "faulty" configuration, the `FallbackStep` will be used. It explains
 which changes have to be made to implement a custom pipeline step. The
 documentation for
 [`PipelineStep`](https://shoeffner.github.io/gaze/1.0/classgaze_1_1_pipeline_step.html)
 covers the procedure additionally. First, a new header file needs to be
-created. A template (@cl:newsteph) is provided inside the documentation,
-only names have to be adjusted, the visualization type needs to be changed,
-and documentation for the `process` and `visualize` methods should be added.
-After that, a new implementation file (e.g. `new_step.cpp`) has to be added
+created. A template like @cl:newsteph is provided inside the documentation.
+For the new pipeline step, the names have to be adjusted (lines 1, 2, 13, 18,
+29) to represent the new type chosen above.
+In line 15 the visualization type can be changed, allowed choices
+are `Label`, `Image`, and `Perspective` visualizations. The choice determines
+which widget is used for the pipeline step inside the debug +GUI. The last
+change inside the header file is to add  documentation for the `process` and
+`visualize` methods.
+After that, a new implementation file, here `new_step.cpp`, has to be added
 and referenced inside the `src/gaze/CMakeLists.txt` as an additional source
 file. Similarly, the header file must be included in
 `include/gaze/pipeline_steps.h`. The last step is to add a case to the
-`init_pipeline()`[^inipipprivateonly] function inside
-`src/gaze/gaze_tracker.cpp` (see @cl:initpipeline).
+`init_pipeline()` function inside `src/gaze/gaze_tracker.cpp` which is seen in
+@cl:initpipeline. Now the new step is readily available.
 
-[^inipipprivateonly]: This function is only a private member of the class
-  `GazeTracker`, which is why its documentation is not included in the +HTML
-  output.
-
-```{ .cpp file=assets/gaze/src/gaze/gaze_tracker.cpp label=cl:initpipeline caption="The `init_pipeline()` method. To extend it properly, a new `else if` case has to be added." lines=71-99 pathdepth=3 }
+```{ .cpp file=assets/examples/pipeline_steps/new_step.h label=cl:newsteph caption="The template header for a new pipeline step. The names are modified to match the file name (`MY_STEP` becomes `NEW_STEP` in this example)." pathdepth=2 }
 ```
+
+### GazeCapture
+
+`GazeCapture` is one custom pipeline step which is more complicated. Instead of
+the few changes in @sec:writing-a-custom-pipeline-step, it requires additional
+compilation steps and depends on Caffe 1.0. Since it is also not completely
+straight forward to compile it and still crashes from time to time due to some
+memory access errors, it is disabled by default. It can be enabled by
+configuring Gaze using CMake by setting the flag `-DWITH_CAFFE=ON`.
+The build process will then fetch Caffe and compile it, so that Gaze can link
+against it and it can be employed inside the pipeline.
+When `GazeCapture` is used inside the pipeline, it requires only the `SourceCapture`
+and `FaceLandmarks` pipeline steps to come before it. It performs predictions
+using the iTracker +CNN outlined in @sec:an-alternative-approach-itracker.

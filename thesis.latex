@@ -5,11 +5,12 @@
 %
 % Written by Sebastian Höffner <shoeffner@uos.de>
 %
-\documentclass[a4paper,twoside,openright]{report}
+\documentclass[a4paper,twoside,openright]{report}%{scrreprt}
 
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[american]{babel}
 
 $if(geometry)$
 \PassOptionsToPackage{$for(geometry)$$geometry$$sep$,$endfor$}{geometry}
@@ -73,6 +74,18 @@ $endif$
 \renewcommand{\footnote}[1]{\oldFootnote{\infootnotetrue{}#1\infootnotefalse{}}}
 \DeclareRobustCommand{\href}[2]{\ifinfootnote{}\raggedright\sloppy#2 (\url{#1})\fussy\else{}#2\footnote{\url{#1}}\fi}
 
+
+% Allow for line breaks after an _ in \texttt.
+\usepackage[htt]{hyphenat}
+% Awesome! Redefining \BreakableUnderscore from
+% http://ctan.math.illinois.edu/macros/latex/contrib/hyphenat/hyphenat.pdf
+% allows to disable the hyphen after a line break following an underscore.
+\makeatletter
+\renewcommand{\BreakableUnderscore}{\leavevmode%
+\prw@zbreak\textunderscore\discretionary{}{}{}\prw@zbreak}
+\makeatother
+
+
 $if(glossary)$
     \usepackage[acronym,toc,nomain]{glossaries}
     \renewcommand{\acronymname}{List of Abbreviations and Acronyms}
@@ -109,6 +122,8 @@ $for(header-files)$
 $endfor$
 
 \begin{document}
+
+\frenchspacing
 
 $if(draft)$
 $else$

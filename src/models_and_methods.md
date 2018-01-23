@@ -332,7 +332,7 @@ projection matrix $P \in \mathbb{R}^{3 \times 4}$ which reduces the dimensions
 from three to two, and the affine transformation from the model coordinate
 system into the camera coordinate system. Finding the values for $R$ and $T$ is
 called the +PnP problem. OpenCV's function
-[`solvePnP`](https://docs.opencv.org/3.4.0/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)
+`cv::solvePnP`
 offers a way to solve this problem given $C$ and two
 lists of $N \in \mathbb{N}$ corresponding points $p$ and $p'$ by minimizing the
 reprojection error, that is minimizing the error $e \in \mathbb{R}$
@@ -533,7 +533,7 @@ for most ad hoc tests the webcam live stream is enough, it is not enough to
 allow for reproducibility of the results.
 
 The first dataset, pexels, is a custom dataset with 120 images from
-[Pexels.com](https://pexels.com). These images are released under the CC0
+[Pexels](https://pexels.com). These images are released under the CC0
 license [@CC0License], which allows to reuse, modify and redistribute them. The
 images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
 the smallest image measures \SI{640x332}{{pixels}}, the biggest
