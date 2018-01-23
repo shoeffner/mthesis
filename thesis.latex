@@ -1,7 +1,5 @@
 % A thesis template based on
 %   https://github.com/jgm/pandoc/blob/101aece6cc03eb8dc434f2ff23bd4d66198fb592/data/templates/default.latex
-% and
-%   http://www2.inf.uos.de/kbs/thesis_KBS.zip
 %
 % Written by Sebastian Höffner <shoeffner@uos.de>
 %
@@ -18,6 +16,7 @@ $endif$
 \usepackage{thesistitlepage}
 
 \usepackage{amssymb,amsmath}
+\usepackage{siunitx}
 
 \usepackage{booktabs}
 \usepackage{multirow}
