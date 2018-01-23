@@ -87,8 +87,8 @@ $endif$
 
 
 $if(glossary)$
-    \usepackage[acronym,toc,nomain]{glossaries}
-    \renewcommand{\acronymname}{List of Abbreviations and Acronyms}
+    \usepackage[acronyms,toc,nomain,nogroupskip]{glossaries}
+    \setacronymstyle{long-short}
     \input{$glossary$}
     \makeglossaries
 $endif$
@@ -165,8 +165,7 @@ $else$
 
     $if(glossary)$
         $if(loa)$
-            \printglossary[type=\acronymtype]
-            % \printglossary  % glossary not needed for my thesis.
+            \printglossary[type=\acronymtype,title={List of Abbreviations and Acronyms}]
         $endif$
     $endif$
 $endif$
