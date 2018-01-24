@@ -4,16 +4,16 @@ Table: Comparison of computation times between `EyeLike` and
 
 Computation times [\si{\micro\second}] Eye size        `PupilLocalization`        `EyeLike`
 -------------------------------------- -------- -------------------------- ----------------
-\multirow{3}{*}{Median}                $\le 50$   \num{    1684}            \num{   25575}
-                                       $> 50$     \num{   19162}            \num{   26657}
-                                       all        \num{    1751}            \num{   25621}
-\midrule\multirow{3}{*}{Min}           $\le 50$   \num{     123}            \num{   17949}
-                                       $> 50$     \num{   14327}            \num{   22152}
-                                       all        \num{     123}            \num{   17949}
-\midrule\multirow{3}{*}{Mean}          $\le 50$   \num{    2487}            \num{   25796}
-                                       $> 50$     \num{   20811}            \num{   27244}
-                                       all        \num{    3317}            \num{   25867}
-\midrule\multirow{3}{*}{Max}           $\le 50$   \num{   16654}            \num{   40217}
-                                       $> 50$     \num{   34356}            \num{   33988}
-                                       all        \num{   34356}            \num{   40217}
+\multirow{3}{*}{Median}                $\le 50$   \num{    1754}            \num{   26576}
+                                       $> 50$     \num{   19776}            \num{   27215}
+                                       all        \num{    1859}            \num{   26616}
+\midrule\multirow{3}{*}{Min}           $\le 50$   \num{     126}            \num{   18570}
+                                       $> 50$     \num{   14170}            \num{   22484}
+                                       all        \num{     126}            \num{   18570}
+\midrule\multirow{3}{*}{Mean}          $\le 50$   \num{    2596}            \num{   26830}
+                                       $> 50$     \num{   21576}            \num{   27923}
+                                       all        \num{    3464}            \num{   26888}
+\midrule\multirow{3}{*}{Max}           $\le 50$   \num{   22705}            \num{   37839}
+                                       $> 50$     \num{   36580}            \num{   35063}
+                                       all        \num{   36580}            \num{   37839}
 

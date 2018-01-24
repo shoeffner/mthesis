@@ -7,6 +7,6 @@ are in \si{\micro\second}. \label{tab:pipeline-times}
 
 Pipeline                Median             Max            Mean             Min
 -------------- --------------- --------------- --------------- ---------------
-Default (FHPG) \num{    69334} \num{  2064645} \num{   190782} \num{    35706}
-EyeLike (FHEG) \num{    70452} \num{   121738} \num{    78097} \num{    56285}
-iTracker (FC)  \num{    82407} \num{  1999776} \num{   115440} \num{    70763}
+Default (FHPG) \num{    63846} \num{  2078141} \num{   185651} \num{    35219}
+EyeLike (FHEG) \num{    70142} \num{   121546} \num{    77389} \num{    55375}
+iTracker (FC)  \num{    79875} \num{  1820336} \num{   110943} \num{    69975}
