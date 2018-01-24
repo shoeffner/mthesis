@@ -6,9 +6,9 @@ uses the first four. \label{tab:pipeline-step-times}
 
 Pipeline step                   Median             Max            Mean             Min
 ---------------------- --------------- --------------- --------------- ---------------
-`FaceLandmarks`        \num{    38823} \num{    86313} \num{    48247} \num{    32093}
-`HeadPoseEstimation`   \num{      332} \num{     1536} \num{      361} \num{      206}
-`PupilLocalization`    \num{    18379} \num{  1887190} \num{   129017} \num{      140}
-`GazePointCalculation` \num{       29} \num{       72} \num{       30} \num{       28}
-`EyeLike`              \num{    25584} \num{    32380} \num{    25774} \num{    18389}
-`GazeCapture`          \num{    39316} \num{  1866580} \num{    62319} \num{    38116}
+`FaceLandmarks`        \num{    40556} \num{    90661} \num{    49969} \num{    31985}
+`HeadPoseEstimation`   \num{      360} \num{     1606} \num{      385} \num{      211}
+`PupilLocalization`    \num{    19427} \num{  1974850} \num{   140395} \num{      145}
+`GazePointCalculation` \num{       30} \num{      108} \num{       33} \num{       29}
+`EyeLike`              \num{    28473} \num{    35339} \num{    27709} \num{    19840}
+`GazeCapture`          \num{    40829} \num{  1949250} \num{    65470} \num{    38142}

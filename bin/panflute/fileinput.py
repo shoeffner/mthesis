@@ -5,16 +5,28 @@ import panflute as pf
 
 
 def fileinput(elem, doc):
+    pathstr = None
     if (isinstance(elem, pf.Para)
             and len(elem.content) == 1
             and isinstance(elem.content[0], pf.Cite)
             and isinstance(elem.content[0].content[0], pf.Str)):
-        pathstr = elem.content[0].content[0].text[6:]
+        pathstr = elem.content[0].content[0].text
+        if not pathstr.startswith('@file:'):
+            return
+        pathstr = pathstr[6:]
         try:
             with open(pathstr, 'r') as f:
                 return pf.convert_text(f.read())
         except FileNotFoundError:
             pf.debug(f'Can not include {pathstr}: File not found.')
+    elif isinstance(elem, pf.Str) and elem.text.startswith('@file:'):
+        if '.si' in elem.text:
+            pathstr = elem.text[6:]
+            try:
+                with open(pathstr, 'r') as f:
+                    return pf.RawInline(f.read(), format='tex')
+            except FileNotFoundError:
+                pf.debug(f'Can not include {pathstr}: File not found.')
 
 
 def main(doc=None):

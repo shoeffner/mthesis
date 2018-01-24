@@ -10,7 +10,7 @@ FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES)
 
 all: $(foreach f,$(FILES),$(TARGET_DIR)/$(f))
 
-$(foreach f,$(PUPIL_ACCURACIES),$(TARGET_DIR)%$(f)): pupil_accuracies.py BioID.csv pexels.csv Makefile
+$(foreach f,$(PUPIL_ACCURACIES),$(TARGET_DIR)%$(f)): pupil_accuracies.py BioID.csv pexels.csv Makefile | $(TARGET_DIR)/comptimes
 	python ./pupil_accuracies.py
 
 $(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv Makefile
@@ -48,3 +48,6 @@ dataacquisition/build:
 
 ../BioIDImages/bio:
 	@$(MAKE) -C ../BioIDImages
+
+$(TARGET_DIR)/comptimes:
+	@mkdir -p $(TARGET_DIR)/comptimes

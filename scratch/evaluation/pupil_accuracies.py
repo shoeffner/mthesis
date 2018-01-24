@@ -81,6 +81,11 @@ Computation times [\\si{{{SI_PREFIX}\\second}}] Eye size        `PupilLocalizati
 """
     with open(f'{OUTPATH}/table-comptimes-{dataset}.md', 'w') as f:
         print(comptable, file=f)
+    for k, v in [('gaze', 'PupilLocalization'), ('eyelike', 'EyeLike')]:
+        for metric in ['median', 'min', 'max', 'mean']:
+            with open(f'{OUTPATH}/comptimes/{dataset}-all-{v}-{metric}.si', 'w') as f:
+                val = allcomp[f'{k}/{metric}']
+                print(r'\SI{' + f'{val/1000:.3f}' + r'}{\milli\second}', file=f)
 
 
 def write_relative_errors(dataset, result):
