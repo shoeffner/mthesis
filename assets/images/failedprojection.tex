@@ -1,0 +1,78 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{intersections,calc}
+\begin{document}
+\begin{tikzpicture}[scale=0.2]
+
+% Helpers
+\def\drawmaybe{draw}
+% Size definitions
+\def\dotsize{6pt}
+\def\eyediameter{2.4}
+% model eye ball center
+\def\ex{-3.95}
+\def\ey{3.27}
+% image pupil
+\def\projdistance{45}
+\def\px{\projdistance}
+\def\py{2.6}
+% screen
+\def\sx{\projdistance}
+\def\sy{-5}
+\def\sh{20.7}
+\def\sangle{20}
+% imagined projection
+\def\prox{\ex+0.5*\eyediameter}
+\def\proy{-10}
+
+% Clip to only important area
+\clip (-10, -25) rectangle (50, 8);
+% Draw pupil
+\coordinate[label=right:{$p$}] (pupil) at (\px, \py);
+\fill[black] (pupil) circle (\dotsize);
+
+% Draw eye ball
+\coordinate[label=left:{$e$}] (eyeballcenter) at (\ex, \ey);
+\fill[black] (eyeballcenter) circle (\dotsize);
+\draw[name path=eyeball] (eyeballcenter) circle (\eyediameter);
+
+% Define screen and projection plane
+\draw[draw, name path=screen] (\sx, \sy) -- node[sloped,below] {screen} +(270 - \sangle: \sh);
+\path[name path=projection, gray] (\prox, \proy) -- node[right, near end] {$t_a$} +(0, 30);
+
+% Draw projection of pupil
+\draw[draw, name path=pupilprojection, red!50] (pupil) -- +(-1.5 * \projdistance, 0);
+
+% Calculate intersection points
+% Storing coordinates as suggested in https://tex.stackexchange.com/a/122245/51583
+\path[name intersections={of=pupilprojection and projection, by={x}}] coordinate (p0) at (x);
+\path[name intersections={of=pupilprojection and eyeball, by={,y}}] coordinate (p1) at (y);
+
+% Calculate rays from eyeball through intersections
+% This seems to work but without proper coordinates to draw points:
+\path[name path=rayx,draw,gray,style={shorten >= -15cm}] (eyeballcenter) -- (p0);
+\path[name path=rayx,draw,gray,style={shorten >= -15cm}] (eyeballcenter) -- (p1);
+\path[name path=ray0] (eyeballcenter) -- (p0);
+\path[name path=ray1] (eyeballcenter) -- (p1);
+
+% Intersect rays with screen
+% TODO: coordinates x are just for debugging, although it is surprising that there two intersections with the circle
+\path[name intersections={of=ray0 and screen, by={x,y}}] coordinate (s0b) at (x) coordinate (s0) at (y);
+\path[name intersections={of=ray1 and screen, by={x,y}}] coordinate (s1b) at (x) coordinate (s1) at (y);
+
+% Draw intersections (last to be on top of the lines)
+\fill[red] (p0) circle (\dotsize) node[label={[label distance=0pt]275:$p_0$}] {};
+\fill[blue] (p1) circle (\dotsize) node[label={[label distance=0pt]30:$p_1$}] {};
+
+% Draw intersections on screen
+%\fill[purple] (s0) circle (\dotsize) node[above] {$s_0$};
+%\fill[blue] (s1) circle (\dotsize) node[below] {$s_1$};
+
+% TODO: From here only debugging. In https://tex.stackexchange.com/a/147144/51583 it's similar and seems to work... hmhm
+%\fill[purple] (s0b) circle (\dotsize) node[above] {$s_0b$};
+%\fill[blue] (s1b) circle (\dotsize) node[below] {$s_1b$};
+%\path[name intersections={of=pupilprojection and screen, by={w,}}] coordinate (la) at (w);
+%\fill[green] (w) circle (\dotsize) node[below] {$w$};
+
+\end{tikzpicture}
+\end{document}

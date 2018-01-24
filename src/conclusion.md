@@ -165,10 +165,69 @@ really do not contain enough information to properly span three dimensions
 between them.
 
 
-### \Gaze{} point estimation
+### Gaze point estimation
 
-- gaze tracking not working
-- distance, projection problems
+The gaze point estimation consists of multiple parts. The first part is the
+distance estimation, followed by the inverted projection of the detected pupil
+centers into the model coordinates. The final step is the raycast to determine
+the gaze point locations.
+
+The distance estimation is only using the outercanthal width, thus this part
+is very likely to be highly inaccurate. So during the evaluation no precise
+tests were considered, a short measurement using a folding rule should give a
+hint if the values fall into the right magnitude. To test the distance, only
+very strict face poses rotated towards the camera were considered. Variations
+of about \SI{5}{\centi\meter} to \SI{10}{\centi\meter} are expected. Using the focal length of
+\SI{10}{\milli\meter} established in @sec:determining-the-focal-length, it turns out much worse.
+\Gaze{} estimates the distance about twice further than it is. One possible
+explanation is that the focal length in @sec:determining-the-focal-length is
+wrong. Given the fact that the MacBook Pro's display is only about half a
+centimeter deep, it seems to be a better idea to use
+\SI{5}{\milli\meter} instead. This way the factor two is canceled and the
+estimates fall into the right range.
+Another possible explanation is the video resolution. In \Gaze{}'s experiments,
+a resolution of only \SI{640x360}{{pixels}} is used, which is only half of the
+native webcam resolution.
+A third explanation might be that the sensor size assumption established in
+@sec:camera-and-screen-parameters is invalid, and the newer MacBook's indeed
+use a different camera.
+Testing which of the problems accounts for the faulty distance estimation can
+not be performed due to time constraints and is left open for the future.
+
+TODO(shoeffner): The following section needs some rework, it's not nice.
+
+The reprojection of the pupil centers turns out to be \Gaze{}'s biggest issue.
+While the pupil centers appear to end up in roughly the correct region as can
+be guessed from @fig:pupils3dmodel, their place is just not right. Presumably
+the issue is that du to the transformation from a flat 2D projection into a 3D
+model the information which is lost during the original 3D-2D projection is not
+approximated well enough. This is likely a problem of the model.
+A model to try out instead might be to first perform an orthogonal projection
+into the direction of the screen, fit the pupils into the projection and then
+perform a raycast from the pupils onto modeled eye balls. This would resolve
+an error which likely occurs in the current model: By not projecting the pupil
+centers properly onto the eyeball, they are likely displaced in relation to
+their true position. The effect is visualized in @fig:failedprojection using a 2D
+simplification: It can easily be seen that even slight variations from the
+correct $p_0$ of a few millimeters can lead to huge errors on the screen.
+\begin{figure}
+\centering
+\input{assets/images/failedprojection.tex}
+\caption{\label{fig:failedprojection}A small pupil restoration error of using $p_0$ instead of $p_1$ for
+the raycast from $e$ to the screen can lead to big errors on the screen
+surface.}
+\end{figure}
+Because of these problems with the reconstruction, the raycasting also produces
+wrong results. However, for the given inputs the results are correct.
+Despite all these problems, at least one result can be produced: By
+evaluating the results of Pexels images it can be seen that it is
+possible to distinguish between people looking to the left and people looking
+to the right.
+This leads to the conclusion that while not very accurate and faulty, the
+library does its job well, only the used model needs some improvements. Because
+of the modular design this is a feasible task.
+
+TODO(shoeffner): Add some images to show left and right predictability --> do for all and store whether left/right and then just put all left looking into one montage, all right looking (or in FN/FP/TN/TP grid?)
 
 
 ## Computation times

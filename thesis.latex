@@ -5,6 +5,10 @@
 %
 \documentclass[a4paper,twoside,openright]{report}%{scrreprt}
 
+\usepackage{standalone}
+\usepackage{tikz}
+\usetikzlibrary{intersections,calc}
+
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
