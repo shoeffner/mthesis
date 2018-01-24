@@ -107,6 +107,8 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![OpenCV checkerboard pattern to calibrate a camera.](pattern.png){ #fig:calibcheck }
 
+![Images from the Pexels dataset in which Dlib's face detector does not detect any faces. Especially occlusions and strongly tilted heads are difficult.](undetected_faces.png){ #fig:undetected_faces }
+
 
 # Code Listings
 

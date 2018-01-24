@@ -8,7 +8,9 @@ PIPELINE_TIMES = table-pipeline-step-times.md table-pipeline-times.md
 
 PREDICTIONS = predictions_iTracker.png
 
-FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES) $(PREDICTIONS)
+UNDETECTED = undetected_faces.png
+
+FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES) $(PREDICTIONS) $(UNDETECTED)
 
 all: $(foreach f,$(FILES),$(TARGET_DIR)/$(f))
 
@@ -21,6 +23,10 @@ $(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv 
 $(foreach f,$(PREDICTIONS),$(TARGET_DIR)%$(f)): prediction_iTracker_BioID.png prediction_iTracker_Pexels.png
 	montage $^ -tile 2x -mode Concatenate -geometry "+5+5" $@
 	rm $^
+
+$(foreach f,$(UNDETECTED),$(TARGET_DIR)%$(f)): undetected_faces.py pexels.csv Makefile
+	montage $(shell python undetected_faces.py) -tile 6x -mode Concatenate -geometry "120x120+2+2" $@
+
 
 prediction_iTracker_Pexels.png prediction_iTracker_BioID.png: predictions_images.py pexels.csv bioid.csv Makefile
 	python ./predictions_images.py

@@ -475,6 +475,7 @@ is very crucial in science [@SCM]. To make it easy to do anything of the above
 with \Gaze{}, it tries to follow many good practices and provides a thorough
 documentation (@sec:why-free-and-open-source-software).
 
+
 ### Library architecture
 
 \Gaze{} has three threads which loosely interact with each other if needed through

@@ -34,7 +34,19 @@ individual parts will evaluated.
 
 ### Face detection
 
-- dlib over OpenCV, advantages/shortcomings
+The face detection works reliable on webcam images: Dlib's face detector
+finds the faces in all images of the BioID dataset. The Pexels dataset is more
+difficult: Dlib only detects faces in 80 out of 120 images.
+@fig:undetected_faces shows the discarded 40 images. More than half of those 40
+images contain faces which are either visible from the side or which have an
+occluded half. Four faces feature uncommon shades, two are eyes and two others
+are cats. Only a handful of faces are properly visible and many of those are
+not upright. So the limitations of Dlib's face detector are mostly occluded
+faces and faces in uncommon orientations, which is okay for the purpose of eye
+and gaze tracking. A huge advantage of choosing Dlib over for example OpenCV's
+face detectors is outline in @sec:head-pose-estimation-1: it already detects
+landmarks which can be used to determine head poses. Thus no additional
+processing step is needed for this.
 
 
 ### Pupil localization evaluation
@@ -210,7 +222,7 @@ into the direction of the screen, fit the pupils into the projection and then
 perform a raycast from the pupils onto modeled eye balls. This would resolve
 an error which likely occurs in the current model: By not projecting the pupil
 centers properly onto the eyeball, they are likely displaced in relation to
-their true position. The effect is visualized in @fig:failedprojection using a 2D
+their true position. The effect is visualized in \Cref{fig:failedprojection} using a 2D
 simplification: It can easily be seen that even slight variations of a few millimeters from the
 correct $p_0$ can lead to huge errors on the screen.
 \begin{figure}
@@ -246,8 +258,8 @@ default pipeline and employing the +cnn iTracker [@Krafka2016], performs well
 up to some limitations.
 
 Integrating iTracker into \Gaze{} is not an easy task as its dependency Caffe
-and \Gaze{}'s dependency Dlib both depend on +BLAS and there are multiple
-different versions of +BLAS available. While most libraries offer bindings to
+and \Gaze{}'s dependency Dlib both depend on +BLAS, and there are multiple
+different implementation of +BLAS available. While most libraries offer bindings to
 multiple variants, it is only possible to link against one version of +BLAS in
 a final program. Thus Caffe and Dlib need to be compiled using the proper
 bindings first before they can be used together in iTracker.
@@ -263,7 +275,7 @@ But taking the technical issues aside, iTracker is able to predict \Gaze{}
 inside a limited scope. Because it is trained on data measured exclusively on
 iPhones and iPads [@Krafka2016], it has a strong bias towards calculating gaze
 points within the boundaries of those screens. This bias is visualized in
-@fig:gazepreds, which is a $\log \log$ visualization of the estimated gaze
+@fig:predictionsiTracker, which is a $\log \log$ visualization of the estimated gaze
 points on the Pexels and the BioID dataset. Of course as discussed in
 @sec:gaze-point-estimation-1 a high amount of people are looking directly into
 the camera, which of course leads to a natural aggregation around the top
@@ -271,7 +283,7 @@ middle area of the image, directly below the camera. Still only very few points
 can be observed outside the boundaries of an iPhone or iPad screen in relation
 to the camera.
 
-![Double-logarithmic visualization of the estimated gaze points using `GazeCapture`'s iTracker for the BioID dataset on the left and the Pexels dataset on the right. Brighter means more gaze points.](predictions_iTracker.png)
+![Double-logarithmic visualization of the estimated gaze points using `GazeCapture`'s iTracker for the BioID dataset on the left and the Pexels dataset on the right. Brighter means more gaze points.](predictions_iTracker.png){ #fig:predictionsiTracker }
 
 Overall iTracker is a convincing implementation of a +cnn for gaze tracking,
 but a qualitatively broader training dataset might help improve it even further
