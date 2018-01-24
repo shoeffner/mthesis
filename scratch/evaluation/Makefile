@@ -19,7 +19,7 @@ $(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv 
 BioID.csv: dataacquisition/build/bioid | ../BioIDImages/bio
 	cd dataacquisition/build && ./bioid > ../../BioID.csv || true
 
-pexels.csv: dataacquisition/build/pexels | ../BioIDImages/bio
+pexels.csv: dataacquisition/build/pexels | ../pexels_face_images/resized
 	cd dataacquisition/build && ./pexels > ../../pexels.csv || true
 
 MODEL_FILES=itracker_deploy.prototxt snapshots/itracker25x_iter_92000.caffemodel \
