@@ -70,8 +70,6 @@ the thresholds is reported. A comparison of all three different errors, $\min,
 
 TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
 
-TODO(shoeffner): ADD CONTENTS OF FILES MANUALLY BECAUSE THE FILTER DOES NOT WORK! OR FIX THE FILTER
-
 The accuracy of `PupilLocalization` is very good and reaches the same accuracy
 as @Timm2011. Inspecting the times in \Cref{tab:comptimes-BioID} it becomes clear that `PupilLocalization` performs faster than the implementation of `EyeLike` on the
 BioID dataset with a median computation time of @file:assets/gen_files/comptimes/BioID-all-PupilLocalization-median.si,

@@ -19,12 +19,12 @@ def fileinput(elem, doc):
                 return pf.convert_text(f.read())
         except FileNotFoundError:
             pf.debug(f'Can not include {pathstr}: File not found.')
-    elif isinstance(elem, pf.Str) and elem.text.startswith('@file:'):
-        if '.si' in elem.text:
-            pathstr = elem.text[6:]
+    elif isinstance(elem, pf.Cite) and elem.content[0].text.startswith('@file:'):
+        if '.si' in elem.content[0].text:
+            pathstr = elem.content[0].text[6:]
             try:
                 with open(pathstr, 'r') as f:
-                    return pf.RawInline(f.read(), format='tex')
+                    return pf.RawInline(f.read().strip(), format='tex')
             except FileNotFoundError:
                 pf.debug(f'Can not include {pathstr}: File not found.')
 
