@@ -1,12 +1,16 @@
 # Results, evaluations and comparisons
 
+As shown in @chap:a-gaze-tracking-library the \Gaze{} library achieves its
+goals. It is able to process data in a timely manner and solves eye center tracking
+extremely well. Its only shortcoming is the model to use the tracked eye center
+to calculate a gaze point. In the following sections the shortcomings and
+successes of \Gaze{} are quantified and qualified.
+
 
 ## Library implementation
 
-TOOD(shoeffner): Add more overall results and show that the implamentation is good.
-
 \Gaze{}'s goals to be easily integrable, extendable, to be +FOSS, well documented,
-and cross-platform are partly fulfilled. While it is sufficiently easy to
+and cross-platform are mostly fulfilled. While it is sufficiently easy to
 integrate \Gaze{} into software as shown in @sec:building-installing-and-using-gaze, it is not possible to extend
 \Gaze{} with a custom pipeline step without building it from source. It would have
 been a bigger success if \Gaze{} truly followed a multi-purpose plugin architecture
@@ -17,8 +21,8 @@ is available and automatically built using Semaphore and thus always readily
 available. The cross-platform usage is not thoroughly tested, but \Gaze{} builds
 successfully on macOS and Ubuntu 14.04 and its tests pass on both those
 platforms as well. Still the software fulfills many of its goals and could be
-used for gaze tracking in research settings. *Could* be used because not all
-aspects of gaze tracking do work, as is outlined below.
+used for gaze tracking in research settings, if other shortcomings detailed
+below are resolved. However, for eye tracking in feedback loops it is ready to use.
 
 
 ## Evaluation of the geometric model
@@ -35,7 +39,7 @@ individual parts will evaluated.
 
 ### Pupil localization evaluation
 
-One successful part of \Gaze{} is the pupil center localization [@Timm2011]. Using
+One very successful part of \Gaze{} is the pupil center localization [@Timm2011]. Using
 the BioID dataset [@Jesorsky2001] and the *relative error* introduced by @Jesorsky2001
 the accuracy of \Gaze{}'s `PupilLocalization` can be benchmarked. The relative error
 is defined as
@@ -102,13 +106,13 @@ performs reasonably well on the pexels dataset.
 ### Head pose estimation
 
 The head pose estimation works well in most cases. If a subject is looking
-straight into the camera, in the extreme case, when the nose points
+straight into the camera, in the extreme case when the nose points
 directly towards the camera and the coronal plane is parallel to the screen
 plane, there are two equally likely possible solutions: the $z$ axis pointing
 outwards or inwards. In most cases this is not a problem, as it is unlikely
 that this happens. But sometimes this causes different results from frame to
 frame.
-Since there was no annotated ground truth for the datasets used about the head
+Since there is no annotated ground truth for the datasets used about the head
 poses, it is not possible to give a quantitative analysis about the success of
 the method, but as was lined out in @sec:head-pose-estimation a qualitative
 analysis can be performed. In @sec:head-pose-estimation it is already
@@ -128,7 +132,7 @@ different 3D model is used, Model&nbsp;A in @cl:5lm-model. It is difficult to fi
 accurate relational measurements for these landmarks, so for the endocanthions
 the same model assumption is made as is for the eye ball centers, that they are
 offset towards the center by the length of the palpebral fissure [@Facebase].
-The subnasal is located using an arbitrary guess backed by the data about the
+The subnasal is located using an educated guess backed by the data about the
 nasal height and the philtrum length [@Facebase].
 
 ```{ .yaml caption="The two 3D head models used for the five landmarks comparison." label=cl:5lm-model }
@@ -191,14 +195,13 @@ native webcam resolution.
 A third explanation might be that the sensor size assumption established in
 @sec:camera-and-screen-parameters is invalid, and the newer MacBook's indeed
 use a different camera.
-Testing which of the problems accounts for the faulty distance estimation can
-not be performed due to time constraints and is left open for the future.
-
-TODO(shoeffner): The following section needs some rework, it's not nice.
+Testing which of the problems accounts for the faulty distance estimation
+is left open for the future.
 
 The reprojection of the pupil centers turns out to be \Gaze{}'s biggest issue.
 While the pupil centers appear to end up in roughly the correct region as can
-be guessed from @fig:pupils3dmodel, their place is just not right. Presumably
+be guessed from @fig:pupils3dmodel, their location is not accurate enough.
+Presumably
 the issue is that du to the transformation from a flat 2D projection into a 3D
 model the information which is lost during the original 3D-2D projection is not
 approximated well enough. This is likely a problem of the model.
@@ -208,8 +211,8 @@ perform a raycast from the pupils onto modeled eye balls. This would resolve
 an error which likely occurs in the current model: By not projecting the pupil
 centers properly onto the eyeball, they are likely displaced in relation to
 their true position. The effect is visualized in @fig:failedprojection using a 2D
-simplification: It can easily be seen that even slight variations from the
-correct $p_0$ of a few millimeters can lead to huge errors on the screen.
+simplification: It can easily be seen that even slight variations of a few millimeters from the
+correct $p_0$ can lead to huge errors on the screen.
 \begin{figure}
 \centering
 \input{assets/images/failedprojection.tex}
@@ -218,38 +221,116 @@ the raycast from $e$ to the screen can lead to big errors on the screen
 surface.}
 \end{figure}
 Because of these problems with the reconstruction, the raycasting also produces
-wrong results. However, for the given inputs the results are correct.
-Despite all these problems, at least one result can be produced: By
-evaluating the results of Pexels images it can be seen that it is
-possible to distinguish between people looking to the left and people looking
-to the right.
-This leads to the conclusion that while not very accurate and faulty, the
-library does its job well, only the used model needs some improvements. Because
-of the modular design this is a feasible task.
+wrong results -- although for the given inputs the results are correct.
+Another option to explore than using a different model might be to introduce a
+calibration method, which \Gaze{} tries to avoid.
 
-TODO(shoeffner): Add some images to show left and right predictability --> do for all and store whether left/right and then just put all left looking into one montage, all right looking (or in FN/FP/TN/TP grid?)
-
-
-## Computation times
-
-@file:assets/gen_files/table-pipeline-step-times.md
-
-@file:assets/gen_files/table-pipeline-times.md
+To test how well \Gaze{} performs even with a faulty model it can be considered to
+see how well it can distinguish between people looking to the left from people
+looking to the right.
+Unfortunately this turns out to be difficult to test using the datasets already
+in use: Neither of the datasets contains
+annotations whether the person is looking to the left or right. When
+considering annotating the small Pexels dataset it quickly turns out that due
+to the nature of portrait photos, most people gaze directly into the camera. In
+fact only 18 images feature obvious gazes to either side. The BioID dataset has similar
+problems, in most pictures the people also gaze into the camera. Due to time
+constraints no further selection of images featuring prominent gazes to either side
+has been done.
 
 
 ## iTracker
 
-- mobile display limitations
-- caffe troublesome
-- segfault
-- alright under the right circumstances
-- "for everyone" vs. research only
+The custom pipeline step `GazeCapture`, designed to replace most parts of the
+default pipeline and employing the +cnn iTracker [@Krafka2016], performs well
+up to some limitations.
+
+Integrating iTracker into \Gaze{} is not an easy task as its dependency Caffe
+and \Gaze{}'s dependency Dlib both depend on +BLAS and there are multiple
+different versions of +BLAS available. While most libraries offer bindings to
+multiple variants, it is only possible to link against one version of +BLAS in
+a final program. Thus Caffe and Dlib need to be compiled using the proper
+bindings first before they can be used together in iTracker.
+To build a custom program using \Gaze{} with the `GazeTracker` pipeline step
+requires to write a CMakeLists file which first finds iTracker before searching
+for \Gaze{}.
+When using iTracker, \Gaze{} occasionally crashes due to some memory errors. It
+is not clear whether it is the fault of \Gaze{} or if the problem is a resource
+management within Caffe. But because this crash is not resolved, `GazeCapture`
+is currently only an optional component.
+
+But taking the technical issues aside, iTracker is able to predict \Gaze{}
+inside a limited scope. Because it is trained on data measured exclusively on
+iPhones and iPads [@Krafka2016], it has a strong bias towards calculating gaze
+points within the boundaries of those screens. This bias is visualized in
+@fig:gazepreds, which is a $\log \log$ visualization of the estimated gaze
+points on the Pexels and the BioID dataset. Of course as discussed in
+@sec:gaze-point-estimation-1 a high amount of people are looking directly into
+the camera, which of course leads to a natural aggregation around the top
+middle area of the image, directly below the camera. Still only very few points
+can be observed outside the boundaries of an iPhone or iPad screen in relation
+to the camera.
+
+![Double-logarithmic visualization of the estimated gaze points using `GazeCapture`'s iTracker for the BioID dataset on the left and the Pexels dataset on the right. Brighter means more gaze points.](predictions_iTracker.png)
+
+Overall iTracker is a convincing implementation of a +cnn for gaze tracking,
+but a qualitatively broader training dataset might help improve it even further
+to make it feasible in tracking gaze in other settings than on mobile screens.
+While its computation times are slightly slower than the default pipeline used
+in Gaze as is seen below, this is likely due to the fact that the test laptop
+does not have a dedicated +GPU to use Caffe's full potential. This is something
+to test in the future.
+
+
+## Computation times
+
+For real time gaze point estimations fast computation times are a very critical
+metric. \Gaze{} performs relatively fast for small eyes, the most time
+consuming parts are the face detection and the eye center localization as can
+be seen in \Cref{tab:pipeline-step-times}. The other pipeline steps,
+especially the head pose estimation and the final raycast are very fast.
+The computation times of the `SourceCapture` step were not measured as it was
+not used during the benchmarks, as it is not capable of loading a series of
+images unless they are frames of a video file.
+
+@file:assets/gen_files/table-pipeline-step-times.md
+
+Without taking the `SourceCapture` into account, the default pipeline is
+usually the fastest pipeline. In cases where it needs to resize the lookup
+table for the pupil detection step, it slows down a little bit as observed in
+@sec:pupil-localization-evaluation. But even the slowest pipeline using
+`GazeCapture` is still similarly fast, as can be seen in
+\Cref{tab:pipeline-times}. It might be faster if a speedup is gained by using a
++GPU as theorized above. But even with the slightly slower speed iTracker's
++cnn is the best model currently implemented in \Gaze{}.
+
+@file:assets/gen_files/table-pipeline-times.md
+
+The total times for a pipeline in \Cref{tab:pipeline-times} are about
+\SI{80}{\milli\second}, which means that the pipeline can process at most
+\SI{12}{{frames}} in one second. The real number will be lower, as grabbing the
+image from the webcam is not included in the measurements. This makes \Gaze{} a
+good choice for non-time critical applications and offline data processing.
+During online settings, it will only detect fixations lasting at least
+\SI{160}{\milli\second} properly -- saccades or even microsaccades are to short
+for \Gaze{} to process. In offline analysis this can of course still work if
+the source material's +FPS were high enough to detect the relevant features of
+gaze.
 
 
 ## Conclusion
 
-* difficult to get camera parameters
-- easy to use software which can be extended and configured
-- geometric model is not working
-- eye (and pupil) tracking works mostly very well
-- other solutions have their own shortcomings, so this is still an open exciting research question
+\Gaze{} is a good library to perform eye tracking. It can easily be extended
+and allows all kinds of usage. Its gaze tracking capabilities are not working
+properly, but thanks to its extendability it is possible to use iTracker, a
+pre-trained model to detect gaze points. Many other issues in webcam gaze
+tracking can not be resolved using software alone: most webcams are limited to
+small frame rates and it is extremely difficult to find the real specifications
+like sensor sizes and focal lengths for many webcams.
+
+While there are some other solutions to webcam eye and gaze tracking, many of the
+projects are abandoned, need sophisticated calibration procedures or reach low
+precision. The +cnn iTracker and similar approaches seem to be promising models
+to make gaze tracking available for everyone and for all devices, but there is still
+some work to do, like increasing the area of interest and reducing computations
+times.

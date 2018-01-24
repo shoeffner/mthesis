@@ -6,7 +6,9 @@ PUPIL_ACCURACIES = table-comptimes-pexels.md table-comptimes-BioID.md \
 
 PIPELINE_TIMES = table-pipeline-step-times.md table-pipeline-times.md
 
-FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES)
+PREDICTIONS = predictions_iTracker.png
+
+FILES = $(PUPIL_ACCURACIES) $(PIPELINE_TIMES) $(PREDICTIONS)
 
 all: $(foreach f,$(FILES),$(TARGET_DIR)/$(f))
 
@@ -15,6 +17,13 @@ $(foreach f,$(PUPIL_ACCURACIES),$(TARGET_DIR)%$(f)): pupil_accuracies.py BioID.c
 
 $(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv Makefile
 	python ./pipeline_times.py
+
+$(foreach f,$(PREDICTIONS),$(TARGET_DIR)%$(f)): prediction_iTracker_BioID.png prediction_iTracker_Pexels.png
+	montage $^ -tile 2x -mode Concatenate -geometry "+5+5" $@
+	rm $^
+
+prediction_iTracker_Pexels.png prediction_iTracker_BioID.png: predictions_images.py pexels.csv bioid.csv Makefile
+	python ./predictions_images.py
 
 BioID.csv: dataacquisition/build/bioid | ../BioIDImages/bio
 	cd dataacquisition/build && ./bioid > ../../BioID.csv || true

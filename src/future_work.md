@@ -5,7 +5,9 @@
 - model
   - eye model as sphere or ellipsoid
   - calibration
-
+- test
+  - 5 landmarks
+  - left/right
 
 ## Possible extensions
 

@@ -36,6 +36,7 @@ int main(const int, const char** const) {
   gaze::pipeline::FaceLandmarks landmarks;
   gaze::pipeline::PupilLocalization pupil_localization;
   gaze::pipeline::EyeLike eye_like;
+  gaze::pipeline::GazeCapture gc;
 
   // Create stopwatch
   std::chrono::high_resolution_clock::time_point start;
@@ -48,7 +49,8 @@ int main(const int, const char** const) {
   std::cout << "id,landmarks_time,face_width,face_height,gaze_time,"
             << "eye_right_width,eye_right_height,target_right_x,target_right_y,gaze_right_x,gaze_right_y,"
             << "eye_left_width,eye_left_height,target_left_x,target_left_y,gaze_left_x,gaze_left_y,"
-            << "eyelike_time,eyelike_right_x,eyelike_right_y,eyelike_left_x,eyelike_left_y"
+            << "eyelike_time,eyelike_right_x,eyelike_right_y,eyelike_left_x,eyelike_left_y,"
+            << "gazecapture_result_x,gazecapture_result_y"
             << std::endl;
 
   for (auto FACE : IMAGES) {
@@ -102,8 +104,11 @@ int main(const int, const char** const) {
     std::cout << td(start, end) << COMMA;
     for (int i = 0; i < 2; ++i) {
       std::cout << details[i].rect.left() + data.centers[i].x() << COMMA
-                << details[i].rect.top() + data.centers[i].y() << (i == 0 ? COMMA : "");
+                << details[i].rect.top() + data.centers[i].y() << COMMA;
     }
-    std::cout << std::endl;
+
+    gc.process(data);
+    std::cout << data.estimated_gaze_point[0] << COMMA
+              << data.estimated_gaze_point[1] << std::endl;
   }
 }
