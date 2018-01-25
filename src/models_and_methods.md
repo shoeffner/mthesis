@@ -19,7 +19,7 @@ intersections of the screen plane and the ray cast are the gaze points. The
 line--plane intersection [@Wikipedia:lineplaneintersection] can be expressed using three points of the
 screen plane, the eye ball center and the pupil in the same 3D coordinate
 system.
-Given an eye ball center $c$ and a pupil center $p$, $c, p \in \Rthree$, the points on the line
+Given an eye ball center $c \in \Rthree$ and a pupil center $p \in \Rthree$, the points on the line
 from the eye ball center through the pupil can be described as
 \begin{align}
 c + (p - c)t,\label{eq:c-p-line}
@@ -38,7 +38,7 @@ c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= - (p - c)t + (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v \label{eq:param-intersection}
 \end{align}
-Or, in a more concise matrix and vector form with a slightly changed notation, @eq:param-intersection can be expressed as
+Or, in a more concise matrix and vector form, @eq:param-intersection can be expressed as
 \begin{align}
 \left(\begin{array}{c}
 c_x - \tl_x \\
@@ -113,17 +113,17 @@ ray cast and do not have conventional soft tissue landmark abbreviations nor
 model points in the original model. \label{tab:3dheadmodel}
 
 Landmark                Abbr.   Index  \Gaze{} [\si{\milli\meter}]   @Mallick2016
----------------------- ------- ------ -------------------------- --------------------
-Pronasal               $\prn$      31 $(0, 0, 0)$                $(0, 0, 0)$
-Gnathion               $\gn$        9 $(0, -63.6, -12.5)$        $(0, -330, -65)$
-Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$       $(-225, 170, -135)$
-Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$        $(225, 170, -135)$
-Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$    $(-150, -150, -125)$
-Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$     $(150, -150, -125)$
+---------------------- ------- ------ ---------------------------- --------------------
+Pronasal               $\prn$      31 $(0, 0, 0)$                  $(0, 0, 0)$
+Gnathion               $\gn$        9 $(0, -63.6, -12.5)$          $(0, -330, -65)$
+Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$         $(-225, 170, -135)$
+Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$          $(225, 170, -135)$
+Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$      $(-150, -150, -125)$
+Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$       $(150, -150, -125)$
 Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 
-An initial idea to model the eye ball center was to use place it at the center
+An initial idea to model the eye ball center was to place it at the center
 of the palpebral fissure -- the distance between both eye corners, the exocanthion and endocanthion -- and move it
 inside the head until the $\ex$ and $\en$
 are on the eye ball surface. The problem with this idea is that the mean
@@ -153,16 +153,12 @@ and additional lists of websites and commercial software. One method is to use
 of Haar feature detection using AdaBoost [@Viola2001]. But this
 method, albeit popular, only finds face and eye boundaries. @King2014 released
 a face detector in [Dlib](https://dlib.net) which uses five +HoG models and
-+MMOD [@King2015]. While outperforming OpenCV with a much lower false alarm
-rate [@King2014], OpenCV's classifiers were slightly faster when implemented in
-\Gaze{}. Processing an image of size \SI{640x360}{{pixels}} took about
-\SI{130}{\milli\second} to \SI{140}{\milli\second} using OpenCV and about
-\SI{160}{\milli\second} to \SI{170}{\milli\second} using Dlib. \Gaze{} uses Dlib's
++MMOD [@King2015]. \Gaze{} uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
 the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection step is needed after the face is detected.
-In @sec:licensing-issues there is one downside to using Dlib's model explained: Licensing.
+In @sec:license-issues there is one downside to using Dlib's model explained: Licensing.
 A possible solution is to use the 5 landmark model,
 but it does not detect all landmarks included in the 3D head model, and using a
 3D head model containing the five instead of the 68 landmarks is not stable
@@ -179,10 +175,8 @@ and detecting its center. The eye is cropped to a square with a side-length of
 rectangle's center. To visualize this, examples of processed eyes can be found inside the
 appendix in @fig:pupildetectioncomparison.
 
-TODO(shoffner): Maybe replace figure pupildetectioncomparison with another at this point
-
-![Left: 68 landmarks as described by @Sagonas2013. Right: The landmarks
-detected by Dlib. In Dlib, the indexing starts with 0. Landmarks schema used
+![The 68 landmarks as detected by Dlib on the left, on the right their original description by
+@Sagonas2013. In Dlib, the indexes starts with 0. Landmarks schema used
 with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
 
@@ -191,13 +185,12 @@ with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks 
 Finding the pupil centers in the eyes is done following @Timm2011, inspired by
 the success of @Hume2012. The algorithm they propose assumes that the iris, the
 colored part of the eye, is a dark circle on a bright background, the sclera,
-which implies that there is a strong gradient at its boundary. The gradient at
-the boundary has a direction towards the sclera. To find the center, all points
+which implies that there is a strong gradient at its boundary. The gradient direction at the boundary points from darker to brighter areas, that is towards the sclera. To find the center, all points
 within the image of the cropped eye are assigned a value by a target function
 and the point with the maximum value is chosen as the pupil center.
 
-The pupil location $p \in \mathbb{N}^2$ can be found by solving [@Timm2011,
-adapted after @Hume2012]:
+The pupil location $p \in \mathbb{N}^2$ in \si{{pixels}} is found by solving [@Timm2011;
+adapted from @Hume2012]:
 \begin{align}
 p = \argmax_{\hat{p}} \left\{
     \frac{1}{N} \sum_{i=1}^{N} w_i \left(
@@ -207,7 +200,7 @@ p = \argmax_{\hat{p}} \left\{
     \right)^2
 \right\}, \label{eq:targetpupilloc}
 \end{align}
-where $p \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
+where $\hat{p} \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
 \mathbb{N}^2$ are all $N$ pixel locations of the image crop, $w_i \in
 \mathbb{R}$ are weights for those pixel locations, $g_i \in \Rtwo$ are
 the normalized gradients at each pixel location, respectively, and $\left\lVert
@@ -329,30 +322,16 @@ approximated by the image size, as presented in @sec:camera-and-screen-parameter
 projection matrix $P \in \mathbb{R}^{3 \times 4}$ which reduces the dimensions
 from three to two, and the affine transformation from the model coordinate
 system into the camera coordinate system. Finding the values for $R$ and $T$ is
-called the +PnP problem. OpenCV's function
-`cv::solvePnP`
-offers a way to solve this problem given $C$ and two
-lists of $N \in \mathbb{N}$ corresponding points $p$ and $p'$ by minimizing the
-reprojection error, that is minimizing the error $e \in \mathbb{R}$
-\begin{align}
-e = \sum_{i=1}^N \left\lVert p_i' - q_i \right\rVert_2^2, \label{eq:projerror}
-\end{align}
-where $\left\lVert \cdot \right\rVert_2$ is the euclidean norm. Thus the
-distance between the measured projected points $p_i'$ and the in @eq:projmodel estimated
-projected point $q_i$ should be minimized using
-this quadratic error function. OpenCV offers multiple algorithms to choose from
-when using `solvePnP`, but some are currently disabled due to instabilities or
-are for sets of exactly four point correspondences. The two remaining options
-which are feasible for solving the problem using six points are +EPnP
+called the +PnP problem. There are multiple algorithms to solve +PnP problems, suitable for six points as it is the case in \Gaze{} are for example +EPnP
 [@Lepetit2009] and an iterative approach which uses a
-Levenberg--Marquardt optimization [@Levenberg1944, @Marquardt1963, @Wikipedia:lm]. It
-estimates a parameter set $\hat\beta$ for a hidden parameter set $\beta$ such
+Levenberg--Marquardt optimization [@Levenberg1944; @Marquardt1963; @Wikipedia:lm]. The latter
+estimates a hidden parameter set $\beta$ as an approximation $\hat\beta$ such
 that
 \begin{align}
 \hat\beta = \argmin_\beta \left\{ \sum_{i=1}^N \left\lVert p_i' - f(p_i, \beta) \right\rVert_2^2 \right\},
 \end{align}
-where $\beta$ are the values of $R$ and $T$, and $f(p_i, \beta)$ is the
-estimated projection of a model point $p_i$, ($q_i$ in @eq:projerror). Once found, the
+where $\beta$ are the values of $R$ and $T$ in @eq:projmodel, and $f(p_i, \beta)$ is the
+estimated projection of a model point $p_i$. Once found, the
 parameters can be used together with the distance estimation
 from @sec:distance-estimation to estimate the screen corners
 as described in @sec:calculation-of-screen-corners. In \Gaze{} the Levenberg--Marquardt
@@ -373,7 +352,7 @@ intercept theorem and the pinhole camera model, the distance to an object can
 be determined. Let $o \in \mathbb{R}$ be the width of the object, $d \in
 \mathbb{R}$ be the distance between the image plane and the object, $f \in
 \mathbb{R}$ the focal length, $i \in \mathbb{R}$ the object's size on the
-image, and $p \in \mathbb{R}$ the pixel width. Then
+image, and $p \in \mathbb{R}$ the pixel width. Then the distance can be expressed as
 \begin{align}
 d = \frac{fo}{i}. \label{eq:distanceest}
 \end{align}
@@ -414,8 +393,8 @@ should be sufficient.
 The camera is at the origin of the camera coordinate system. A transformation
 between the model coordinate system and the camera coordinate system is found
 using `solvePnP` in @sec:head-pose-estimation. To express the camera in model
-coordinates it moved back into the translation direction, facing the model
-origin. Since the transformation from `solvePnP` is not taking the distance
+coordinates it is moved back into the translation direction, facing the model
+origin. Since the transformation gained from solving the +PnP problem is not taking the distance
 into account, the translation needs to be adjusted by normalizing it and then
 multiplying it by the estimated distance. Thus the camera position $\mathit{cam} \in
 \Rthree$ in model coordinates is
@@ -471,7 +450,7 @@ also making the source code available for free and as open source software.
 This way everyone can inspect it, reproduce the results of this thesis and
 extend \Gaze{}, criticize it, modify it, or built upon it. These are the reasons
 why publishing the source code and software alongside scientific contributions
-is very crucial in science [@SCM]. To make it easy to do anything of the above
+is very crucial in science [@Barnes2010]. To make it easy to do anything of the above
 with \Gaze{}, it tries to follow many good practices and provides a thorough
 documentation (@sec:why-free-and-open-source-software).
 

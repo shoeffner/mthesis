@@ -43,10 +43,16 @@ occluded half. Four faces feature uncommon shades, two are eyes and two others
 are cats. Only a handful of faces are properly visible and many of those are
 not upright. So the limitations of Dlib's face detector are mostly occluded
 faces and faces in uncommon orientations, which is okay for the purpose of eye
-and gaze tracking. A huge advantage of choosing Dlib over for example OpenCV's
-face detectors is outline in @sec:head-pose-estimation-1: it already detects
-landmarks which can be used to determine head poses. Thus no additional
-processing step is needed for this.
+and gaze tracking.
+
+While missing some faces, Dlib has a much lower false positive rate than OpenCV
+[@King2014], which could have been another choice. Processing an image of size
+\SI{640x360}{{pixels}} took about
+\SI{130}{\milli\second} to \SI{140}{\milli\second} using OpenCV and about
+\SI{160}{\milli\second} to \SI{170}{\milli\second} using Dlib. But factoring in
+the advantage of also getting the 68 landmarks needed for the head pose
+estimation during Dlib's processing time strengthens the choice of Dlib over
+OpenCV.
 
 
 ### Pupil localization evaluation
@@ -194,7 +200,7 @@ tests were considered, a short measurement using a folding rule should give a
 hint if the values fall into the right magnitude. To test the distance, only
 very strict face poses rotated towards the camera were considered. Variations
 of about \SI{5}{\centi\meter} to \SI{10}{\centi\meter} are expected. Using the focal length of
-\SI{10}{\milli\meter} established in @sec:determining-the-focal-length, it turns out much worse.
+\SI{10}{\milli\meter} established in @sec:determining-the-focal-length this can not be achieved.
 \Gaze{} estimates the distance about twice further than it is. One possible
 explanation is that the focal length in @sec:determining-the-focal-length is
 wrong. Given the fact that the MacBook Pro's display is only about half a
@@ -214,7 +220,7 @@ The reprojection of the pupil centers turns out to be \Gaze{}'s biggest issue.
 While the pupil centers appear to end up in roughly the correct region as can
 be guessed from @fig:pupils3dmodel, their location is not accurate enough.
 Presumably
-the issue is that du to the transformation from a flat 2D projection into a 3D
+the issue is that due to the transformation from a flat 2D projection into a 3D
 model the information which is lost during the original 3D-2D projection is not
 approximated well enough. This is likely a problem of the model.
 A model to try out instead might be to first perform an orthogonal projection
@@ -277,7 +283,7 @@ iPhones and iPads [@Krafka2016], it has a strong bias towards calculating gaze
 points within the boundaries of those screens. This bias is visualized in
 @fig:predictionsiTracker, which is a $\log \log$ visualization of the estimated gaze
 points on the Pexels and the BioID dataset. Of course as discussed in
-@sec:gaze-point-estimation-1 a high amount of people are looking directly into
+@sec:head-point-estimation-1 a high proportion of people are looking directly into
 the camera, which of course leads to a natural aggregation around the top
 middle area of the image, directly below the camera. Still only very few points
 can be observed outside the boundaries of an iPhone or iPad screen in relation
