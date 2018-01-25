@@ -577,7 +577,7 @@ contains images featuring various backgrounds, head poses, accessories, and
 lighting conditions.
 
 The remaining datasets are those Dlib's shape detectors are based on. One is
-the 300 Faces In-The-Wild challenge's dataset [@Sagonas2013], which consists of
+the "300 Faces In-The-Wild Challenge"'s dataset [@Sagonas2013], which consists of
 600 images with 68 landmark annotations, which were produced
 semi-automatically. The other dataset is the dlib 5-point face landmark
 dataset, containing 7198 faces. It was labeled using only five landmarks by King.
