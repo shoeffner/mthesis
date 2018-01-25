@@ -6,7 +6,7 @@ EXTERNAL_MAKE = IMAGE_DIR=$(IMAGE_DIR) $(MAKE) -C $(1)
 
 all: $(foreach im,$(IMAGES),$(IMAGE_DIR)/$(im).png) $(EXTERNALS)
 
-$(IMAGE_DIR)/68landmarks.png: figure_68_markup_sagonas2013.jpg dlibfacedetection.png | $(IMAGE_DIR)
+$(IMAGE_DIR)/68landmarks.png: dlibfacedetection.png figure_68_markup_sagonas2013.jpg | $(IMAGE_DIR)
 	montage $^ -tile 2x -geometry "x1086>+5+0" $@
 
 $(IMAGE_DIR)/pupils3dmodel.png: ./pose_0003.png ./pupils3d_0003.png | $(IMAGE_DIR)

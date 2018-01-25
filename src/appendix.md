@@ -97,7 +97,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![Some example faces from the pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
-![Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison }
+![Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison height=120% }
 
 ![Comparison of solutions to the PnP problem using EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 

@@ -42,6 +42,9 @@ PANDOC_FINAL_OPTIONS := --toc -V lot:true -V loa:true -V loc:true -V lof:true -V
 
 PDFLATEX = $(ENVIRONMENT) pdflatex $(1)
 
+# To tee undefined references
+SHELL := /bin/bash
+
 # Builds the complete thesis using the file list above.
 $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	$(call PDFLATEX,$<)
@@ -50,13 +53,16 @@ $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	$(call PDFLATEX,$<) 1>/dev/null
 	$(call PDFLATEX,$<) 1>/dev/null
 	makeglossaries $(THESIS_FILE)
-	$(call PDFLATEX,$<)
+	# Store undefined references
+	$(call PDFLATEX,$<) | tee >(grep "LaTeX Warning: Reference" > build/undef_refs)
 	@# move resulting pdf to build directory to keep working directory clean
 	@mv $(THESIS_FILE).pdf $(BUILD_DIR)
 	@# cleanup intermediate files
 	@rm $(THESIS_FILE).*
 	@if [ -f texput.log ]; then rm texput.log ; fi
 	$(call PRINT_INFO,$@)
+	# Search for undefined references and print the results
+	@for i in $$(cat build/undef_refs | sed "s/.*\`\(.*\)\'.*/\1/"); do ack $$i src ; done
 
 $(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) figures evaluation | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_FINAL_OPTIONS) -o $@ $(MD_FILES)
