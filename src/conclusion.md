@@ -4,7 +4,10 @@ As shown in @chap:a-gaze-tracking-library the \Gaze{} library achieves its
 goals. It is able to process data in a timely manner and solves eye center tracking
 extremely well. Its only shortcoming is the model to use the tracked eye center
 to calculate a gaze point. In the following sections the shortcomings and
-successes of \Gaze{} are quantified and qualified.
+successes of \Gaze{} are quantified and qualified. Near the end of the chapter
+a comparison with iTracker was planned, but since the gaze points can not be
+calculated properly using the geometric model, the comparison is limited. Instead, a brief qualitative
+review of iTracker will be done.
 
 
 ## Library implementation
@@ -257,7 +260,15 @@ constraints no further selection of images featuring prominent gazes to either s
 has been done.
 
 
-## iTracker
+## Comparison with and brief review of iTracker
+
+As outlined in the beginning of this chapter and @sec:an-alternative-approach-itracker,
+originally a comparison between the geometric model and the +cnn was planned.
+Now that the geometric model is only capable of doing eye tracking but lacks a
+proper gaze point estimation, the comparison is simple: iTracker works well for
+gaze tracking, but not for eye tracking, while the geometric model works well
+for eye tracking, but not for gaze tracking. Hence the following is a small
+review of iTracker's qualitative performance and its usability.
 
 The custom pipeline step `GazeCapture`, designed to replace most parts of the
 default pipeline and employing the +cnn iTracker [@Krafka2016], performs well
@@ -277,13 +288,13 @@ is not clear whether it is the fault of \Gaze{} or if the problem is a resource
 management within Caffe. But because this crash is not resolved, `GazeCapture`
 is currently only an optional component.
 
-But taking the technical issues aside, iTracker is able to predict \Gaze{}
+But taking the technical issues aside, iTracker is able to estimate gaze
 inside a limited scope. Because it is trained on data measured exclusively on
 iPhones and iPads [@Krafka2016], it has a strong bias towards calculating gaze
 points within the boundaries of those screens. This bias is visualized in
 @fig:predictionsiTracker, which is a $\log \log$ visualization of the estimated gaze
-points on the Pexels and the BioID dataset. Of course as discussed in
-@sec:head-point-estimation-1 a high proportion of people are looking directly into
+points on the Pexels and the BioID dataset. Of course, as discussed in
+@sec:head-pose-estimation-1, a high proportion of people are looking directly into
 the camera, which of course leads to a natural aggregation around the top
 middle area of the image, directly below the camera. Still only very few points
 can be observed outside the boundaries of an iPhone or iPad screen in relation

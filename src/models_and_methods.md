@@ -490,7 +490,7 @@ time, as it only visualizes one step at a time.
 ## An alternative approach: iTracker
 
 As an alternative approach to the geometric model present above, a pre-trained
-+CNN [@Krafka2016] is used. It is called iTracker and builds on the authors'
++CNN [@Krafka2016] is used for a comparison. It is called iTracker and builds on the authors'
 dataset GazeCapture, which contains data of \num{1450} subjects, or about 2.5
 million frames. @Krafka2016 make their models publicly
 [available](https://github.com/CSAILVision/GazeCapture) on GitHub.
