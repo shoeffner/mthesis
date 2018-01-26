@@ -22,7 +22,6 @@ $(foreach f,$(PIPELINE_TIMES),$(TARGET_DIR)%$(f)): pipeline_times.py pexels.csv 
 
 $(foreach f,$(PREDICTIONS),$(TARGET_DIR)%$(f)): prediction_iTracker_BioID.png prediction_iTracker_Pexels.png
 	montage $^ -tile 2x -mode Concatenate -geometry "+5+5" $@
-	rm $^
 
 $(foreach f,$(UNDETECTED),$(TARGET_DIR)%$(f)): undetected_faces.py pexels.csv Makefile
 	montage $(shell python undetected_faces.py) -tile 6x -mode Concatenate -geometry "120x120+2+2" $@
