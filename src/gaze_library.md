@@ -411,7 +411,7 @@ further, but algorithms like `cv::solvePnP`,
 which is used by \Gaze{}, benefit from exact values.
 OpenCV provides a calibration tool which
 outputs the needed matrices. Detailed instructions on how to use it
-are inside the appendix in @sec:calibrating-OpenCV. Parts of the resulting output
+are inside the appendix in @sec:calibrating-opencv. Parts of the resulting output
 file in @cl:cameracalibyml need to be merged into the `gaze.yaml`, namely the
 sections `camera_matrix` and `distortion_coefficients`. They need to be placed
 into the section `camera` inside the `meta` part. An example is already given

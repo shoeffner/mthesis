@@ -14,7 +14,7 @@ review of iTracker will be done.
 
 \Gaze{}'s goals to be easily integrable, extendable, to be +FOSS, well documented,
 and cross-platform are mostly fulfilled. While it is sufficiently easy to
-integrate \Gaze{} into software as shown in @sec:building-installing-and-using-gaze, it is not possible to extend
+integrate \Gaze{} into software as shown in @sec:building-installing-and-using, it is not possible to extend
 \Gaze{} with a custom pipeline step without building it from source. It would have
 been a bigger success if \Gaze{} truly followed a multi-purpose plugin architecture
 to quickly prototype custom pipeline steps and test new models. But because \Gaze{}
