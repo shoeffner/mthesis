@@ -277,6 +277,8 @@ camera coordinate system, it is possible to derive the camera location, which
 in turn is fix in relation to the screen. So by knowing the camera location,
 the screen corners needed to solve @eq:matrix-intersection can be found trivially.
 
+\widefn
+
 In \Gaze{} head pose estimation is performed closely following the approach
 outlined by @Mallick2016. The pose only needs to be estimated indirectly by
 describing an affine transformation from the model coordinates to camera
@@ -339,6 +341,7 @@ Since for gaze tracking subjects can be assumed to
 look more likely into the direction of the camera, it is more important to
 estimate frontal images better.
 
+\stopwidefn
 
 ### Distance estimation
 

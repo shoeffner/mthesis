@@ -9,6 +9,8 @@ functions, and, more importantly, about visual sensation and perception. While
 a great part of the handbook focuses on eyeball movements and lens
 accommodation, attention is frequently brought up.
 
+\widefn
+
 > Erst indem wir unsere Sinnesorgane nach eigenem Willen in verschiedene
 > Beziehungen zu den Objecten bringen, lernen wir sicher urtheilen über die
 > Ursachen unserer Sinnesempfindungen\[.\][^translationhelmholtz]
@@ -16,9 +18,12 @@ accommodation, attention is frequently brought up.
 > \raggedleft --- <cite>@Helmholtz1866. Handbuch der physiologischen Optik,
 > p. 452.</cite>
 
+
 [^translationhelmholtz]: Translated quotation [@Helmholtz1866]: We learn to
   reason about our sensory impressions only because we can establish different
   relations between our sensory organs and objects at our own discretion.
+
+\stopwidefn
 
 With these words Helmholtz makes a very important observation: Humans are
 only able to reason about what they perceive with their eyes because they

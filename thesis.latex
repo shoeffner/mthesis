@@ -14,6 +14,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[american]{babel}
 \usepackage{xintexpr}
+\usepackage{dblfnote}
+\newcommand{\widefn}{\begingroup\setlength{\DFNcolumnwidth}{\textwidth}\DFNinhibitcbreak}
+\newcommand{\stopwidefn}{\DFNallowcbreak\endgroup}
 
 $if(geometry)$
 \PassOptionsToPackage{$for(geometry)$$geometry$$sep$,$endfor$}{geometry}
