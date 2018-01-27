@@ -2,11 +2,43 @@
 
 This chapter will outline the current state of the art in eye and gaze tracking
 approaches which focus on optical methods, as those are most relevant for this
-thesis project.
+thesis. First a few of the models for gaze tracking are presented, covering
+pupil localization, head pose estimation and gaze point estimation. Then
+commercial gaze tracking solutions will be presented, covering examples for
+remote, mobile and +VR gaze trackers, but also some webcam gaze trackers and
+analysis software. It is important to note that although they are coined *gaze*
+tracking solutions here, which they are, most are marketed simply as *eye*
+tracking solutions, in general the distinction is not often made clearly. After
+a brief coverage of the commercial solutions, a number of +FOSS projects will
+be compared. Almost all of them focus on webcam based gaze tracking, which is
+what this thesis aims to achieve as well.
 
-TODO(shoeffner): better intro section
 
 ## Models for eye and gaze tracking
+
+Optical gaze tracking essentially requires two kinds of models, one model to
+detect pupil centers and one model to estimate the gaze point. Since in this
+thesis subjects are supposed to be able to move their head freely, a third
+model to estimate the head pose is needed. In this section a few models for
+these purposes will be briefly reviewed. For an in-depth review of some of
+these and many other models, please refer to @Hansen2010, who compiled a
+detailed review of eye and gaze models.
+
+For pupil detection it is in general possible to distinguish between shape- and
+appearance-based models [@Hansen2010], most of them work on image patches
+containing the eyes and an area around them. Shape-based models assume the iris
+as a circular object and optionally add ellipses around them to model the
+sclera or eye lids. Some such methods use a circular Hough transform to find
+the pupil centers [@Soltany2011; @George2016]. Other models perform local fits
+of circles or ellipses into the image using expectation maximization or random
+sample consensus to detect the eyes or pupils [@Li2005; @Hansen2005].
+Appearance-based models search for other image features, such as color to
+discard the white sclera in different color spaces [@Periketi2011]. Others
+discard eye center candidate pixels if they have high entropy, stating that the
+sclera's blood vessels and illumination differences lead to it [@Fini2011].
+Other models apply support vector machines to detect facial features [@Park2002].
+
+TODO(shoeffner): Add head orientation and gaze estimation methods.
 
 
 ## Commercial gaze tracking solutions
