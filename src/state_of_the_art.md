@@ -15,8 +15,9 @@ Commercial solutions for gaze tracking come in a great variety. There are
 hardware systems with one or multiple cameras, coming with specialized computer
 hardware or without, and some having their own software solutions to visualize
 and analyze the data recorded with them, while others rely on other software.
-Very little manufacturers focus on webcam solutions but instead built highly
-specialized hardware. The price ranges vary from about \eur{100} to prices
+Few manufacturers focus on webcam solutions, most built highly
+specialized hardware instead. The price ranges vary from
+about \eur{100} to prices
 beyond \eur{20000} [@Mahler2017; @Biggs2016]. Most commercial gaze trackers
 state their accuracy in degrees of visual angle. With an accuracy of
 \SI{1}{\deg}, a gaze tracker has an error of about \SI{1}{\centi\meter} at a
@@ -65,12 +66,15 @@ tracking. One such company, [interactive minds](https://interactive-minds.com),
 works closely together with the hardware manufacturer LC
 Technologies. Other software companies include
 [iMotions](https://imotions.com), which offers software for gaze tracking but
-also for +EEG, +ECG, and other biometrics.
-A modern +saas approach is done by [Eyezag](https://eyezag.com),
-which offers a service to perform gaze tracking for websites using only user
-webcams. But also companies like the [Institut für
+also for +EEG, +ECG, and other biometrics. Companies like the [Institut für
 Wahrnehmungsforschung](http://institut-fw.de) offer to conduct gaze tracking
 studies, they specialized on marketing and advertisment.
+
+A modern +saas approach is done by [Eyezag](https://eyezag.com),
+which offers a service to perform gaze tracking for websites using only user
+webcams. Similarly the platforms [EyesDecide](https://eyesdecide.com) and the
+related [xLabs](https://xlabsgaze.com) offer browser integrations to record,
+replay and analyze user gazing behavior on websites by employing webcams.
 
 
 ## Free and open-source webcam gaze tracking software
