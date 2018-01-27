@@ -4,8 +4,76 @@ This chapter will outline the current state of the art in eye and gaze tracking
 approaches which focus on optical methods, as those are most relevant for this
 thesis project.
 
+TODO(shoeffner): better intro section
 
-## Free and open-source software projects for webcam gaze tracking
+## Models for eye and gaze tracking
+
+
+## Commercial gaze tracking solutions
+
+Commercial solutions for gaze tracking come in a great variety. There are
+hardware systems with one or multiple cameras, coming with specialized computer
+hardware or without, and some having their own software solutions to visualize
+and analyze the data recorded with them, while others rely on other software.
+Very little manufacturers focus on webcam solutions but instead built highly
+specialized hardware.  The price ranges vary from about \eur{100} to prices
+beyond \eur{20000} [@Mahler2017; @Biggs2016]. Most commercial gaze trackers
+state their accuracy in degrees of visual angle. With an accuracy of
+\SI{1}{\deg}, a gaze tracker has an error of about \SI{1}{\centi\meter} at a
+viewing distance of \SI{57.3}{\centi\meter}. In this section, only a segment of
+available solutions is listed.
+
+In the low end price range of remote gaze trackers there are the cheaper
+[Tobii EyeX and Tobii Eye Tracker 4X](https://tobiigaming.com) models, which
+are not for research but gaming. With prices of \eur{159} they
+currently are the cheapest gaze tracking hardware available. Tobii hardware comes
+with a developer kit for Windows computers, and can be purchased either as
+standalone gaze trackers or built-in modern gaming laptops. Their only
+competitor within the low price class, [The Eye Tribe](http://theeyetribe.com)
+which sold trackers for \eur{99} to \usd{199}, was acquired by Oculus
+in late 2016 [@Constine2016] and is no longer selling its products on their
+website. Still below \eur{1000} are the [GP3](https://gazept.com) if bought
+without any software, which raises the price up to \eur{2800}. It has an
+accuracy of \SI{0.5}{\deg} to \SI{1}{\deg} and a frame rate of
+\SI{60}{Hz}. In the higher price segment for remote gaze tracking, Tobii
+offers a frame rate of up to \SI{600}{Hz} with an accuracy of \SI{0.4}{\deg}.
+Another remote gaze tracker with up to \SI{1000}{Hz} and a similar
+accuracy is the EyeLink 1000 by [SR Research](http://sr-research.com).
+[Smart eye](http://smarteye.se) offer multi camera setups for setups with
+multiple monitors using up to eight cameras. They have an accuracy of
+\SI{0.5}{\deg} and between \SI{60}{Hz} and \SI{120}{Hz}.
+
+For mobile eye tracking [pupil labs](https://pupil-labs.com) offers a unique
+solution: All their hardware as well as their software is open source and can
+potentially be built manually. They offer their \SI{200}{Hz} gaze tracking
+glasses from \eur{1000} and also have add-ons for the Microsoft HoloLens,
+an +AR kit, and the HTC Vive, a +VR kit. Another choice for +VR is the
+[Fove](https://getfove.com) at \usd{599}, a gaze tracking solution
+developed specifically for +VR: They specialize in foveated rendering
+[@Patney2016] to improve the performance of graphics renderings in +VR.
+But Fove and pupil labs are not the only contenders in the gaze tracking for
++VR and +AR market. [Ergoneers](http://ergoneers.com) sell a hardware kit
+which can be adapted to +VR but is also designed to be integrated into helmets.
+[SensoMotoric Instruments](https://smivision.com)
+offered a wide range of remote, mobile, +AR, and +VR solutions in the higher
+price ranges, until they were bought by Apple in 2017 [@Rossignol2017].
+Tobii also offers mobile hardware for researchers with \SI{100}{Hz}.
+
+Although many hardware manufacturers also ship their own analysis software,
+there are independent software companies offering analysis software for gaze
+tracking. One such company, [interactive minds](https://interactive-minds.com),
+works closely together with the hardware manufacturer [LC
+Technologies](http://eyegaze.com). Other software companies include
+[iMotions](https://imotions.com), which offers software for gaze tracking but
+also for +EEG, +ECG, and other biometrics.
+A modern +saas approach is approach is done by [Eyezag](https://eyezag.com),
+which offers a service to perform gaze tracking for websites using only user
+webcams. But also companies like the [Institut für
+Wahrnehmungsforschung](http://institut-fw.de) offer to conduct gaze tracking
+studies and specialized on marketing and advertisment.
+
+
+## Free and open-source software for webcam gaze tracking
 
 Several +FOSS projects attempt to perform gaze tracking. They all have
 different requirements and use cases: They require webcams, modified webcams,
@@ -40,7 +108,7 @@ integrated into other software and can be seen as a reference implementation o
 f the eye center detection algorithm. \Gaze{} implements
 the same algorithms but tries to provide a more flexible interface.
 
-[Opengazer](http://www.inference.org.uk/opengazer/) is a software originally
+[Opengazer](http://inference.org.uk/opengazer) is a software originally
 developed by Piotr Zieliński which tracks gaze after a few calibration steps
 using a normal webcam. It was published in 2010 and last updated in 2013, but a
 [fork](https://github.com/tiendan/OpenGazer) of the project was created by Onur

@@ -13,6 +13,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[american]{babel}
+\usepackage{xintexpr}
 
 $if(geometry)$
 \PassOptionsToPackage{$for(geometry)$$geometry$$sep$,$endfor$}{geometry}
