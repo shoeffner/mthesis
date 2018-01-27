@@ -14,13 +14,13 @@ an alternative deep learning model for gaze tracking.
 ## Geometric model
 
 The goal of the geometric model is to detect the pupil centers of both eyes and
-perform a ray cast from the eye ball centers through the pupils. The
+perform a ray cast from the eyeball centers through the pupils. The
 intersections of the screen plane and the ray cast are the gaze points. The
 line--plane intersection [@Wikipedia:lineplaneintersection] can be expressed using three points of the
-screen plane, the eye ball center and the pupil in the same 3D coordinate
+screen plane, the eyeball center and the pupil in the same 3D coordinate
 system.
-Given an eye ball center $c \in \Rthree$ and a pupil center $p \in \Rthree$, the points on the line
-from the eye ball center through the pupil can be described as
+Given an eyeball center $c \in \Rthree$ and a pupil center $p \in \Rthree$, the points on the line
+from the eyeball center through the pupil can be described as
 \begin{align}
 c + (p - c)t,\label{eq:c-p-line}
 \end{align}
@@ -62,22 +62,22 @@ the direction vectors. In practice this should not happen, as the methods to
 detect the face and pupils would fail before these calculations are done.
 
 The difficulty is to find all variables such that @eq:matrix-intersection
-can be solved. The following sections will show how the eye ball centers are
+can be solved. The following sections will show how the eyeball centers are
 determined using a generic 3D head model, followed by how \Gaze{} detects faces
 and eyes in an image. The detected face landmarks are used to find the pupil
 centers and project them into the 3D model, as well as to estimate the head
 pose in relation to the camera. Once the relation to the camera is established,
 a distance estimate is performed to calculate the screen position in the
-model coordinate system. The eye ball centers, pupil locations in model
+model coordinate system. The eyeball centers, pupil locations in model
 coordinates, and screen corners in model coordinates can be inserted into
 @eq:matrix-intersection to find $t$ and calculate the gaze points.
 Eventually the gaze points are converted into target coordinates, for example
 the pixels of the screen.
 
 
-### 3D head model and eye ball centers
+### 3D head model and eyeball centers
 
-The eye ball centers can be modeled as part of a 3D head model which will be
+The eyeball centers can be modeled as part of a 3D head model which will be
 needed to estimate the head pose in relation to the camera. A simplified 3D
 head model using six landmarks is proposed by @Mallick2016. It does not use the
 metric system but coordinates within "some arbitrary reference frame"
@@ -108,7 +108,7 @@ Table: 3D head model by @Mallick2016. The first columns describe the landmark
 and names its abbreviation [@Swennen2006], followed by the "300 Faces
 In-The-Wild Challenge" index [@Sagonas2016]. Then the 3D model coordinates are
 described as used by \Gaze{} and in the original model.
-The eye ball centers are an exception as they are only important for the
+The eyeball centers are an exception as they are only important for the
 ray cast and do not have conventional soft tissue landmark abbreviations nor
 model points in the original model. \label{tab:3dheadmodel}
 
@@ -123,21 +123,21 @@ Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$       $(150, -150, 
 Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 
-An initial idea to model the eye ball center was to place it at the center
+An initial idea to model the eyeball center was to place it at the center
 of the palpebral fissure -- the distance between both eye corners, the exocanthion and endocanthion -- and move it
 inside the head until the $\ex$ and $\en$
-are on the eye ball surface. The problem with this idea is that the mean
+are on the eyeball surface. The problem with this idea is that the mean
 palpebral fissure length is \SI{28.19}{\milli\meter} [@Facebase] but the mean
-eye ball diameter is much less than that: It is commonly reported to be about \SI{24}{\milli\meter} [@Davson2017], or
+eyeball diameter is much less than that: It is commonly reported to be about \SI{24}{\milli\meter} [@Davson2017], or
 \SI{22.0}{\milli\meter} to \SI{24.8}{\milli\meter} [@Bekerman2014]. Instead of
 solving the equations with a greater diameter or by accounting for the distance
-between the eye ball surface and the $\ex$ and $\en$, the mid point between
+between the eyeball surface and the $\ex$ and $\en$, the mid point between
 $\ex$ and $\en$ is just moved back along the $z$ axis by
 \SI{13.5}{\milli\meter}, which is the furthest distance between the cornea and
-the eye ball center [@Gross2008]. The endocanthions are assumed to be on the
+the eyeball center [@Gross2008]. The endocanthions are assumed to be on the
 same line parallel to the $x$ axis and with a distance of the palpebral fissure
 length, \SI{28.19}{\milli\meter} apart from their respective exocanthions. The
-eye ball centers are then at $(-29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter} and
+eyeball centers are then at $(-29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter} and
 $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 
 ![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks.](missingfigure){ #fig:3dheadlandmarks }
@@ -258,11 +258,11 @@ the detected landmarks which correspond to the model points are extended to be
 transformation from the landmarks to the model is estimated using OpenCV's
 `estimateAffine3D` function. Applying the result transformation to the pupils effectively
 moves them into the head model. @fig:pupils3dmodel shows the 3D head model with
-pupils and eye ball centers after the transformation.
+pupils and eyeball centers after the transformation.
 
 ![Left: Head pose estimation, the red markers are detected by Dlib and the blue
 markers are a projection of the model to visualize the differences. Right: The
-cyan pupils and magenta eye ball centers
+cyan pupils and magenta eyeball centers
 inside the yellow 3D model. The image was visually enhanced by increasing the
 dots and brightening the background.](pupils3dmodel.png){ #fig:pupils3dmodel }
 

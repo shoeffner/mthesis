@@ -151,7 +151,7 @@ the two exocanthions, the subnasal -- the point below the nose -- and the
 endocanthions. To be able to estimate a head pose, a
 different 3D model is used, Model&nbsp;A in @cl:5lm-model. It is difficult to find
 accurate relational measurements for these landmarks, so for the endocanthions
-the same model assumption is made as is for the eye ball centers, that they are
+the same model assumption is made as is for the eyeball centers, that they are
 offset towards the center by the length of the palpebral fissure [@Facebase].
 The subnasal is located using an educated guess backed by the data about the
 nasal height and the philtrum length [@Facebase].
@@ -228,7 +228,7 @@ model the information which is lost during the original 3D-2D projection is not
 approximated well enough. This is likely a problem of the model.
 A model to try out instead might be to first perform an orthogonal projection
 into the direction of the screen, fit the pupils into the projection and then
-perform a raycast from the pupils onto modeled eye balls. This would resolve
+perform a raycast from the pupils onto modeled eyeballs. This would resolve
 an error which likely occurs in the current model: By not projecting the pupil
 centers properly onto the eyeball, they are likely displaced in relation to
 their true position. The effect is visualized in \Cref{fig:failedprojection} using a 2D
