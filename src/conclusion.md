@@ -333,6 +333,8 @@ table for the pupil detection step, it slows down a little bit as observed in
 +GPU as theorized above. But even with the slightly slower speed iTracker's
 +cnn is the best model currently implemented in \Gaze{}.
 
+\clearpage
+
 @file:assets/gen_files/table-pipeline-times.md
 
 The total times for a pipeline in \Cref{tab:pipeline-times} are about
