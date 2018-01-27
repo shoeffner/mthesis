@@ -16,7 +16,7 @@ hardware systems with one or multiple cameras, coming with specialized computer
 hardware or without, and some having their own software solutions to visualize
 and analyze the data recorded with them, while others rely on other software.
 Very little manufacturers focus on webcam solutions but instead built highly
-specialized hardware.  The price ranges vary from about \eur{100} to prices
+specialized hardware. The price ranges vary from about \eur{100} to prices
 beyond \eur{20000} [@Mahler2017; @Biggs2016]. Most commercial gaze trackers
 state their accuracy in degrees of visual angle. With an accuracy of
 \SI{1}{\deg}, a gaze tracker has an error of about \SI{1}{\centi\meter} at a
@@ -41,7 +41,8 @@ Another remote gaze tracker with up to \SI{1000}{Hz} and a similar
 accuracy is the EyeLink 1000 by [SR Research](http://sr-research.com).
 [Smart eye](http://smarteye.se) offer multi camera setups for setups with
 multiple monitors using up to eight cameras. They have an accuracy of
-\SI{0.5}{\deg} and between \SI{60}{Hz} and \SI{120}{Hz}.
+\SI{0.5}{\deg} and between \SI{60}{Hz} and \SI{120}{Hz}. Another multi camera
+setup comes from [LC Technologies](http://eyegaze.com).
 
 For mobile eye tracking [pupil labs](https://pupil-labs.com) offers a unique
 solution: All their hardware as well as their software is open source and can
@@ -57,23 +58,22 @@ which can be adapted to +VR but is also designed to be integrated into helmets.
 [SensoMotoric Instruments](https://smivision.com)
 offered a wide range of remote, mobile, +AR, and +VR solutions in the higher
 price ranges, until they were bought by Apple in 2017 [@Rossignol2017].
-Tobii also offers mobile hardware for researchers with \SI{100}{Hz}.
 
 Although many hardware manufacturers also ship their own analysis software,
 there are independent software companies offering analysis software for gaze
 tracking. One such company, [interactive minds](https://interactive-minds.com),
-works closely together with the hardware manufacturer [LC
-Technologies](http://eyegaze.com). Other software companies include
+works closely together with the hardware manufacturer LC
+Technologies. Other software companies include
 [iMotions](https://imotions.com), which offers software for gaze tracking but
 also for +EEG, +ECG, and other biometrics.
-A modern +saas approach is approach is done by [Eyezag](https://eyezag.com),
+A modern +saas approach is done by [Eyezag](https://eyezag.com),
 which offers a service to perform gaze tracking for websites using only user
 webcams. But also companies like the [Institut für
 Wahrnehmungsforschung](http://institut-fw.de) offer to conduct gaze tracking
-studies and specialized on marketing and advertisment.
+studies, they specialized on marketing and advertisment.
 
 
-## Free and open-source software for webcam gaze tracking
+## Free and open-source webcam gaze tracking software
 
 Several +FOSS projects attempt to perform gaze tracking. They all have
 different requirements and use cases: They require webcams, modified webcams,

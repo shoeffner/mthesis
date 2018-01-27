@@ -3,12 +3,9 @@
 Estimating gaze is done in \Gaze{} using a geometric model realized in a flexible
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and
-output[^iopipeline] of the data. This chapter details the models and gives an
+output of the data. This chapter details the models and gives an
 overview of \Gaze{}'s architecture. Finally there will be a short introduction of
 an alternative deep learning model for gaze tracking.
-
-[^iopipeline]: As of writing, no special output writers are implemented, but
-  the infrastructure exists.
 
 
 ## Geometric model
@@ -113,13 +110,13 @@ ray cast and do not have conventional soft tissue landmark abbreviations nor
 model points in the original model. \label{tab:3dheadmodel}
 
 Landmark                Abbr.   Index  \Gaze{} [\si{\milli\meter}]   @Mallick2016
----------------------- ------- ------ ---------------------------- --------------------
-Pronasal               $\prn$      31 $(0, 0, 0)$                  $(0, 0, 0)$
-Gnathion               $\gn$        9 $(0, -63.6, -12.5)$          $(0, -330, -65)$
-Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$         $(-225, 170, -135)$
-Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$          $(225, 170, -135)$
-Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$      $(-150, -150, -125)$
-Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$       $(150, -150, -125)$
+---------------------- ------- ------ ----------------------------- --------------------
+Pronasal               $\prn$      31 $(0, 0, 0)$                   $(0, 0, 0)$
+Gnathion               $\gn$        9 $(0, -63.6, -12.5)$           $(0, -330, -65)$
+Exocanthion right      $\ex_r$     37 $(-43.3, 32.7, -26)$          $(-225, 170, -135)$
+Exocanthion left       $\ex_l$     46 $(43.3, 32.7, -26)$           $(225, 170, -135)$
+Cheilion right         $\ch_r$     49 $(-28.9, -28.9, -24.1)$       $(-150, -150, -125)$
+Cheilion left          $\ch_l$     55 $(28.9, -28.9, -24.1)$        $(150, -150, -125)$
 Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 

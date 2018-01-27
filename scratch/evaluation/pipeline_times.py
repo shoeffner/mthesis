@@ -77,8 +77,9 @@ def write_pipeline_step_times(df):
     table_caption = r"""
 Table: The different computation times per pipeline step, measured on the pexels
 dataset. All values are in \si{""" + SI_PREFIX + r"""\second}.
-Note that all pipeline steps are included although the default pipeline only
-uses the first four. \label{tab:pipeline-step-times}
+Note that all pipeline steps (except for the source capture) are included
+although the default pipeline only uses the first four.
+\label{tab:pipeline-step-times}
 """
     table = '\n'.join([table_caption, header, dashes] + lines)
     with open(OUTPATH + '/table-pipeline-step-times.md', 'w') as f:

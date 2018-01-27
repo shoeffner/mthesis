@@ -2,9 +2,9 @@
 
 As shown in @chap:a-gaze-tracking-library the \Gaze{} library achieves its
 goals. It is able to process data in a timely manner and solves eye center tracking
-extremely well. Its only shortcoming is the model to use the tracked eye center
-to calculate a gaze point. In the following sections the shortcomings and
-successes of \Gaze{} are quantified and qualified. Near the end of the chapter
+extremely well. One of its shortcomings is the model to transform the detected
+pupils from the 2D image into the 3D model. In the following sections the
+shortcomings and successes of \Gaze{} are quantified and qualified. Near the end of the chapter
 a comparison with iTracker was planned, but since the gaze points can not be
 calculated properly using the geometric model, the comparison is limited. Instead, a brief qualitative
 review of iTracker will be done.
