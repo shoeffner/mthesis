@@ -183,7 +183,7 @@ A list of ++URL can be found in \Cref{tab:links}.
 
 Table: Links to the thesis' source files. \label{tab:links}
 
-Description             Link
+Description            Link
 ---------------------- ------------------------------------------
 \Gaze{} Source Code    https://github.com/shoeffner/gaze
 \Gaze{} Documentation  https://shoeffner.github.io/gaze
