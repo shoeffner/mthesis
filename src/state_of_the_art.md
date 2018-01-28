@@ -61,6 +61,8 @@ improving the state of the art. For the challenge, which took place twice,
 As a side effect all methods relying on those landmarks provide simple means to
 extract image patches containing the eyes, which can then be used for further
 processing with one of the many methods for pupil detections mentioned above.
+This removes the need to detect the eyes specifically, as is for example done
+by @Sirohey2001.
 The most successful contributions to the "300 Faces In-The-Wild Challenge" in
 both installments rely on ++cnn [@Zhou2013; @Fan2016].
 

@@ -390,8 +390,7 @@ faster performance of \Gaze{}.
 
 Crucial settings for the camera to estimate distances properly are the sensor's
 size, its aspect ratio, and the focal length. These values are difficult to
-measure and many device vendors do not report them, as producing smaller
-sensors and cameras using higher resolutions is cheaper @citationneeded. Apple
+measure and many device vendors do not report them [@Crisp2013]. Apple
 uses the iSight for their MacBook Pro. Its older versions uses a
 \SI{6.35}{\milli\meter} sensor [@Luepke2005] with an aspect
 ratio of 4:3. The 15 inches MacBook Pro from mid 2015 used for \Gaze{}'s
