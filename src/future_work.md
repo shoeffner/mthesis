@@ -16,9 +16,7 @@ should be re-evaluated and possibly replaced. One way could be to model the
 eyeballs as spheres or ellipsoids and perform more sophisticated projections
 onto their surfaces. It might even be needed to account for refraction of light
 in the eye, something not taken into account at all in \Gaze{}'s models. Some
-of the models mentioned in @Hansen2009 could be of use, but most of them,
-though not all, assume multiple cameras or need infrared light, features
-webcams do not offer automatically.
+of the models mentioned in @Hansen2010 could be of use.
 Another possibility is to introduce a calibration method and see, if the model
 works using system calibrated to the subject. This might be difficult because
 of the pipeline architecture, but custom steps or a general extension to the

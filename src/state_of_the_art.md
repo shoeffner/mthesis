@@ -36,9 +36,33 @@ Appearance-based models search for other image features, such as color to
 discard the white sclera in different color spaces [@Periketi2011]. Others
 discard eye center candidate pixels if they have high entropy, stating that the
 sclera's blood vessels and illumination differences lead to it [@Fini2011].
-Other models apply support vector machines to detect facial features [@Park2002].
+Machine learning models like support vector machines are another method
+to detect facial features like eyes [@Park2002]. This thesis will build on a
+feature-based approach using the gradients pointing from a dark iris towards a
+bright sclera as indicators for eye centers [@Timm2011].
 
-TODO(shoeffner): Add head orientation and gaze estimation methods.
+To estimate the gaze point many models use infrared light and track the
+first Purkinje image, which is the reflection of the light source on the cornea
+[@Ohno2004]. Others use multiple cameras to estimate the 3D head pose and
+approximate the eyeball centers to cast rays from the eyeballs through
+detected pupils [@Newman2000]. Many methods for gaze estimation require some
+kind of calibration [@Hansen2010], but some research is also done to use
+calibration free methods, for example using Gaussian mixture models
+[@Xiong2014] or geometric calculations [@Nagamatsu2009]. However, the
+calibration free methods apply some constraints. @Xiong2014 only distinguished
+between left and right, and @Nagamatsu2009 used a chinrest to avoid head
+movements and to keep the head in focus of four cameras.
+
+Face detection is an old problem in Computer Vision with a popular
+solution of applying Haar features to detect faces [@Viola2001]. The "300 Faces
+In-The-Wild Challenge" [@Sagonas2013; @Sagonas2016] sparked broad interest in
+improving the state of the art. For the challenge, which took place twice,
+@Sagonas2013 proposed a unified landmark scheme to compare detection results.
+As a side effect all methods relying on those landmarks provide simple means to
+extract image patches containing the eyes, which can then be used for further
+processing with one of the many methods for pupil detections mentioned above.
+The most successful contributions to the "300 Faces In-The-Wild Challenge" in
+both installments rely on ++cnn [@Zhou2013; @Fan2016].
 
 
 ## Commercial gaze tracking solutions
