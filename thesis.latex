@@ -94,7 +94,8 @@ $endif$
 
 
 $if(glossary)$
-    \usepackage[acronyms,toc,nomain,nogroupskip]{glossaries}
+    \usepackage[nonumberlist,acronyms,toc,nomain,nogroupskip]{glossaries}
+    \setglossarystyle{index}
     \setacronymstyle{long-short}
     \input{$glossary$}
     \makeglossaries
@@ -145,7 +146,7 @@ $else$
     $if(acknowledgements)$
         \begin{acknowledgements}
             \input{$acknowledgements$}
-            \vspace*{1cm}\makeatletter\@author\makeatother
+            \vspace*{1cm}\raggedleft\makeatletter\@author\makeatother
         \end{acknowledgements}
     $endif$
 
