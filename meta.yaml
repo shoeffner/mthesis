@@ -11,7 +11,7 @@ abstract: src/abstract.tex
 acknowledgements: src/acknowledgements.tex
 header-includes:
     - \def\Gaze{\textsf{Gaze}}
-    - \newcommand{\exchangerateUSDEUR}{0.8}
+    - \newcommand{\exchangerateUSDEUR}{0.804804}
     - \newcommand{\eur}[1]{\SI{#1}[{EUR\,}]{}}
     - '\newcommand{\usd}[1]{\eur{\xinttheiexpr\xintexpr \exchangerateUSDEUR * #1 \relax\relax}}'
 header-files:
