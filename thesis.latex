@@ -95,7 +95,7 @@ $endif$
 
 $if(glossary)$
     \usepackage[nonumberlist,acronyms,toc,nomain,nogroupskip]{glossaries}
-    \setglossarystyle{index}
+    %\setglossarystyle{index}
     \setacronymstyle{long-short}
     \input{$glossary$}
     \makeglossaries
@@ -173,7 +173,9 @@ $else$
 
     $if(glossary)$
         $if(loa)$
+            \begingroup \setlength{\baselineskip}{0.2cm}
             \printglossary[type=\acronymtype,title={List of Abbreviations and Acronyms}]
+            \endgroup
         $endif$
     $endif$
 $endif$
