@@ -146,7 +146,7 @@ the software presented in this section can be found in \Cref{tab:compgazesoft}.
 
 \begingroup\let\ts\small
 
-Table: Comparison of open source gaze tracking software. Unfortunately, not all
+Table: Comparison of open source gaze tracking software.;;Comparison of open source gaze tracking software. Unfortunately, not all
 could be tested, thus the results rely on the respective author's reports. \label{tab:compgazesoft}
 
 \ts Software and Author                \ts Input            \ts Tracks \ts License

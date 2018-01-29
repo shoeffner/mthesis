@@ -1,5 +1,6 @@
 
-Table: Different accuracies per relative error thresholds on the pexels
+Table: Different accuracies per relative error thresholds on the Pexels
+dataset.;;Different accuracies per relative error thresholds on the Pexels
 dataset. \label{tab:pexels-pupil-detection-accuracies}
 
 Error type                       Method               0.05  0.10  0.15  0.20  0.25

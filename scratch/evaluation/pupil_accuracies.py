@@ -62,7 +62,8 @@ def computation_times(df):
 def write_computation_times(dataset, allcomp, smallcomp, bigcomp):
     comptable = f"""
 Table: Comparison of computation times between `EyeLike` and
-`PupilLocalization`. Data measured on the {dataset} dataset. \\label{{tab:comptimes-{dataset}}}
+`PupilLocalization`.;;Comparison of computation times between `EyeLike` and
+`PupilLocalization`. Data measured on the {dataset[0].upper() + dataset[1:]} dataset. \\label{{tab:comptimes-{dataset}}}
 
 Computation times [\\si{{{SI_PREFIX}\\second}}] Eye size        `PupilLocalization`        `EyeLike`
 -------------------------------------- -------- -------------------------- ----------------
@@ -100,7 +101,8 @@ def write_relative_errors(dataset, result):
     min_gaze = r['gaze_min_normalized_error'][indices].values
     mr = 3 if dataset == 'BioID' else 2  # special case for Timm2011
     comptable = f"""
-Table: Different accuracies per relative error thresholds on the {dataset}
+Table: Different accuracies per relative error thresholds on the {dataset[0].upper() + dataset[1:]}
+dataset.;;Different accuracies per relative error thresholds on the {dataset[0].upper() + dataset[1:]}
 dataset. """
     if dataset == 'BioID': comptable += f"""While @Timm2011 provide a graph of their results, only their $\\max$
 values are reported. """

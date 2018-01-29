@@ -42,7 +42,7 @@ def write_pipeline_times(df):
         times = ' '.join(pre + f'{{:{time_fmt}}}'.format(time) + post for time in times)
         lines.append(line + times)
     table_caption = r"""
-Table: Accumulated computation times per pipeline configuration, measured on
+Table: Accumulated computation times per pipeline configuration.;;Accumulated computation times per pipeline configuration, measured on
 the pexels dataset. The `SourceCapture` step is excluded. The other steps are
 `FaceLandmarks` (F), `HeadPoseEstimation` (H), `PupilLocalization` (P),
 `EyeLike` (E), `GazePointCalculation` (G), and `GazeCapture` (C). All values
@@ -75,10 +75,10 @@ def write_pipeline_step_times(df):
         times = ' '.join(pre + f'{{:{time_fmt}}}'.format(time) + post for time in times)
         lines.append(line + times)
     table_caption = r"""
-Table: The different computation times per pipeline step, measured on the pexels
+Table: Computation times per pipeline step.;;The different computation times per pipeline step, measured on the pexels
 dataset. All values are in \si{""" + SI_PREFIX + r"""\second}.
-Note that all pipeline steps (except for the source capture) are included
-although the default pipeline only uses the first four.
+Note that all pipeline steps except for the source capture are included,
+even though the default pipeline only uses the first four.
 \label{tab:pipeline-step-times}
 """
     table = '\n'.join([table_caption, header, dashes] + lines)

@@ -1,6 +1,7 @@
 
 Table: Comparison of computation times between `EyeLike` and
-`PupilLocalization`. Data measured on the pexels dataset. \label{tab:comptimes-pexels}
+`PupilLocalization`.;;Comparison of computation times between `EyeLike` and
+`PupilLocalization`. Data measured on the Pexels dataset. \label{tab:comptimes-pexels}
 
 Computation times [\si{\micro\second}] Eye size        `PupilLocalization`        `EyeLike`
 -------------------------------------- -------- -------------------------- ----------------

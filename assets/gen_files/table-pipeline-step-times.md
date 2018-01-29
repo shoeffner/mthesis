@@ -1,8 +1,8 @@
 
-Table: The different computation times per pipeline step, measured on the pexels
+Table: Computation times per pipeline step.;;The different computation times per pipeline step, measured on the pexels
 dataset. All values are in \si{\micro\second}.
-Note that all pipeline steps (except for the source capture) are included
-although the default pipeline only uses the first four.
+Note that all pipeline steps except for the source capture are included,
+even though the default pipeline only uses the first four.
 \label{tab:pipeline-step-times}
 
 Pipeline step                   Median             Max            Mean             Min

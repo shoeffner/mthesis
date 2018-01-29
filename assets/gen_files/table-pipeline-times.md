@@ -1,5 +1,5 @@
 
-Table: Accumulated computation times per pipeline configuration, measured on
+Table: Accumulated computation times per pipeline configuration.;;Accumulated computation times per pipeline configuration, measured on
 the pexels dataset. The `SourceCapture` step is excluded. The other steps are
 `FaceLandmarks` (F), `HeadPoseEstimation` (H), `PupilLocalization` (P),
 `EyeLike` (E), `GazePointCalculation` (G), and `GazeCapture` (C). All values

@@ -1,5 +1,6 @@
 
 Table: Different accuracies per relative error thresholds on the BioID
+dataset.;;Different accuracies per relative error thresholds on the BioID
 dataset. While @Timm2011 provide a graph of their results, only their $\max$
 values are reported. \label{tab:BioID-pupil-detection-accuracies}
 

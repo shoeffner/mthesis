@@ -101,7 +101,7 @@ mid-saggital plane it follows that $\num{225} = \SI{43.355}{\milli\meter}$, or
 $\num{1} \approx \SI{0.19269}{\milli\meter}$. This relation can be used to
 calculate the metric model, as done in \Cref{tab:3dheadmodel}.
 
-Table: 3D head model by @Mallick2016. The first columns describe the landmark
+Table: 3D head model by @Mallick2016.;;3D head model by @Mallick2016. The first columns describe the landmark
 and name its abbreviation [@Swennen2006], followed by the "300 Faces
 In-The-Wild Challenge" index [@Sagonas2016]. Then the 3D model coordinates are
 described as used by \Gaze{} and in the original model.

@@ -1,5 +1,6 @@
 
 Table: Comparison of computation times between `EyeLike` and
+`PupilLocalization`.;;Comparison of computation times between `EyeLike` and
 `PupilLocalization`. Data measured on the BioID dataset. \label{tab:comptimes-BioID}
 
 Computation times [\si{\micro\second}] Eye size        `PupilLocalization`        `EyeLike`
