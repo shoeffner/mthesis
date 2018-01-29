@@ -184,3 +184,4 @@ default.latex
 scratch/notes.md
 HoeffnerGaze.*
 assets/gen_files/comptimes
+__pycache__

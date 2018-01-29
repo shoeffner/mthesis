@@ -90,7 +90,7 @@ the thresholds is reported. A comparison of all three different errors, $\min,
             \addplot[color=green] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
         \end{axis}
     \end{tikzpicture}
-    \caption{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and \Gaze{}'s \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:BioID-pupil-detection-accuracies} for a tabular version of all relative errors.}
+    \caption[Comparison of pupil detection accuracies.]{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and \Gaze{}'s \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:BioID-pupil-detection-accuracies} for a tabular version of all relative errors.}
 \end{figure}
 
 TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
@@ -238,7 +238,7 @@ correct $p_0$ can lead to huge errors on the screen.
 \begin{figure}
 \centering
 \input{assets/images/failedprojection.tex}
-\caption{\label{fig:failedprojection}A small pupil restoration error of using $p_0$ instead of $p_1$ for
+\caption[A small pupil restoration error leads to big prediction errors.]{\label{fig:failedprojection}A small pupil restoration error of using $p_0$ instead of $p_1$ for
 the ray cast from $e$ to the screen can lead to big errors on the screen
 surface.}
 \end{figure}
@@ -301,7 +301,7 @@ middle area of the image, directly below the camera. Still only very few points
 can be observed outside the boundaries of an iPhone or iPad screen in relation
 to the camera.
 
-![Double-logarithmic visualization of the estimated gaze points using `GazeCapture`'s iTracker for the BioID dataset on the left and the Pexels dataset on the right. Brighter means more gaze points.](predictions_iTracker.png){ #fig:predictionsiTracker }
+![`GazeCapture`'s estimated gaze points on the BioID and Pexels dataset.;;Double-logarithmic visualization of the estimated gaze points on the screen using `GazeCapture`'s iTracker for the BioID dataset on the left and the Pexels dataset on the right. Brighter means more gaze points.](predictions_iTracker.png){ #fig:predictionsiTracker }
 
 Overall iTracker is a convincing implementation of a +cnn for gaze tracking,
 but a qualitatively broader training dataset might help improve it even further

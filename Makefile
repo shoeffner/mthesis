@@ -48,6 +48,8 @@ UNDEF_FILE := build/undef_refs
 
 # Builds the complete thesis using the file list above.
 $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
+	@# Postprocessing: Convert captions without short captions but with ;; in their captions to short captions.
+	python ./bin/shortcaps.py $<
 	$(call PDFLATEX,$<)
 	$(call PDFLATEX,$<) 1>/dev/null
 	makeglossaries $(THESIS_FILE)

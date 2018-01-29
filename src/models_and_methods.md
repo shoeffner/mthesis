@@ -172,7 +172,7 @@ and detecting its center. The eye is cropped to a square with a side-length of
 rectangle's center. To visualize this, examples of processed eyes can be found in the
 appendix in @fig:pupildetectioncomparison.
 
-![The 68 landmarks as detected by Dlib on the left, on the right their original description by
+![Facial landmarks described and detected by Dlib.;;The 68 landmarks as detected by Dlib on the left, on the right their original description by
 @Sagonas2013. In Dlib, the indexes start with 0. Landmarks schema used
 with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
@@ -257,7 +257,7 @@ transformation from the landmarks to the model is estimated using OpenCV's
 moves them into the head model. @fig:pupils3dmodel shows the 3D head model with
 pupils and eyeball centers after the transformation.
 
-![Left: Head pose estimation, the red markers are detected by Dlib and the blue
+![Estimated head pose visualization.;;Left: Head pose estimation, the red markers are detected by Dlib and the blue
 markers are a projection of the model to visualize the differences. Right: The
 cyan pupils and magenta eyeball centers
 inside the yellow 3D model. The image was visually enhanced by increasing the

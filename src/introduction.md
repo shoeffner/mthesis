@@ -50,9 +50,10 @@ the attached eye. Using the device, Huey was able to report accurate
 measurements of fixations and saccades, stops and rapid movements of the
 eyes, which he used to analyze reading behavior.
 
-![Schema of Huey's eye tracking device. It works similar to a seismograph.
-Image from Google's scan of the New York Public Library's 1968 reprint of
-@Huey1908, p. 26.](huey_eyetracker.png){#fig:huey_eyetracker}
+![Schema of Huey's eye tracking device.;;Schema of Huey's eye tracking device.
+It works similar to a seismograph. Image from Google's scan of the New York
+Public Library's 1968 reprint of
+@Huey1908, p. 26.](huey_eyetracker.png){ #fig:huey_eyetracker }
 
 Following Huey's example, a surge of new eye tracking devices hit the research
 world. @Yarbus1967 became famous for his research on how a given task

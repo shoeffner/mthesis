@@ -95,19 +95,19 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 # Figures
 
-![Some example faces from the Pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
+![Example faces from the Pexels dataset.;;Some example faces from the Pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
-![Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison height=120% }
+![Comparison of pupil detections between eyeLike and \Gaze{}.;;Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison height=120% }
 
-![Comparison of solutions to the PnP problem using EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
+![Comparison of EPnP and Levenberg--Marquardt for the PnP problem.;;Comparison of solutions to the +PnP problem using +EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 
-![Comparison of solutions to the PnP problem using the five landmarks model and six landmarks of 68 landmarks model. The left column is Model A described in @sec:head-pose-estimation-1, the middle column Model B, the right column the 68 landmarks model. Pexels images 0000, 0025, 0031, 0044; cropped.](landmarkscomparison.png){ #fig:landmarkscomparison }
+![Comparison of different landmark models for the PnP problem.;;Comparison of solutions to the +PnP problem using the five landmarks model and six landmarks of 68 landmarks model. The left column is Model A described in @sec:head-pose-estimation-1, the middle column Model B, the right column the 68 landmarks model. Pexels images 0000, 0025, 0031, 0044; cropped.](landmarkscomparison.png){ #fig:landmarkscomparison }
 
-![Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
+![Example faces from the BioID dataset.;;Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
 
 ![OpenCV checkerboard pattern to calibrate a camera.](pattern.png){ #fig:calibcheck }
 
-![Images from the Pexels dataset in which Dlib's face detector does not detect any faces. Especially occlusions and strongly tilted heads are difficult.](undetected_faces.png){ #fig:undetected_faces }
+![Images from the Pexels dataset in which Dlib does not detect faces.;;Images from the Pexels dataset in which Dlib's face detector does not detect any faces. Especially occlusions and strongly tilted heads are difficult.](undetected_faces.png){ #fig:undetected_faces }
 
 
 # Code Listings
@@ -115,7 +115,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 ```{ .yaml file="examples/camera_calib.yml" caption="Example camera calibration output." label=cl:cameracalibyml }
 ```
 
-```{ .cpp file=assets/gaze/src/gaze/gaze_tracker.cpp label=cl:initpipeline caption="The `init_pipeline()` method. To extend it properly, a new `else if` case has to be added." lines=71-100 pathdepth=3 }
+```{ .cpp file=assets/gaze/src/gaze/gaze_tracker.cpp label=cl:initpipeline caption="The `init_pipeline()` method. To extend it properly, a new `else if` case has to be added." shortcaption="The `init_pipeline()` method." lines=71-100 pathdepth=3 }
 ```
 
 

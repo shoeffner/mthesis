@@ -238,7 +238,7 @@ measured gaze point using a green cross on a black background is shown when
 using `simple_tracking`. It also implements the main loop of the program: As
 soon as it is closed, \Gaze{} will close its debug +GUI as well and stop tracking.
 
-![\Gaze{}'s debug GUI. On the left, the pipeline steps are listed along with their
+![\Gaze{}'s debug GUI.;;\Gaze{}'s debug +GUI. On the left, the pipeline steps are listed along with their
 computation times in \si{\micro\second}. The tabs can be used to switch between
 pipeline step visualizations.](gazedebuggui.png){#fig:gazedebuggui}
 
@@ -533,7 +533,7 @@ file. Similarly, the header file must be included in
 `init_pipeline()` function inside `src/gaze/gaze_tracker.cpp` which is seen in
 @cl:initpipeline. Now the new step is readily available.
 
-```{ .cpp file=assets/examples/pipeline_steps/new_step.h label=cl:newsteph caption="The template header for a new pipeline step. The names are modified to match the file name, so `MY_STEP` becomes `NEW_STEP` in the example." pathdepth=2 }
+```{ .cpp file=assets/examples/pipeline_steps/new_step.h label=cl:newsteph caption="The template header for a new pipeline step. The names are modified to match the file name, so `MY_STEP` becomes `NEW_STEP` in the example." shortcaption="Template header for a new pipeline step." pathdepth=2 }
 ```
 
 ### GazeCapture
