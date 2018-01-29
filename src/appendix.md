@@ -101,7 +101,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![Comparison of solutions to the PnP problem using EPnP on the left and the iterative Levenberg--Marquardt optimization in OpenCV's solvePnP function. Pexels images 0000, 0025, 0031, 0044; cropped.](solvePnPcomparison.png){ #fig:solvepnpcomparison }
 
-![Comparison of solutions to the PnP problem using five landmarks and six out of 68 landmarks. The left column is Model A described in @sec:head-pose-estimation-1, the middle column Model B. Pexels images 0000, 0025, 0031, 0044; cropped.](landmarkscomparison.png){ #fig:landmarkscomparison }
+![Comparison of solutions to the PnP problem using the five landmarks model and six landmarks of 68 landmarks model. The left column is Model A described in @sec:head-pose-estimation-1, the middle column Model B, the right column the 68 landmarks model. Pexels images 0000, 0025, 0031, 0044; cropped.](landmarkscomparison.png){ #fig:landmarkscomparison }
 
 ![Some example faces from the BioID dataset. The numbers refer to the image names.](BioID_exampleimages.png){ #fig:bioid_examples }
 
