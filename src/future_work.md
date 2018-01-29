@@ -9,7 +9,7 @@ improve those in the future, and provide an outlook of what to expect next.
 
 ## Possible fixes and extensions for \Gaze{}
 
-\Gaze{} has some issues which need attendance. Mostly this is related to the
+\Gaze{} has some issues which need attention. Mostly this is related to the
 geometric model used to calculate the gaze points. The affine transformation
 used to reverse the 2D projection to the 3D model and to transform the pupils
 should be re-evaluated and possibly replaced. One way could be to model the
@@ -17,7 +17,7 @@ eyeballs as spheres or ellipsoids and perform more sophisticated projections
 onto their surfaces. It might even be needed to account for refraction of light
 in the eye, something not taken into account at all in \Gaze{}'s models. Some
 of the models mentioned in @Hansen2010 could be of use.
-Another possibility is to introduce a calibration method and see, if the model
+Another possibility is to introduce a calibration method and see if the model
 works using system calibrated to the subject. This might be difficult because
 of the pipeline architecture, but custom steps or a general extension to the
 pipeline are possibilities to solve this.
@@ -30,7 +30,7 @@ details, it is something to keep in mind if working on \Gaze{}.
 
 The way the configuration works is also worth improving. In the current
 implementation, the 3D model has to be supplied multiple times inside the
-configuration because the pipeline steps in general do not share their
+configuration because the pipeline steps do not share their
 information. It might be a good idea to aggregate shared information in one
 block or define a different configuration format in general, to avoid
 redundancies, as those can easily lead to errors.
@@ -40,7 +40,7 @@ Apart from these problems, there are also many possible extensions to make for
 ability to store data and analyze it, readers allow to continue processing a
 video file or to reevaluate data using a different method. When implementing
 writers, it might also prove useful to determine what other information needs
-to be stored inside the data object; for example the frame number is currently
+to be stored inside the data object; for example, the frame number is currently
 not stored but might be very useful for video analysis. Although there are
 numerous different data formats for eye tracking data [@Schöning2016],
 \Gaze{}'s modular approach allows for easy implementation of various formats.
@@ -48,12 +48,12 @@ numerous different data formats for eye tracking data [@Schöning2016],
 Because the current implementation only allows for cameras located in the
 screen plane, a second interesting extension to \Gaze{} would be to make this
 more flexible. This is no easy task as the conversions then need to account for
-four additional dimensions -- not only offsets in two directions, but offsets
-in three directions and a three dimensional orientation. But this would allow
-to have setups with external webcams much easier than with the current
+four additional dimensions -- not only offsets in two directions but offsets
+in three directions and a three-dimensional orientation. But this would allow
+having setups with external webcams much easier than with the current
 approach.
 
-In terms of implementation \Gaze{} has a couple of things to improve on. One
+In terms of implementation, \Gaze{} has a couple of things to improve on. One
 example are to provide bindings to other languages -- to use \Gaze{} in for
 example Python, but also the other direction to write pipeline steps in Python
 and use them within \Gaze{}. The former could be realized using frameworks like
@@ -82,7 +82,7 @@ solved task yet. Even models trained on the "300 Faces In-The-Wild challenge"
 do not recognize occluded faces, especially if occluded by shades or if only
 have of the face is visible. Of course, it is a little bit of a definition
 issue and depends on the question if one wants to detect occluded faces or not,
-but in general this is still not resolved. And even if only non-occluded faces
+but in general, this is still not resolved. And even if only non-occluded faces
 should be detected, tilted faces also still pose challenges. Thus improving on
 face detections is still an interesting task. Of course, for eye tracking in
 lab conditions the current detectors work well enough, even exceeding their
@@ -91,7 +91,7 @@ needs.
 
 ## Closing remarks
 
-Eye and gaze tracking are an exciting field of research. Over the last century
+Eye and gaze tracking are an exciting field of research. Over the last century,
 significant progress has been made, providing many sophisticated solutions to track
 eyes and gaze in various ways. Many of those solutions require difficult setups,
 are expensive, require specific hardware, or their implementations are not

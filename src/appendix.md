@@ -25,21 +25,21 @@ CMake flag `-DBUILD_EXAMPLES=ON` to build the `cpp-example-calibration`
 executable. To calibrate the camera, the calibration tool needs to take a
 couple of pictures of a benchmark image: a checkerboard pattern as in
 @fig:calibcheck is used in the following. Calibration works best if the image
-is on a hard surface, like card board. An example call to the calibration tool
+is on a hard surface, like cardboard. An example call to the calibration tool
 is denoted in @cl:cvcalibcall. The parameters `-h=6` and `-w=9` describe the
 layout of the checkerboard pattern. It means that the checkerboard is seven
-squares down and ten squares across, since the parameters expect the numbers of
+squares down and ten squares across since the parameters expect the numbers of
 corners between four squares. `-n=10` is the number of images to be taken,
 `-d=1000` is the delay between two images. A higher delay allows that during
 calibration the image can be moved to more divers poses without triggering
 another image, resulting in a higher variety of points which in turn leads to a
 more exact estimation of the camera parameters. At least three pictures should
 be taken, but more images provide better results. The output file to which the
-calibration values are written is stored to the file passed with `-o`. The last
+calibration values are written is stored in the file passed with `-o`. The last
 parameter, `-s=0.0015` is the size of one checkerboard square in meters. This
 value should be measured on the printout of the checkerboard, as slight
 variations can occur depending on page orientation, zoom levels, margins,
-printer settings, and other factors. In the example the printed version's
+printer settings, and other factors. In the example, the printed version's
 squares' side lengths were \SI{1.5}{\milli\meter}. After a successful calibration,
 `camera_calib.yml` will be written into the directory. It can be used to
 configure \Gaze{}, as explained in @sec:camera-and-screen-parameters.
@@ -95,7 +95,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 # Figures
 
-![Some example faces from the pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
+![Some example faces from the Pexels dataset used to visualize or compare different pipeline steps. The numbers refer to the image names.](pupil_detection_faces.png){ #fig:examplefaces }
 
 ![Comparison of eyeLike and \Gaze{}'s pupil detections, showing eyeLike's images above \Gaze{}'s. The original images can be seen in \Cref{fig:examplefaces}. Note that bigger cross markers mean smaller eye image crops.](pupil_detection_comparison.png){ #fig:pupildetectioncomparison height=120% }
 

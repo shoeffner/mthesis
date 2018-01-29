@@ -8,7 +8,7 @@ just a laptop with an attached webcam in front of the participant. It was
 programmed with many best practices for +FOSS in mind and tries to provide a
 transparent +API to track user gaze using a common webcam.
 
-This chapter gives an overview over the library and its features and provides
+This chapter gives an overview of the library and its features and provides
 detailed instructions on how to build and use it. The level of detail for the
 instructions is very high to also give people without a strong
 background in software development enough information to compile and run it.
@@ -29,11 +29,11 @@ and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
 The library works best with the camera sensor being in the same plane as the
 screen surface, thus built-in webcams are recommended. This is because
 currently the configuration for the camera position assumes only offsets along
-and across the screen, the orientation and depth can not be changed. \Gaze{} can
+and across the screen, the orientation and depth cannot be changed. \Gaze{} can
 process live webcam streams, video files, and images.
 The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
 estimates the head orientation, and also estimates the distance between camera
-and subject. From these measured and estimated information, \Gaze{} calculates an
+and subject. From this measured and estimated information, \Gaze{} calculates an
 approximate gaze point.
 \Gaze{} has been developed using macOS High Sierra, but also builds on Ubuntu 14.04 LTS.
 
@@ -64,7 +64,7 @@ author will keep working on the project, but potential other authors do not
 have to start from scratch and can use the code.
 
 Positive side effects of releasing \Gaze{}'s source code publicly are that the
-author tries to follow stricter coding guide lines, and provides a detailed source code
+author tries to follow stricter coding guidelines and provides a detailed source code
 [documentation](https://shoeffner.github.io/gaze).
 
 
@@ -106,7 +106,7 @@ branching model [@Driessen2010], which largely influenced \Gaze{}'s workflow in 
 beginning. \Gaze{} does not use a specific develop and release branch, instead
 finished features get pushed to the master branch directly, which makes the
 process look more like a traditional trunk-based workflow, where all features
-are developed and pushed onto a common branch, the so called trunk or master.
+are developed and pushed onto a common branch, the so-called trunk or master.
 
 \Gaze{} is published on the source code hosting service
 [GitHub](https://github.com). When a new commit is
@@ -142,7 +142,7 @@ this impression. This is because the license of the training data
 [@Sagonas2016] for the 68 face landmarks' model
 `shape_predictor_68_face_landmarks.dat` [@King2009], which is used for the face
 and landmark detection, does not allow commercial uses. On the website accompanying
-the dataset it is explicitly stated that "the annotations are provided for
+the dataset, it is explicitly stated that "the annotations are provided for
 research purposes ONLY (NO commercial products)"[^quoteibug], and King
 emphasizes in the
 [`README.md`](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md)
@@ -178,7 +178,7 @@ to be fulfilled before compiling it. A C++17 compiler is inevitable, as \Gaze{} 
 example on macOS High Sierra this can be Clang 9, which compiles \Gaze{} properly,
 for Ubuntu 14.04 g++7 works well, as was tested on Semaphore CI's build system.
 Additional requirements are OpenCV 3.3.1, CMake 3.10.0, boost 1.55.0, and Dlib
-version 19.8. Usually different versions of the software dependencies should
+version 19.8. Usually, different versions of the software dependencies should
 work fine, but for Dlib version 19.8 is a hard minimal requirement, as it
 contains a [bug fix](https://github.com/davisking/dlib/pull/957) for a bug
 discovered during the \Gaze{}'s development.
@@ -238,7 +238,7 @@ measured gaze point using a green cross on a black background is shown when
 using `simple_tracking`. It also implements the main loop of the program: As
 soon as it is closed, \Gaze{} will close its debug +GUI as well and stop tracking.
 
-![\Gaze{}'s debug GUI. On the left the pipeline steps are listed along with their
+![\Gaze{}'s debug GUI. On the left, the pipeline steps are listed along with their
 computation times in \si{\micro\second}. The tabs can be used to switch between
 pipeline step visualizations.](gazedebuggui.png){#fig:gazedebuggui}
 
@@ -246,13 +246,13 @@ TODO(shoeffner): Replace photograph with less distracting one (maybe convert ima
 
 In their paper, @Judd2009 investigate salient regions of images. The program
 `where_people_look` is a re-implementation of @Judd2009's experiment using
-\Gaze{}. In then experiment, subjects are presented with 1000 randomly
+\Gaze{}. In the experiment, subjects are presented with 1000 randomly
 chosen images. Their task is just to freely view each image for three seconds.
-Each of the images is followed by gray screen for one second, in which
+Each of the images is followed by a gray screen for one second, in which
 subjects are asked to fixate the center of the screen. In the original task,
 the experiment was split into two blocks of 500 images each. The
 re-implementation does not perform this split, as it is mostly used as an
-example on how \Gaze{} can be integrated into typical experiments. To run the
+example of how \Gaze{} can be integrated into typical experiments. To run the
 experiment, first the subject identifier must be entered and the directory
 containing the stimuli needs to be selected. The stimuli are downloaded during
 the build process. After selecting the stimuli, a gray screen opens up and
@@ -261,10 +261,10 @@ once the subject is ready, the experiment can be started by pressing the space k
 
 ### \Gaze{}'s application programming interface
 
-The example program `where_people_look` from last section was developed before
+The example program `where_people_look` from the last section was developed before
 the +API for \Gaze{} was settled. This helped to find out which functionality is
 needed for an eye or gaze tracking experiment and allowed to design the +API in
-a behavior driven way. The tasks in \Cref{tab:gazeapi} were observed during the
+a behavior-driven way. The tasks in \Cref{tab:gazeapi} were observed during the
 implementation of `where_people_look` and implemented in \Gaze{}.
 
 
@@ -308,7 +308,7 @@ terminal. They are supposed to write the identifier passed via
 active during the stored measurements. As soon as a writer is implemented, this
 functionality will work. The result storage is not used as it is supposed
 handled by a pipeline step. If a pipeline step stores data, it will write the
-output as soon as it receives the data, thus removing the need of a specific
+output as soon as it receives the data, thus removing the need for a specific
 function to trigger a save action.
 
 This leaves \Gaze{} with just one other function than the initialization ones,
@@ -364,7 +364,7 @@ position has to be provided using two values, the horizontal offset $x$ from
 the upper left screen corner, and the vertical offset $y$ from the same corner
 , here $x = \SI{17.25}{\centi\meter},$ and $y = \SI{0.7}{\centi\meter}$.
 @fig:measuringmetadata visualizes which measurements have to be taken.
-The target parameters allow to specify an area of interest: Instead of mapping
+The target parameters allow specifying an area of interest: Instead of mapping
 the measured gaze coordinates to the screen coordinates, they will be mapped
 into a regular grid with the dimensions mentioned inside the target parameters.
 
@@ -376,7 +376,7 @@ TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
 The camera's resolution can also be configured alongside the target +fps. Many
 webcams are limited in their +fps capabilities, so even by providing high
 values it is possible that the camera does not reach more than about 30 +fps.
-For online fixation tracking this does not matter much, as \Gaze{} is slower than
+For online fixation tracking, this does not matter much, as \Gaze{} is slower than
 30 +fps on a common MacBook Pro which is detailed in @sec:computation-times.
 Still it means that \Gaze{} will not be able to properly track saccades in online
 settings because its sampling rate is simply too slow. In offline settings,
@@ -384,16 +384,16 @@ when analyzing pre-recorded video data, \Gaze{} does not have these problems, as
 the frame rate is defined by the video material.
 The computation speed is additionally highly dependent on the image
 sizes, so smaller resolutions lead to faster computation times.
-Better hardware, for example a dedicated GPU to improve Dlib's or Caffe's
+Better hardware, for example, a dedicated GPU to improve Dlib's or Caffe's
 speeds, might also result in better computation times, possibly allowing for
 faster performance of \Gaze{}.
 
 Crucial settings for the camera to estimate distances properly are the sensor's
 size, its aspect ratio, and the focal length. These values are difficult to
 measure and many device vendors do not report them [@Crisp2013]. Apple
-uses the iSight for their MacBook Pro. Its older versions uses a
+uses the iSight for their MacBook Pro. Its older versions use a
 \SI{6.35}{\milli\meter} sensor [@Luepke2005] with an aspect
-ratio of 4:3. The 15 inches MacBook Pro from mid 2015 used for \Gaze{}'s
+ratio of 4:3. The 15 inches MacBook Pro from mid-2015 used for \Gaze{}'s
 development has a default webcam resolution of \SI{1280 x 720}{{pixels}}, which
 leads to an aspect ratio of 16:9. Since the sensor size is unknown, the best
 available approximation is to use the old known value, \SI{6.35}{\milli\meter}. It
@@ -403,7 +403,7 @@ changed. The focal length can be measured manually if it is not provided by the
 manufacturer; this is shown in @sec:determining-the-focal-length.
 
 Additionally to setting the sensor parameters, the webcam can be calibrated for
-the use with OpenCV. Calibration in this case means to estimate the camera
+the use with OpenCV. Calibration, in this case, means to estimate the camera
 matrix and distortion coefficients of a camera, which can be used to undistort
 the images. \Gaze{} does not directly undistort the images to process them
 further, but algorithms like `cv::solvePnP`,
@@ -438,7 +438,7 @@ w & 0 & \dfrac{w}{2} \\
 
 #### Pipeline steps
 
-The pipeline step order as well as each individual pipeline step can be
+The pipeline step order, as well as each individual pipeline step, can be
 configured using various options. This is useful as for example the different
 implementations of @Timm2011 can be exchanged without recompiling \Gaze{} by just
 changing the configuration file. The default pipeline configuration can
@@ -460,7 +460,7 @@ video path, allowing to analyze static images and video files as needed.
 
 The `FaceLandmarks` step employs Dlib's +HoG classifier with a pre-trained
 model as explained in @sec:detecting-faces-and-eyes. The model path can be
-adjusted using the `model` attribute. By default it is
+adjusted using the `model` attribute. By default, it is
 `shape_predictor_68_face_landmarks.dat`, which is the model file downloaded
 during \Gaze{}'s build process. The path has to be specified relative to the model
 directory.
@@ -480,21 +480,21 @@ are implementations of @Timm2011. `EyeLike` is a copy of Hume's code eyeLike
 have some slight implementation differences. `EyeLike` scales the image patches
 containing the eyes to a specific size of \SI{50x50}{{pixels}}, while
 `PupilLocalization` avoids this.
-Usually this means that if a subject sits closer to the camera and thus the
+Usually, this means that if a subject sits closer to the camera and thus the
 eyes are larger, `EyeLike` will perform faster, while `PupilLocalization` is
 much faster for subjects which are further away from the camera. The precision
-for both implementations is similar, but depending on whether the scale affects
+for both implementations is similar, but depending on whether the scale effects
 precision or not, either one can outperform the other in certain circumstances.
 Another implementation difference is that `PupilLocalization` uses a
 pre-calculated lookup table for some constant values because it was hoped that
 a lookup table might speed up the process at the cost of some memory.
-Eventually the speed did not change much, the image size is a much more
+Eventually, the speed did not change much, the image size is a much more
 important factor as it dominates the algorithm's complexity. A third
 implementation detail is that `EyeLike` is implemented using OpenCV, while
 `PupilLocalization` uses Dlib. A very interesting difference is the choice of
 gradient functions. `EyeLike` uses a gradient function inspired by Matlab
 [@Hume2012], `PupilLocalization` uses the standard Sobel edge detector as Dlib
-implements it. For both implementations the `relative_threshold` can be set. In both steps it
+implements it. For both implementations, the `relative_threshold` can be set. In both steps it
 is used to discard possible eye center locations if the gradient magnitude at
 the tested location is below $\mu_\text{mag} + \theta \sigma_\text{mag}$ with
 the `relative_threshold` $\theta$, which is detailed in @sec:pupil-localization.
@@ -541,10 +541,10 @@ file. Similarly, the header file must be included in
 `GazeCapture` is one custom pipeline step which is more complicated. Instead of
 the few changes in @sec:writing-a-custom-pipeline-step, it requires additional
 compilation steps and depends on Caffe 1.0. Since it is also not completely
-straight forward to compile it and still crashes from time to time due to some
+straightforward to compile it and still crashes from time to time due to some
 memory access errors, it is disabled by default. It can be enabled by
 configuring \Gaze{} using CMake by setting the flag `-DWITH_CAFFE=ON`.
-The build process will then fetch Caffe and compile it, so that \Gaze{} can link
+The build process will then fetch Caffe and compile it so that \Gaze{} can link
 against it and it can be employed inside the pipeline.
 When `GazeCapture` is used inside the pipeline, it requires only the `SourceCapture`
 and `FaceLandmarks` pipeline steps to come before it. It performs predictions

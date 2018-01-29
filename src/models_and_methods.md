@@ -4,7 +4,7 @@ Estimating gaze is done in \Gaze{} using a geometric model realized in a flexibl
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and
 output of the data. This chapter details the models and gives an
-overview of \Gaze{}'s architecture. Finally there will be a short introduction of
+overview of \Gaze{}'s architecture. Finally, there will be a short introduction of
 an alternative deep learning model for gaze tracking.
 
 
@@ -55,8 +55,8 @@ that the intersection can be calculated by inserting $t$ into
 @eq:c-p-line, for both eyes independently. This can be done by inverting
 the $3 \times 3$ matrix, which works as long as the line is not parallel to the
 plane, in other words as long as the line vector stays linear independent to
-the direction vectors. In practice this should not happen, as the methods to
-detect the face and pupils would fail before these calculations are done.
+the direction vectors. In practice this should never be a problem, as the methods to
+detect the face and pupils would fail earlier, resulting in these calculations never to be executed.
 
 The difficulty is to find all variables such that @eq:matrix-intersection
 can be solved. The following sections will show how the eyeball centers are
@@ -68,7 +68,7 @@ a distance estimate is performed to calculate the screen position in the
 model coordinate system. The eyeball centers, pupil locations in model
 coordinates, and screen corners in model coordinates can be inserted into
 @eq:matrix-intersection to find $t$ and calculate the gaze points.
-Eventually the gaze points are converted into target coordinates, for example
+Eventually, the gaze points are converted into target coordinates, for example
 the pixels of the screen.
 
 
@@ -91,18 +91,18 @@ the face. The $y$ axis is orthogonal to the $x$ and $z$ axes, it points upwards
 in relation to the head. \Cref{tab:3dheadmodel} summarizes the data points
 and @fig:3dheadlandmarks visualizes the locations and coordinate system. The
 model is converted to the metric system to be useful for \Gaze{} using data from
-@Facebase, in particular the mean outercanthal width. This is the width from
+@Facebase, in particular the mean outer canthal width. This is the width of
 the left and right eyes outer corners, from $\ex_r$ to $\ex_l$. @Facebase
-report data a mean outercanthal width of \SI{86.71}{\milli\meter}, measured
+report a mean outer canthal width of \SI{86.71}{\milli\meter}, measured
 using 3D stereophotogrammetry and within \num{1845} European Caucasian
-individuals above the age of 18. In the 3D model, the outercantal width is
+individuals above the age of 18. In the 3D model, the outer canthal width is
 \num{450}. Since the idealized head model assumes symmetry along the
 mid-saggital plane it follows that $\num{225} = \SI{43.355}{\milli\meter}$, or
 $\num{1} \approx \SI{0.19269}{\milli\meter}$. This relation can be used to
-calculate the metric model, as it is done in \Cref{tab:3dheadmodel}.
+calculate the metric model, as done in \Cref{tab:3dheadmodel}.
 
 Table: 3D head model by @Mallick2016. The first columns describe the landmark
-and names its abbreviation [@Swennen2006], followed by the "300 Faces
+and name its abbreviation [@Swennen2006], followed by the "300 Faces
 In-The-Wild Challenge" index [@Sagonas2016]. Then the 3D model coordinates are
 described as used by \Gaze{} and in the original model.
 The eyeball centers are an exception as they are only important for the
@@ -128,7 +128,7 @@ palpebral fissure length is \SI{28.19}{\milli\meter} [@Facebase] but the mean
 eyeball diameter is much less than that: It is commonly reported to be about \SI{24}{\milli\meter} [@Davson2017], or
 \SI{22.0}{\milli\meter} to \SI{24.8}{\milli\meter} [@Bekerman2014]. Instead of
 solving the equations with a greater diameter or by accounting for the distance
-between the eyeball surface and the $\ex$ and $\en$, the mid point between
+between the eyeball surface and the $\ex$ and $\en$, the midpoint between
 $\ex$ and $\en$ is just moved back along the $z$ axis by
 \SI{13.5}{\milli\meter}, which is the furthest distance between the cornea and
 the eyeball center [@Gross2008]. The endocanthions are assumed to be on the
@@ -144,8 +144,8 @@ $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 
 Before finding the pupil centers to project them into the 3D model the face of
 the subject needs to be found. There are various methods available,
-@Frischholz2018 lists 15 +FOSS libraries providing some sort of face detection,
-and additional lists of websites and commercial software. One method is to use
+@Frischholz2018 lists 15 +FOSS libraries providing some sort of face detection
+and additionally lists several websites and commercial software able to do the same. One method is to use
 [OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
 of Haar feature detection using AdaBoost [@Viola2001]. But this
 method, albeit popular, only finds face and eye boundaries. @King2014 released
@@ -154,11 +154,11 @@ a face detector in [Dlib](https://dlib.net) which uses five +HoG models and
 classifier because it offers an advantage over OpenCV's classifier: It detects
 the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
-additional processing and detection step is needed after the face is detected.
+additional processing and detection steps are needed after the face is detected.
 In @sec:license-issues there is one downside to using Dlib's model explained: Licensing.
 A possible solution is to use the 5 landmark model,
-but it does not detect all landmarks included in the 3D head model, and using a
-3D head model containing the five instead of the 68 landmarks is not stable
+but it does not detect all landmarks included in the 3D head model and using a
+3D head model containing the five instead of the six out of 68 landmarks is not stable
 enough for the head pose estimation as detailed in @sec:head-pose-estimation.
 
 Dlib describes detected faces with a bounding box around the detected landmarks
@@ -169,11 +169,11 @@ similarly landmarks 40 and 43 denote $\en_r$ and $\en_l$. The eyes are
 extracted by placing a rectangle with $\ex$ and $\en$ being opposite corners
 and detecting its center. The eye is cropped to a square with a side-length of
 1.5 times the distance between the eye corners and centered around the
-rectangle's center. To visualize this, examples of processed eyes can be found inside the
+rectangle's center. To visualize this, examples of processed eyes can be found in the
 appendix in @fig:pupildetectioncomparison.
 
 ![The 68 landmarks as detected by Dlib on the left, on the right their original description by
-@Sagonas2013. In Dlib, the indexes starts with 0. Landmarks schema used
+@Sagonas2013. In Dlib, the indexes start with 0. Landmarks schema used
 with kind permission by Stefanos Zafeiriou.](68landmarks.png){ #fig:68landmarks }
 
 
@@ -227,8 +227,8 @@ not discarded, as defined in @eq:threshphi. Then, for each possible pupil center
 each other pixel location $x_i$ is used to evaluate the target function: If the
 direction from $x_i$ to $\hat{p}$ is similar to the gradient direction $g_i$,
 the value will be squared and added to $\hat{p}$'s target value. The similarity
-measurement is the scalar product: If the two normalized vectors point into
-the same direction, it evaluates to $1$, if they point to the opposite
+measurement is the scalar product: If the two normalized vectors point in
+the same direction, it evaluates to $1$, if they point in the opposite
 directions it evaluates to $-1$. @Hume2012 noted that in the paper all these
 values were taken into account, but vectors pointing inwards should not be
 considered at all. Thus @eq:targetpupilloc discards negative scalar products
@@ -237,15 +237,15 @@ possible pupil center location which on average has the most directions to
 locations which have a gradient pointing into the same or similar directions
 will be the winning center point.
 
-This sometimes leads to problems where the eye crop has for example some
-wrinkles, shadows, eye lids, reflections on glasses, or other illumination changes.
+This sometimes leads to problems where the eye crop has some
+wrinkles, shadows, low eyelids, reflections on glasses, or other illumination changes.
 @Timm2011 use an inverted Gaussian filtered image to calculate
 weights which should give the real pupil higher chances to be selected. The
 dark parts of the image -- low gray values -- will thus get higher weights. In
 \Gaze{}, where Dlib uses \SI{8}{{bit}} image values, a dark pixel with a
 smoothed value of \num{15} would for example get a weight of $255-15=240$.
 The extension of discarding vectors facing inwards by @Hume2012 also leads to an
-improvement, especially because eye brows and eye lids no longer hint towards
+improvement, especially because eyebrows and eyelids no longer hint towards
 arbitrary points inside the sclera.
 
 Once the pupil centers are found, they need to be aligned with the 3D model.
@@ -361,7 +361,7 @@ Assume the sensor size to be \SI{0.00635}{\meter} and its aspect ratio as 16:9
 \SI{0.0055}{\meter}. The pixel width $p$ can be found through division of the
 sensor width by the horizontal resolution, $w \in \mathbb{N}$, so $p =
 \frac{s}{w}$.
-In \Gaze{}, the outercanthal width is used to determine the distance. It's model
+In \Gaze{}, the outer canthal width is used to determine the distance. It's model
 size $o$ is
 \begin{align}
 \left\lVert \ex_r - \ex_l \right\rVert_2 =
@@ -373,7 +373,7 @@ size $o$ is
  0.0327 \\
 -0.026 \end{array} \right) \right\rVert_2 = \SI{0.0866}{\meter}.
 \end{align}
-The outercanthal width in the image $i$ is the distance between the landmarks 37
+The outer canthal width in the image $i$ is the distance between the landmarks 37
 and 46, which is detected by dlib. It has to be multiplied by $p$ to get its
 width in \si{\meter}. Thus, to determine $d$, the only missing
 value is $f$. An approximation for $f$ can be measured, for a MacBook Pro with
@@ -405,11 +405,11 @@ The screen corners can be calculated by first defining them inside the
 model coordinate system and then performing almost the same transformation as
 was done for the camera. To get the first screen corner, the offset between the
 camera and the top left corner of the screen needs to be measured manually. For
-a MacBook Pro with a 15 inch screen the top left corner is
+a MacBook Pro with a 15-inch screen the top left corner is
 \SI{17.25}{\centi\meter} left of and \SI{0.7}{\centi\meter} below the camera,
 so it can be defined as $\tl_\text{model} = (-0.1725, 0.007, 0)$. From there each other screen
-corner can be found by adding screen width and height where approriate,
-for example the bottom right corner would be
+corner can be found by adding screen width and height where appropriate,
+for example, the bottom right corner would be
 $\br_\text{model} = (-0.1725, 0.007, 0) + (0.335, 0.207, 0) = (0.175, 0.214, 0).$ The screen
 corners need to be rotated about the model origin, again using the transposed
 rotation. After that, they have to be translated by the camera
@@ -435,7 +435,7 @@ To be easily integrable into other projects, \Gaze{} is written in C++ and
 compiles into a static library. It uses CMake which is used in many C++
 projects and thus lots of developers should be already familiar with it.
 C++ was specifically chosen because it can often be integrated into other
-programming languages, since many languages already provide mechanisms to call
+programming languages since many languages already provide mechanisms to call
 for example system libraries, which are often written in C or C++. Another
 reason is that OpenCV and Dlib are natively written in C++, and while both have
 Python bindings, in general their C++ documentation is much more
@@ -443,12 +443,12 @@ comprehensible. One important aspect in making \Gaze{} integrable is the +API
 design. By first recreating an eye tracking experiment [@Judd2009] and finding
 out what the needs for such an experiment are, \Gaze{} is developed around a very
 simple API. Extendability is given by a modular design. \Gaze{} builds around a
-multi-purpose data processing pipeline in which each steps performs a small
+multi-purpose data processing pipeline in which each step performs a small
 task. It is taken great care to allow for simple extensions using custom steps, for which instructions are provided in
 @sec:writing-a-custom-pipeline-step. One step towards easy extension is
 also making the source code available for free and as open source software.
 This way everyone can inspect it, reproduce the results of this thesis and
-extend \Gaze{}, criticize it, modify it, or built upon it. These are the reasons
+extend \Gaze{}, criticize it, modify it, or build upon it. These are the reasons
 why publishing the source code and software alongside scientific contributions
 is very crucial in science [@Barnes2010]. To make it easy to do anything of the above
 with \Gaze{}, it tries to follow many good practices and provides a thorough
@@ -460,7 +460,7 @@ documentation (@sec:why-free-and-open-source-software).
 \Gaze{} has three threads which loosely interact with each other if needed through
 an event system. The first thread is the calling program's main thread. If a
 program integrates \Gaze{}, it needs to create a `GazeTracker` object and
-interacts with it. The `GazeTracker` object in turn starts two additional
+interacts with it. The `GazeTracker` object starts two additional
 threads. This is done so that the calls from the main program to \Gaze{} are fast
 and do not interfere with the main program's execution.
 The second thread is the GUI event thread. This thread is only
@@ -470,7 +470,7 @@ thread is always started and processes the data in the background by creating a
 new data object and passing it from one pipeline step to the next.
 Whenever an object passed the pipeline, an event is emitted to notify the GUI
 and the main thread. The main thread can then store the latest tracking results
-to provide seamless access in feedback loops and the GUI can retrieve the latest
+to provide seamless access inside feedback loops and the GUI can retrieve the latest
 data to update its visualizations.
 
 ![\Gaze{}'s program architecture.](missing){ #fig:gazearch }
@@ -479,7 +479,7 @@ At the heart of \Gaze{} lies the pipeline. Each step follows the same interface
 and has to implement two methods: `void process(util::Data&)` and
 `void visualize(util::Data&)`. The process method mutates the data
 object by performing some calculations and storing the result back. By
-convention each step should not overwrite the results of other steps, but if
+convention, each step should not overwrite the results of other steps, but if
 two steps perform the same task, this becomes almost inevitable. Each pipeline
 step's execution time is measured and stored inside the data object. To
 visualize the data, each pipeline step initializes a GUI widget into which data
@@ -510,7 +510,7 @@ Some datasets were needed during the development and tests for \Gaze{}. While
 for most ad hoc tests the webcam live stream is enough, it is not enough to
 allow for reproducibility of the results.
 
-The first dataset, pexels, is a custom dataset with 120 images from
+The first dataset, Pexels, is a custom dataset with 120 images from
 [Pexels](https://pexels.com). These images are released under the CC0
 license [@CC0License], which allows to reuse, modify, and redistribute them. The
 images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
@@ -549,7 +549,7 @@ and \Gaze{}'s implementation is be compared to the original implementation by
 
 As described in @sec:an-alternative-approach-itracker, the iTracker is trained
 using the GazeCapture dataset [@Krafka2016]. It includes photos of \num{1450} subjects
-and almost 2.5 million frames. Unfortunately the download of the raw data is
+and almost 2.5 million frames. Unfortunately, the download of the raw data is
 hidden behind a registration, but @Krafka2016 describe the dataset thoroughly
 and give some example images. The data was recorded using iPhones and iPads and
 contains images featuring various backgrounds, head poses, accessories, and
@@ -558,7 +558,7 @@ lighting conditions.
 The remaining datasets are those Dlib's shape detectors are based on. One is
 the "300 Faces In-The-Wild Challenge"'s dataset [@Sagonas2013], which consists of
 600 images with 68 landmark annotations, which were produced
-semi-automatically. The other dataset is the dlib 5-point face landmark
-dataset, containing 7198 faces. It was labeled using only five landmarks by King.
+semi-automatically. The other dataset is the *dlib 5-point face landmark
+dataset*, containing 7198 faces. It was labeled using only five landmarks by King.
 Both datasets are only used indirectly in \Gaze{}, as only the models are used
 to track facial landmarks and determine the head pose.

@@ -3,9 +3,9 @@
 As shown in @chap:a-gaze-tracking-library the \Gaze{} library achieves its
 goals. It is able to process data in a timely manner and solves eye center tracking
 extremely well. One of its shortcomings is the model to transform the detected
-pupils from the 2D image into the 3D model. In the following sections the
+pupils from the 2D image into the 3D model. In the following sections, the
 shortcomings and successes of \Gaze{} are quantified and qualified. Near the end of the chapter
-a comparison with iTracker was planned, but since the gaze points can not be
+a comparison with iTracker was planned, but since the gaze points cannot be
 calculated properly using the geometric model, the comparison is limited. Instead, a brief qualitative
 review of iTracker will be done.
 
@@ -23,16 +23,16 @@ and even gather feedback if that is really a useful addition. The documentation
 is available and automatically built using Semaphore and thus always readily
 available. The cross-platform usage is not thoroughly tested, but \Gaze{} builds
 successfully on macOS and Ubuntu 14.04 and its tests pass on both those
-platforms as well. Still the software fulfills many of its goals and could be
-used for gaze tracking in research settings, if other shortcomings detailed
-below are resolved. However, for eye tracking in feedback loops it is ready to use.
+platforms as well. Still, the software fulfills many of its goals and could be
+used for gaze tracking in research settings if other shortcomings detailed
+below are resolved. However, for eye tracking in feedback loops, it is ready to use.
 
 
 ## Evaluation of the geometric model
 
 The geometrical model proposed to track gaze is not working. While parts of it
-work well, other parts are not as successful. In the following sections the
-individual parts will evaluated.
+work well, other parts are not as successful. In the following sections, the
+individual parts will be evaluated.
 
 
 ### Face detection
@@ -67,9 +67,9 @@ is defined as
 \begin{align}
 e_{\op} = \frac{\op \left( d_l, d_r \right) }{ d_p },
 \end{align}
-with $d_l, d_r$ the euclidean distance between the left eye center and its
+with $d_l, d_r$ the Euclidean distance between the left eye center and its
 estimation, and the right eye center and its estimation, respectively.
-$d_p$ denotes the euclidean distance between the real eye centers. The operator $\op$
+$d_p$ denotes the Euclidean distance between the real eye centers. The operator $\op$
 is either $\min$, $\max$, or $\mean(x, y) = \frac{x + y}{2}$. Depending on the
 operation, different results are measured. If $\min$ is used, the accuracies
 only take the better result of both eyes into account, likewise the
@@ -111,30 +111,31 @@ both eye patches have a side length of more than \SI{50}{{pixels}}, the size to
 which `EyeLike` scales the eye patches to, `EyeLike` outperforms
 `PupilLocalization` by a factor of about $4$.
 
-It can be concluded that for real time scenarios with modern image
+It can be concluded that for real-time scenarios with modern image
 resolutions `EyeLike` is the better choice, as it is faster with only a small
 loss in performance. For accurate processing when time is of no critical
 importance, for example during offline analysis of recorded video data, \Gaze{}'s
-`PupilLocalization` is usually the better option. In general it should be
+`PupilLocalization` is usually the better option. In general, it should be
 noted, that with `PupilLocalization` and eyeLike [@Hume2012] there are two successful
 replications of the eye center detection approach by @Timm2011. Comparing the
 different accuracies per dataset which are listed in \Cref{tab:pexels-pupil-detection-accuracies}
 and \Cref{tab:BioID-pupil-detection-accuracies}, it becomes clear that the
 algorithm works better with the images from the BioID dataset, but still
-performs reasonably well on the pexels dataset.
+performs reasonably well on the Pexels dataset.
 
 
 ### Head pose estimation
 
-The head pose estimation works well in most cases. If a subject is looking
-straight into the camera, in the extreme case when the nose points
+The head pose estimation works well in most cases.
+In the extreme case when the nose points
 directly towards the camera and the coronal plane is parallel to the screen
-plane, there are two equally likely possible solutions: the $z$ axis pointing
-outwards or inwards. In most cases this is not a problem, as it is unlikely
+plane, that is if a subject is looking straight into the camera, there are two
+equally likely possible solutions: the $z$ axis pointing
+outwards or inwards. In most cases, this is not a problem, as it is unlikely
 that this happens. But sometimes this causes different results from frame to
 frame.
 Since there is no annotated ground truth for the datasets used about the head
-poses, it is not possible to give a quantitative analysis about the success of
+poses, it is not possible to give a quantitative analysis of the success of
 the method, but as was lined out in @sec:head-pose-estimation a qualitative
 analysis can be performed. In @sec:head-pose-estimation it is already
 established that the +EPnP version of the `solvePnP` algorithm does not work as
@@ -142,9 +143,9 @@ well as the iterative version, thus here the difference between the five and
 the 68 landmarks models will be shown.
 
 The problem with the 68 landmarks model is, as stated in @sec:license-issues, that it is only allowed for
-research usage. As an alternative
+research usage. As an alternative,
 the five landmarks model by Dlib was tried using a custom 3D head model.
-Unfortunately the 3D head model used in \Gaze{} [@Mallick2016] relies on the six
+Unfortunately, the 3D head model used in \Gaze{} [@Mallick2016] relies on the six
 landmarks pronasal, gnathion, exocanthions left and right, and the cheilions
 left and right, which are not all present in the five landmarks model. It uses
 the two exocanthions, the subnasal -- the point below the nose -- and the
@@ -180,7 +181,7 @@ model: [
 
 As can be seen in @fig:landmarkscomparison, this model is not sufficient. The
 reason is that four of its five points are located on the same line. Thus the
-vectors can no longer span three linear independent vectors. A few adjustments
+vectors can no longer span three linearly independent vectors. A few adjustments
 are tried to resolve this issue, for example using Model&nbsp;B in @cl:5lm-model
 which just moves the endocanthions about a centimeter outwards of the face.
 For some faces like 0031 in @fig:landmarkscomparison this works slightly better, for others like 0044 worse.
@@ -194,16 +195,16 @@ between them.
 
 The gaze point estimation consists of multiple parts. The first part is the
 distance estimation, followed by the inverted projection of the detected pupil
-centers into the model coordinates. The final step is the raycast to determine
+centers into the model coordinates. The final step is the ray cast to determine
 the gaze point locations.
 
-The distance estimation is only using the outercanthal width, thus this part
-is very likely to be highly inaccurate. So during the evaluation no precise
-tests were considered, a short measurement using a folding rule should give a
+The distance estimation is only using the outer canthal width, thus this part
+is very likely to be highly inaccurate. No precise tests were considered during the evaluation,
+a short measurement using a folding rule should give a
 hint if the values fall into the right magnitude. To test the distance, only
 very strict face poses rotated towards the camera were considered. Variations
 of about \SI{5}{\centi\meter} to \SI{10}{\centi\meter} are expected. Using the focal length of
-\SI{10}{\milli\meter} established in @sec:determining-the-focal-length this can not be achieved.
+\SI{10}{\milli\meter} established in @sec:determining-the-focal-length this cannot be achieved.
 \Gaze{} estimates the distance about twice further than it is. One possible
 explanation is that the focal length in @sec:determining-the-focal-length is
 wrong. Given the fact that the MacBook Pro's display is only about half a
@@ -228,7 +229,7 @@ model the information which is lost during the original 3D-2D projection is not
 approximated well enough. This is likely a problem of the model.
 A model to try out instead might be to first perform an orthogonal projection
 into the direction of the screen, fit the pupils into the projection and then
-perform a raycast from the pupils onto modeled eyeballs. This would resolve
+perform a ray cast from the pupils onto modeled eyeballs. This would resolve
 an error which likely occurs in the current model: By not projecting the pupil
 centers properly onto the eyeball, they are likely displaced in relation to
 their true position. The effect is visualized in \Cref{fig:failedprojection} using a 2D
@@ -238,10 +239,10 @@ correct $p_0$ can lead to huge errors on the screen.
 \centering
 \input{assets/images/failedprojection.tex}
 \caption{\label{fig:failedprojection}A small pupil restoration error of using $p_0$ instead of $p_1$ for
-the raycast from $e$ to the screen can lead to big errors on the screen
+the ray cast from $e$ to the screen can lead to big errors on the screen
 surface.}
 \end{figure}
-Because of these problems with the reconstruction, the raycasting also produces
+Because of these problems with the reconstruction, the ray casting also produces
 wrong results -- although for the given inputs the results are correct.
 Another option to explore than using a different model might be to introduce a
 calibration method, which \Gaze{} tries to avoid.
@@ -254,9 +255,9 @@ in use: Neither of the datasets contains
 annotations whether the person is looking to the left or right. When
 considering annotating the small Pexels dataset it quickly turns out that due
 to the nature of portrait photos, most people gaze directly into the camera. In
-fact only 18 images feature obvious gazes to either side. The BioID dataset has similar
+fact, only 18 images feature obvious gazes to either side. The BioID dataset has similar
 problems, in most pictures the people also gaze into the camera. Due to time
-constraints no further selection of images featuring prominent gazes to either side
+constraints, no further selection of images featuring prominent gazes to either side
 has been done.
 
 
@@ -276,12 +277,12 @@ up to some limitations.
 
 Integrating iTracker into \Gaze{} is not an easy task as its dependency Caffe
 and \Gaze{}'s dependency Dlib both depend on +BLAS, and there are multiple
-different implementation of +BLAS available. While most libraries offer bindings to
+different implementations of +BLAS available. While most libraries offer bindings to
 multiple variants, it is only possible to link against one version of +BLAS in
 a final program. Thus Caffe and Dlib need to be compiled using the proper
 bindings first before they can be used together in iTracker.
 To build a custom program using \Gaze{} with the `GazeTracker` pipeline step
-requires to write a CMakeLists file which first finds iTracker before searching
+requires writing a CMakeLists file which first finds iTracker before searching
 for \Gaze{}.
 When using iTracker, \Gaze{} occasionally crashes due to some memory errors. It
 is not clear whether it is the fault of \Gaze{} or if the problem is a resource
@@ -313,11 +314,11 @@ to test in the future.
 
 ## Computation times
 
-For real time gaze point estimations fast computation times are a very critical
-metric. \Gaze{} performs relatively fast for small eyes, the most time
-consuming parts are the face detection and the eye center localization as can
+For real-time gaze point estimations, fast computation times are a very critical
+metric. \Gaze{} performs relatively fast for small eyes, the most time-consuming
+parts are the face detection and the eye center localization as can
 be seen in \Cref{tab:pipeline-step-times}. The other pipeline steps,
-especially the head pose estimation and the final raycast are very fast.
+especially the head pose estimation and the final ray cast are very fast.
 The computation times of the `SourceCapture` step were not measured as it was
 not used during the benchmarks, as it is not capable of loading a series of
 images unless they are frames of a video file.
@@ -343,8 +344,8 @@ The total times for a pipeline in \Cref{tab:pipeline-times} are about
 image from the webcam is not included in the measurements. This makes \Gaze{} a
 good choice for non-time critical applications and offline data processing.
 During online settings, it will only detect fixations lasting at least
-\SI{160}{\milli\second} properly -- saccades or even microsaccades are to short
-for \Gaze{} to process. In offline analysis this can of course still work if
+\SI{160}{\milli\second} properly -- saccades or even microsaccades are too short
+for \Gaze{} to process. In offline analysis, this can of course still work if
 the source material's +FPS were high enough to detect the relevant features of
 gaze.
 
@@ -355,7 +356,7 @@ gaze.
 and allows all kinds of usage. Its gaze tracking capabilities are not working
 properly, but thanks to its extendability it is possible to use iTracker, a
 pre-trained model to detect gaze points. Many other issues in webcam gaze
-tracking can not be resolved using software alone: most webcams are limited to
+tracking cannot be resolved using software alone: most webcams are limited to
 small frame rates and it is extremely difficult to find the real specifications
 like sensor sizes and focal lengths for many webcams.
 
