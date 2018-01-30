@@ -148,7 +148,7 @@ and additionally lists several websites and commercial software able to do the s
 [OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
 of Haar feature detection using AdaBoost [@Viola2001]. But this
 method, albeit popular, only finds face and eye boundaries, while Dlib also finds useful face landmarks. @King2014 released
-a face detector in [Dlib](https://dlib.net) which uses five ++hog and
+a face detector in [Dlib](https://dlib.net) which uses five \glslink{hog}{histograms of oriented gradients~(HoGs)} and
 +MMOD [@King2015]. \Gaze{} uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
 the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
@@ -200,7 +200,7 @@ where $\hat{p} \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
 \mathbb{N}^2$ are all $N$ pixel locations of the image crop, $w_i \in
 \mathbb{R}$ are weights for those pixel locations, $g_i \in \Rtwo$ are
 the normalized gradients at each pixel location, respectively, and $\left\lVert
-\cdot \right\rVert_2$ is the euclidean norm. A very important function is
+\cdot \right\rVert_2$ is the Euclidean norm. A very important function is
 $\varphi$, which is defined as:
 \begin{align}
 \varphi(x, \vartheta) = \begin{cases}
