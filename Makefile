@@ -64,8 +64,10 @@ $(BUILD_DIR)/$(THESIS_FILE).pdf: $(BUILD_DIR)/$(THESIS_FILE).tex
 	@rm $(THESIS_FILE).*
 	@if [ -f texput.log ]; then rm texput.log ; fi
 	$(call PRINT_INFO,$@)
-	# Search for undefined references and print the results
-	@for i in $$(cat $(UNDEF_FILE));  do ack $$i src ; done
+	@# Search for undefined references and print the results
+	@for i in $$(cat $(UNDEF_FILE)); do ack $$i src ; done
+	@# Print TODOs
+	@ack "TODO|todo" src
 
 $(BUILD_DIR)/$(THESIS_FILE).tex: $(SOURCE_FILES) $(COMMON_DEPENDENCIES) figures evaluation | $(BUILD_DIR)
 	$(PANDOC_COMMAND) $(PANDOC_FINAL_OPTIONS) -o $@ $(MD_FILES) 2>&1 | tee >(grep "pandoc-citeproc" | cut -d' ' -f3 > $(UNDEF_FILE))
