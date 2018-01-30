@@ -47,8 +47,8 @@ reading tasks. He built a device as depicted in @fig:huey_eyetracker which is at
 the locally sedated cornea using a little cup made of plaster cast. The other
 side of the device points at smoked paper onto which it draws the movements of
 the attached eye. Using the device, Huey was able to report accurate
-measurements of fixations and saccades, stops and rapid movements of the
-eyes, which he used to analyze reading behavior.
+measurements of fixations and saccades, stops and rapid eye movements,
+which he used to analyze reading behavior.
 
 ![Schema of Huey's eye tracking device.;;Schema of Huey's eye tracking device.
 It works similar to a seismograph. Image from Google's scan of the New York
@@ -59,8 +59,8 @@ Following Huey's example, a surge of new eye tracking devices hit the research
 world. @Yarbus1967 became famous for his research on how a given task
 influences eye movements in comparison to free exploration of a scene. The device he
 used is similar to Huey's, but it is attached to the eyes without plaster cast,
-but with small rubber cups. These early methods by Huey and Yarbus are quite
-intrusive and others searched for non-intrusive methods.
+but with small rubber cups. These early methods by Huey and Yarbus are
+intrusive leading other researchers to the investigation of non-intrusive ones.
 
 Today, many different eye and gaze tracking tools exist. @Chennamma2013
 categorize them into four kinds: +Eog, scleral search coils, infrared

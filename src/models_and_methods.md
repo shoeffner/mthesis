@@ -1,6 +1,6 @@
 # Methods and models
 
-Estimating gaze is done in \Gaze{} using a geometric model realized in a flexible
+Estimating the gaze points is done in \Gaze{} using a geometric model realized in a flexible
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and
 output of the data. This chapter details the models and gives an
@@ -10,27 +10,26 @@ an alternative deep learning model for gaze tracking.
 
 ## Geometric model
 
-The goal of the geometric model is to detect the pupil centers of both eyes and
-perform a ray cast from the eyeball centers through the pupils. The
-intersections of the screen plane and the ray cast are the gaze points. The
+The goal of the geometric model is to find the gaze points on the screen using ray casts.
+A ray cast is performed from an eyeball center through its pupil. The
+intersections of the screen plane and the ray casts are the gaze points. A
 line--plane intersection [@Wikipedia:lineplaneintersection] can be expressed using three points of the
-screen plane, the eyeball center and the pupil in the same 3D coordinate
+screen plane, an eyeball center and a pupil in the same 3D coordinate
 system.
 Given an eyeball center $c \in \Rthree$ and a pupil center $p \in \Rthree$, the points on the line
 from the eyeball center through the pupil can be described as
 \begin{align}
 c + (p - c)t,\label{eq:c-p-line}
 \end{align}
-with $t \in \mathbb{R}$. The points on the screen plane can be described by three screen
+with $t \in \mathbb{R}$ identifying the point on the line. The points on the screen plane can be described by three screen
 corners $\tl, \tr, \br \in \Rthree$, one functioning as the reference point and two as the
 directions into which the screen plane extends:
 \begin{align}
 \tl + (\tr - \tl)u + (\br - \tl)v,\label{eq:screen-plane}
 \end{align}
-with $u, v \in \mathbb{R}$. The intersection between @eq:c-p-line and @eq:screen-plane is thus
+with $u, v \in \mathbb{R}$ identifying the point on the plane. The intersection between @eq:c-p-line and @eq:screen-plane is thus
 \begin{align}
 c + (p - c)t       &= \tl + (\tr - \tl)u + (\br - \tl)v \\
-c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
 c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= - (p - c)t + (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v \label{eq:param-intersection}
@@ -78,18 +77,18 @@ The eyeball centers can be modeled as part of a 3D head model which will be
 needed to estimate the head pose in relation to the camera. A simplified 3D
 head model using six landmarks is proposed by @Mallick2016. It does not use the
 metric system but coordinates within "some arbitrary reference frame"
-[@Mallick2016]. The model uses the nose tip as the origin and spans the
+[@Mallick2016]. The model uses the tip of the nose as the origin and spans the
 coordinate system parallel to the standard anatomical planes. The $x$ axis is
 parallel to the coronal and transverse planes, with the positive values to the
-left from the head's perspective. @Mallick2016 uses left and right from the viewers
+left from the head's perspective. @Mallick2016 uses left and right from the viewer's
 perspective. \Gaze{} uses left and right from the head's perspective which is
 more in line with @Swennen2006. Thus when looking at the model, the $x$ axis
-go to the right.
+stretches to the right.
 The $z$ axis is parallel to
 the transverse plane and lies inside the mid-sagittal plane, pointing away from
-the face. The $y$ axis is orthogonal to the $x$ and $z$ axes, it points upwards
-in relation to the head. \Cref{tab:3dheadmodel} summarizes the data points
-and @fig:3dheadlandmarks visualizes the locations and coordinate system. The
+the face. The $y$ axis is orthogonal to the $x$ and $z$ axes and points upwards
+in relation to the head. \Cref{tab:3dheadmodel} summarizes the model points
+and @fig:3dheadlandmarks visualizes the locations and the coordinate system. The
 model is converted to the metric system to be useful for \Gaze{} using data from
 @Facebase, in particular the mean outer canthal width. This is the width of
 the left and right eyes outer corners, from $\ex_r$ to $\ex_l$. @Facebase
@@ -125,7 +124,7 @@ of the palpebral fissure -- the distance between both eye corners, the exocanthi
 inside the head until the $\ex$ and $\en$
 are on the eyeball surface. The problem with this idea is that the mean
 palpebral fissure length is \SI{28.19}{\milli\meter} [@Facebase] but the mean
-eyeball diameter is much less than that: It is commonly reported to be about \SI{24}{\milli\meter} [@Davson2017], or
+eyeball diameter is much less than that: It is reported to be about \SI{24}{\milli\meter} [@Davson2017], or
 \SI{22.0}{\milli\meter} to \SI{24.8}{\milli\meter} [@Bekerman2014]. Instead of
 solving the equations with a greater diameter or by accounting for the distance
 between the eyeball surface and the $\ex$ and $\en$, the midpoint between
@@ -148,18 +147,18 @@ the subject needs to be found. There are various methods available,
 and additionally lists several websites and commercial software able to do the same. One method is to use
 [OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
 of Haar feature detection using AdaBoost [@Viola2001]. But this
-method, albeit popular, only finds face and eye boundaries. @King2014 released
-a face detector in [Dlib](https://dlib.net) which uses five +HoG models and
+method, albeit popular, only finds face and eye boundaries, while Dlib also finds useful face landmarks. @King2014 released
+a face detector in [Dlib](https://dlib.net) which uses five ++hog and
 +MMOD [@King2015]. \Gaze{} uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
 the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection steps are needed after the face is detected.
-In @sec:license-issues there is one downside to using Dlib's model explained: Licensing.
-A possible solution is to use the 5 landmark model,
-but it does not detect all landmarks included in the 3D head model and using a
+@sec:license-issues explains one downside of using Dlib's model, which is licensing.
+A possible solution is to use the five landmark model which Dlib offers as an alternative,
+but it does not detect all landmarks included in the 3D head model. Also using a
 3D head model containing the five instead of the six out of 68 landmarks is not stable
-enough for the head pose estimation as detailed in @sec:head-pose-estimation.
+enough for the head pose estimation, which is discussed in more detail in @sec:head-pose-estimation.
 
 Dlib describes detected faces with a bounding box around the detected landmarks
 as well as a list of landmark coordinates, ordered as labeled in the "300 Faces
@@ -202,7 +201,7 @@ where $\hat{p} \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
 \mathbb{R}$ are weights for those pixel locations, $g_i \in \Rtwo$ are
 the normalized gradients at each pixel location, respectively, and $\left\lVert
 \cdot \right\rVert_2$ is the euclidean norm. A very important function is
-$\varphi$, it is defined as:
+$\varphi$, which is defined as:
 \begin{align}
 \varphi(x, \vartheta) = \begin{cases}
 \frac{x}{\left\lVert x \right\rVert_2} &\quad \text{if } x \ge \vartheta \\
@@ -237,7 +236,7 @@ possible pupil center location which on average has the most directions to
 locations which have a gradient pointing into the same or similar directions
 will be the winning center point.
 
-This sometimes leads to problems where the eye crop has some
+Sometimes the gradient method leads to problems where the eye crop has some
 wrinkles, shadows, low eyelids, reflections on glasses, or other illumination changes.
 @Timm2011 use an inverted Gaussian filtered image to calculate
 weights which should give the real pupil higher chances to be selected. The
@@ -275,7 +274,7 @@ system defined above, the head pose is always at $(0, 0, 0)$ with an
 orientation of $(0, 0, 0)$. But by estimating the head pose in terms of the
 camera coordinate system, it is possible to derive the camera location, which
 in turn is fix in relation to the screen. So by knowing the camera location,
-the screen corners needed to solve @eq:matrix-intersection can be found trivially.
+the screen corners needed to solve @eq:matrix-intersection can be found by following the steps in @sec:calculation-of-screen-corners.
 
 \widefn
 
@@ -339,7 +338,7 @@ subjects face the camera more directly, while the +EPnP becomes better when
 subjects turn their heads. A comparison is shown in @fig:solvepnpcomparison.
 Since for gaze tracking subjects can be assumed to
 look more likely into the direction of the camera, it is more important to
-estimate frontal images better.
+estimate frontal images more accurately.
 
 \stopwidefn
 
@@ -374,7 +373,7 @@ size $o$ is
 -0.026 \end{array} \right) \right\rVert_2 = \SI{0.0866}{\meter}.
 \end{align}
 The outer canthal width in the image $i$ is the distance between the landmarks 37
-and 46, which is detected by dlib. It has to be multiplied by $p$ to get its
+and 46, which is detected by Dlib. It has to be multiplied by $p$ to get its
 width in \si{\meter}. Thus, to determine $d$, the only missing
 value is $f$. An approximation for $f$ can be measured, for a MacBook Pro with
 the assumption of the above mentioned sensor size it is about
@@ -390,7 +389,7 @@ should be sufficient.
 
 ### Calculation of screen corners
 
-The camera is at the origin of the camera coordinate system. A transformation
+The camera marks the origin of the camera coordinate system. A transformation
 between the model coordinate system and the camera coordinate system is found
 using `solvePnP` in @sec:head-pose-estimation. To express the camera in model
 coordinates it is moved back into the translation direction, facing the model
@@ -417,8 +416,6 @@ coordinates, since they were defined relative to the camera. So for screen
 corner $\tl$ the transformation is:
 $\tl = R^\top \tl_\text{model} + \mathit{cam}.$
 
-TODO(shoeffner): Add more figures to visualize steps
-
 
 ## Implementation as a software library
 
@@ -431,15 +428,15 @@ software library \Gaze{}, which sets the goals to be
 - well documented,
 - and available on multiple platforms.
 
-To be easily integrable into other projects, \Gaze{} is written in C++ and
-compiles into a static library. It uses CMake which is used in many C++
-projects and thus lots of developers should be already familiar with it.
+\Gaze{} is written in C++ and compiles into a static library to be easily
+integrable into other projects. It uses CMake which is used in many C++
+projects and thus it should be widely known.
 C++ was specifically chosen because it can often be integrated into other
 programming languages since many languages already provide mechanisms to call
 for example system libraries, which are often written in C or C++. Another
 reason is that OpenCV and Dlib are natively written in C++, and while both have
 Python bindings, in general their C++ documentation is much more
-comprehensible. One important aspect in making \Gaze{} integrable is the +API
+comprehensible. One important aspect of making \Gaze{} integrable is the +API
 design. By first recreating an eye tracking experiment [@Judd2009] and finding
 out what the needs for such an experiment are, \Gaze{} is developed around a very
 simple API. Extendability is given by a modular design. \Gaze{} builds around a
@@ -475,7 +472,7 @@ data to update its visualizations.
 
 ![\Gaze{}'s program architecture.](missing){ #fig:gazearch }
 
-At the heart of \Gaze{} lies the pipeline. Each step follows the same interface
+Each pipeline step follows the same interface
 and has to implement two methods: `void process(util::Data&)` and
 `void visualize(util::Data&)`. The process method mutates the data
 object by performing some calculations and storing the result back. By
@@ -489,7 +486,7 @@ time, as it only visualizes one step at a time.
 
 ## An alternative approach: iTracker
 
-As an alternative approach to the geometric model present above, a pre-trained
+As an alternative approach to the geometric model presented above, a pre-trained
 +CNN [@Krafka2016] is used for a comparison. It is called iTracker and builds on the authors'
 dataset GazeCapture, which contains data of \num{1450} subjects, or about 2.5
 million frames. @Krafka2016 make their models publicly
