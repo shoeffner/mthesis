@@ -182,8 +182,9 @@ from the context, whichever is correct. In case you did not receive this thesis
 in a print format with an attached +SDcard containing the data, you can find the source code for the
 \Gaze{} library and the thesis online.
 A list of ++URL can be found in \Cref{tab:links}. The two code repositories
-contain the tagged commits `v0.1-thesis.shoeffner` and `v0.1-thesis.shoeffner.ghp`
-which reference the state at the time of submission.
+contain the tagged commits `thesis.shoeffner` which reference the state at the
+time of submission.
+
 
 Table: Links to the thesis' resources and source code. \label{tab:links}
 
@@ -194,8 +195,6 @@ Description            Link
 Thesis PDF & Materials https://shoeffner.github.io/mthesis
 Thesis Source Code     https://github.com/shoeffner/mthesis
 Continuous Integration https://semaphoreci.com/hoeffner/gaze
-
-TODO(shoeffner): put pdf and materials up on mthesis page
 
 
 #### Exchange rates between USD and EUR

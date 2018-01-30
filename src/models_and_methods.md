@@ -528,11 +528,11 @@ A few example faces can be seen in @fig:examplefaces. Because the dataset was
 downloaded for this thesis and is
 used to evaluate the results of the eye center detection, they are annotated by hand.
 The annotations and scaled images can be found as supplementary material at the
-[thesis' GitHub repository](GITHUBARCHIVELINK). A script is provided inside the
+[thesis' GitHub repository][GITHUBARCHIVELINK]. A script is provided inside the
 thesis' code repository to download the original images and perform the
 annotations.
 
-TODO(shoeffner): Replace GITHUBARCHIVELINK with correct link
+[GITHUBARCHIVELINK]: https://github.com/shoeffner/mthesis/releases/download/thesis.shoeffner/PexelsDataset.zip
 
 To compare the pupil detection with the original implementations referenced in
 @sec:pupil-localization-evaluation, the [BioID
