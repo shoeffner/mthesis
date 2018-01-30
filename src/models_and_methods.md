@@ -496,7 +496,7 @@ and a face grid, which is a binary representation of where the face of a
 subject is located in respect to the original image. All the information except
 for the face grid is already used inside the geometric model, so it only needs
 to be adjusted to fit the input layers of the network. ITracker is implemented
-in [Caffe](http://caffe.berkeleyvision.org/) [@Jia2014], which can be
+in [Caffe](http://caffe.berkeleyvision.org) [@Jia2014], which can be
 integrated into C++ programs. One disadvantage of iTracker is, that it is only
 trained on iPhones and iPads.
 
@@ -506,6 +506,8 @@ trained on iPhones and iPads.
 Some datasets were needed during the development and tests for \Gaze{}. While
 for most ad hoc tests the webcam live stream is enough, it is not enough to
 allow for reproducibility of the results.
+
+\begingroup \DFNtrysingle \DFNinhibitcbreak
 
 The first dataset, Pexels, is a custom dataset with 120 images from
 [Pexels](https://pexels.com). These images are released under the CC0
@@ -534,9 +536,11 @@ annotations.
 
 [GITHUBARCHIVELINK]: https://github.com/shoeffner/mthesis/releases/download/thesis.shoeffner/PexelsDataset.zip
 
+\endgroup
+
 To compare the pupil detection with the original implementations referenced in
 @sec:pupil-localization-evaluation, the [BioID
-dataset](https://www.bioid.com/facedb/) [@Jesorsky2001] is used.
+dataset](https://www.bioid.com/facedb) [@Jesorsky2001] is used.
 It contains 1521 gray images with a fixed resolution of \SI{384x286}{{pixels}}.
 The BioID dataset features only 23 different people with multiple images of
 each. Thirty arbitrary example photos can be found in @fig:bioid_examples.
