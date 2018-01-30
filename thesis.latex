@@ -52,7 +52,7 @@ $if(appendix)$
     \let\oldAppendix\appendix
     \renewcommand{\appendix}{%
         \oldAppendix
-        \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}\raggedright\sloppy}
+        \appendixusedtrue\cleardoublepage\pagenumbering{Roman}\begin{appendices}\sloppy}
 $endif$
 
 \makeatletter
