@@ -359,8 +359,8 @@ measured. At the time of writing, \Gaze{} only supports cameras which are built
 into the laptop screen or in the same plane as the screen, and only cameras
 directed orthogonally away from the screen towards the subject. Thus, the camera
 position has to be provided using two values, the horizontal offset $x$ from
-the upper left screen corner, and the vertical offset $y$ from the same corner
-, here $x = \SI{17.25}{\centi\meter},$ and $y = \SI{0.7}{\centi\meter}$.
+the upper left screen corner, and the vertical offset $y$ from the same corner,
+here $x = \SI{17.25}{\centi\meter},$ and $y = \SI{-0.7}{\centi\meter}$.
 @fig:measuringmetadata visualizes which measurements have to be taken.
 The target parameters allow specifying an area of interest: Instead of mapping
 the measured gaze coordinates to the screen coordinates, they will be mapped
@@ -369,7 +369,10 @@ into a regular grid with the dimensions mentioned inside the target parameters.
 ```{ .yaml file=assets/gaze/gaze.default.yaml label=cl:gazedefmeta caption="The default meta configuration block for \Gaze{}." .stripcomments lines=1-59 }
 ```
 
-TODO(shoeffner): Add figure fig:measuringmetadata showing measurements
+![Measuring the screen.;;To configure \Gaze{}, the display's width and height
+need to be known. The camera offset to the top left screen corner has to be
+measured as well, note the positive y values extend downwards, like image
+coordinates.](measuring.png){#fig:measuringmetadata width=45%}
 
 The camera's resolution can also be configured alongside the target +fps. Many
 webcams are limited in their +fps capabilities, so even by providing high

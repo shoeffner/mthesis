@@ -470,8 +470,6 @@ and the main thread. The main thread can then store the latest tracking results
 to provide seamless access inside feedback loops and the GUI can retrieve the latest
 data to update its visualizations.
 
-![\Gaze{}'s program architecture.](missing){ #fig:gazearch }
-
 Each pipeline step follows the same interface
 and has to implement two methods: `void process(util::Data&)` and
 `void visualize(util::Data&)`. The process method mutates the data
