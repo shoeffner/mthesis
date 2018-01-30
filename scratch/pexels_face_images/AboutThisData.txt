@@ -1,0 +1,15 @@
+The images in 'resized' have been downloaded from Pexels.com using the tools in
+https://github.com/shoeffner/mthesis/tree/master/scratch/pexels_face_images.
+They have been resized and their pupils have been annotated (annotations match
+the resized images). To download the original files, please use the tools provided
+at the URL above.
+
+The annotations contain two rows, each corresponding to an x, y tuple of pixel
+coordinates. If both of them are 0, no pupil was annotated.
+
+For example, 0000.csv contains:
+
+    255, 187 348, 187
+
+This means the right pupil in resized/0000.jpeg is at (255, 187) and the left
+pupil at (348, 187).
