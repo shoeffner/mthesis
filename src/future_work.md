@@ -18,7 +18,7 @@ onto their surfaces. It might even be needed to account for refraction of light
 in the eye, something not taken into account at all in \Gaze{}'s models. Some
 of the models mentioned in @Hansen2010 could be of use.
 Another possibility is to introduce a calibration method and see if the model
-works using system calibrated to the subject. This might be difficult because
+works using a setup calibrated to the subject. This might be difficult because
 of the pipeline architecture, but custom steps or a general extension to the
 pipeline are possibilities to solve this.
 
@@ -45,7 +45,7 @@ not stored but might be very useful for video analysis. Although there are
 numerous different data formats for eye tracking data [@Schöning2016],
 \Gaze{}'s modular approach allows for easy implementation of various formats.
 
-Because the current implementation only allows for cameras located in the
+Because the current implementation only allows for cameras located on the
 screen plane, a second interesting extension to \Gaze{} would be to make this
 more flexible. This is no easy task as the conversions then need to account for
 four additional dimensions -- not only offsets in two directions but offsets
@@ -54,11 +54,11 @@ having setups with external webcams much easier than with the current
 approach.
 
 In terms of implementation, \Gaze{} has a couple of things to improve on. One
-example are to provide bindings to other languages -- to use \Gaze{} in for
-example Python, but also the other direction to write pipeline steps in Python
+example is to provide bindings to other languages -- to use \Gaze{} in for
+example Python, but also to write pipeline steps in other languages than C++
 and use them within \Gaze{}. The former could be realized using frameworks like
 [Boost.Python](http://www.boost.org/doc/libs/1_66_0/libs/python/doc/html/index.html)
-or [pybind11](https://github.com/pybind/pybind11), the latter could be realized
+or [pybind11](https://github.com/pybind/pybind11), the latter
 by building the pipeline around a plugin system. Additionally many parts of the
 code do not have proper tests yet. While there are some tests for the
 `PupilLocalization` pipeline step, most other parts of the code are just tested
@@ -80,7 +80,7 @@ properly annotated data, but also to keep models small and efficient.
 As was seen in @sec:face-detection, face detection is clearly not a completely
 solved task yet. Even models trained on the "300 Faces In-The-Wild challenge"
 do not recognize occluded faces, especially if occluded by shades or if only
-have of the face is visible. Of course, it is a little bit of a definition
+half of the face is visible. Of course, it is a little bit of a definition
 issue and depends on the question if one wants to detect occluded faces or not,
 but in general, this is still not resolved. And even if only non-occluded faces
 should be detected, tilted faces also still pose challenges. Thus improving on

@@ -75,7 +75,10 @@ the pixels of the screen.
 
 The eyeball centers can be modeled as part of a 3D head model which will be
 needed to estimate the head pose in relation to the camera. A simplified 3D
-head model using six landmarks is proposed by @Mallick2016. It does not use the
+head model using six landmarks is proposed by @Mallick2016. The landmarks involved are
+the tip of the nose&nbsp;(pronasal), the point at the bottom front of the chin
+(gnathion), the two outer corners of the eyes (exocanthions), and the two mouth
+corners (cheilions). The 3D model does not use the
 metric system but coordinates within "some arbitrary reference frame"
 [@Mallick2016]. The model uses the tip of the nose as the origin and spans the
 coordinate system parallel to the standard anatomical planes. The $x$ axis is
@@ -91,7 +94,7 @@ in relation to the head. \Cref{tab:3dheadmodel} summarizes the model points
 and @fig:3dheadlandmarks visualizes the locations and the coordinate system. The
 model is converted to the metric system to be useful for \Gaze{} using data from
 @Facebase, in particular the mean outer canthal width. This is the width of
-the left and right eyes outer corners, from $\ex_r$ to $\ex_l$. @Facebase
+the left and right eyes' outer corners, from $\ex_r$ to $\ex_l$. @Facebase
 report a mean outer canthal width of \SI{86.71}{\milli\meter}, measured
 using 3D stereophotogrammetry and within \num{1845} European Caucasian
 individuals above the age of 18. In the 3D model, the outer canthal width is
@@ -120,7 +123,7 @@ Eye ball center right  ($c_r$)        $(-29.05, 32.7, -39.5)$
 Eye ball center left   ($c_l$)        $(29.05, 32.7, -39.5)$
 
 An initial idea to model the eyeball center was to place it at the center
-of the palpebral fissure -- the distance between both eye corners, the exocanthion and endocanthion -- and move it
+of the palpebral fissure -- the line segment between the inner and outer eye corners, the endocanthion and exocanthion -- and move it
 inside the head until the $\ex$ and $\en$
 are on the eyeball surface. The problem with this idea is that the mean
 palpebral fissure length is \SI{28.19}{\milli\meter} [@Facebase] but the mean
