@@ -28,6 +28,7 @@ $endif$
 
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage[all]{nowidow}
 
 \usepackage{xcolor}
 
