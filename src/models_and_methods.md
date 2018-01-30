@@ -136,7 +136,7 @@ length, \SI{28.19}{\milli\meter} apart from their respective exocanthions. The
 eyeball centers are then at $(-29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter} and
 $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 
-![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks.](missingfigure){ #fig:3dheadlandmarks }
+![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks. The head model is from pixabay.com and under the CC0 license.](3dheadmodel.png){ #fig:3dheadlandmarks width=35% }
 
 
 ### Detecting faces and eyes
@@ -151,7 +151,7 @@ method, albeit popular, only finds face and eye boundaries, while Dlib also find
 a face detector in [Dlib](https://dlib.net) which uses five \glslink{hog}{histograms of oriented gradients~(HoGs)} and
 +MMOD [@King2015]. \Gaze{} uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
-the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] (@fig:68landmarks).
+the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] shown in @fig:68landmarks.
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection steps are needed after the face is detected.
 @sec:license-issues explains one downside of using Dlib's model, which is licensing.
