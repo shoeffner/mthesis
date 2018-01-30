@@ -240,9 +240,7 @@ soon as it is closed, \Gaze{} will close its debug +GUI as well and stop trackin
 
 ![\Gaze{}'s debug GUI.;;\Gaze{}'s debug +GUI. On the left, the pipeline steps are listed along with their
 computation times in \si{\micro\second}. The tabs can be used to switch between
-pipeline step visualizations.](gazedebuggui.png){#fig:gazedebuggui}
-
-TODO(shoeffner): Replace photograph with less distracting one (maybe convert image to grayscale)
+pipeline step visualizations, here the pupil localization is shown.](gazedebuggui.png){#fig:gazedebuggui}
 
 In their paper, @Judd2009 investigate salient regions of images. The program
 `where_people_look` is a re-implementation of @Judd2009's experiment using
