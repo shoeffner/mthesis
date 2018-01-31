@@ -107,7 +107,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 
 ![OpenCV checkerboard pattern to calibrate a camera.](pattern.png){ #fig:calibcheck }
 
-![Images from the Pexels dataset in which Dlib does not detect faces.;;Images from the Pexels dataset in which Dlib's face detector does not detect any faces. Especially occlusions and strongly tilted heads are difficult.](undetected_faces.png){ #fig:undetected_faces }
+![Images from the Pexels dataset in which Dlib does not detect faces.;;Images from the Pexels dataset in which Dlib's face detector does not detect any faces. Especially occlusions and strongly tilted heads are difficult. One exception is the image featuring two faces in the second row, Dlib recognizes both faces, but \Gaze{} can only work with one.](undetected_faces.png){ #fig:undetected_faces }
 
 
 # Code Listings

@@ -84,16 +84,26 @@ the thresholds is reported. A comparison of all three different errors, $\min,
 \begin{figure}
     \centering
     \begin{tikzpicture}
-        \begin{axis}[xlabel={relative error}, ylabel={accuracy}, domain=0:1, xmin=0, xmax=0.25]
-            \addplot[color=blue] table [x=error, y=Timm2011, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
-            \addplot[color=red] table [x=error, y=gaze_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
-            \addplot[color=green] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+        \begin{axis}[xlabel={relative error},
+                     ylabel={accuracy},
+                     xticklabel style={/pgf/number format/fixed},
+                     ymin=0,
+                     ymax=1,
+                     xmin=0,
+                     xmax=0.25,
+                     xtick={0, 0.05, 0.10, 0.15, 0.20, 0.25},
+                     enlargelimits=false,
+                     title={Maximum relative error accuracy comparison},
+                     legend style={area legend, at={(0.65,0.2)}, anchor=south},
+                    ]
+            \addplot[color=blue,thick] table [x=error, y=Timm2011, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+            \addplot[color=black!60!green,thick] table [x=error, y=eyelike_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+            \addplot[color=red,thick] table [x=error, y=gaze_max_normalized_error, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
+            \legend{Timm \& Barth,Hume,\Gaze{}}
         \end{axis}
     \end{tikzpicture}
-    \caption[Comparison of pupil detection accuracies.]{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and \Gaze{}'s \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown. Refer to \Cref{tab:BioID-pupil-detection-accuracies} for a tabular version of all relative errors.}
+    \caption[Comparison of pupil detection accuracies.]{\label{fig:bioid_accuracies}Comparison of pupil detection accuracy between Timm and Barth (2011), Hume (2012) and \Gaze{}'s \texttt{PupilLocalization} on the BioID dataset. Only the maximum relative error is shown, that is the worse eyes are taken into account. Refer to \Cref{tab:BioID-pupil-detection-accuracies} for a tabular version of all relative errors.}
 \end{figure}
-
-TODO(shoeffner): beautify plot \Cref{fig:bioid_accuracies}
 
 The accuracy of `PupilLocalization` is very good and reaches the same accuracy
 as @Timm2011. Inspecting the times in \Cref{tab:comptimes-BioID} it becomes clear that `PupilLocalization` performs faster than the implementation of `EyeLike` on the
