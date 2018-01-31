@@ -58,10 +58,6 @@ int main(const int, const char** const) {
                   >> target_y[0]
                   >> target_x[1] >> COMMA
                   >> target_y[1];
-    if (target_x[0] + target_y[0] + target_x[1] + target_y[1] == 0) {
-      continue;
-    }
-
 
     // Create data object and load test image
     gaze::util::Data data;
@@ -73,6 +69,10 @@ int main(const int, const char** const) {
     landmarks.process(data);
     end = std::chrono::high_resolution_clock::now();
     if (data.landmarks.num_parts() == 0) {
+      std::cerr << "No face: " << FACE << std::endl;
+      continue;
+    }
+    if (target_x[0] + target_y[0] + target_x[1] + target_y[1] == 0) {
       continue;
     }
     std::cout << FACE << COMMA

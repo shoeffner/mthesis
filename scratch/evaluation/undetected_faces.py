@@ -1,6 +1,9 @@
 import pandas as pd
 
 if __name__ == '__main__':
-    df = pd.read_csv('pexels.csv')
-    for id in (set(range(120)) - set(df['id'].values)):
-        print(f'../pexels_face_images/resized/{id:0>4}.jpeg')
+    images = ['0007', '0016', '0020', '0023', '0029', '0038', '0047', '0051',
+              '0060', '0065', '0067', '0068', '0072', '0074', '0078', '0080',
+              '0084', '0086', '0090', '0096', '0097', '0099', '0102', '0106',
+              '0109', '0111', '0112', '0119']
+    for id in images:
+        print(f'../pexels_face_images/resized/{id}.jpeg')
