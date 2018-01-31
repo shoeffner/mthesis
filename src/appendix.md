@@ -119,6 +119,7 @@ f &= \frac{f_h + f_v}{2} = \frac{\SI{0.011}{\meter} + \SI{0.01}{\meter}}{2} = \S
 ```
 
 
-# References
+# Referencesa
+\raggedright
 \renewcommand{\footnote}[1]{} <!-- Avoid DOI links to go to footnotes: disable footnotes in general. -->
 \begingroup\endgroup
