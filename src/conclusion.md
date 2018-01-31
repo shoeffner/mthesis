@@ -24,15 +24,14 @@ is available and automatically built using Semaphore and thus always readily
 available. The cross-platform usage is not thoroughly tested, but \Gaze{} builds
 successfully on macOS and Ubuntu 14.04 and its tests pass on both those
 platforms as well. The software fulfills many of its goals and is ready to use for eye tracking in feedback loops.
-For gaze tracking in research settings, however, some shortcomings detailed
+For gaze tracking in research settings, however, some shortcomings detailed below
 need to be resolved first.
 
 
 ## Evaluation of the geometric model
 
-The geometrical model proposed to track gaze is not working. While parts of it
-work well, other parts are not as successful. In the following sections, the
-individual parts will be evaluated.
+The geometrical model proposed to track gaze is not working as expected.
+Each individual part will be evaluated in the next sections to explain which ones are working and which ones are not.
 
 
 ### Face detection
@@ -49,8 +48,8 @@ faces and faces in uncommon orientations, which is okay for the purpose of eye
 and gaze tracking.
 
 While missing some faces, Dlib has a much lower false positive rate than OpenCV
-[@King2014], which could have been another choice for face detection. Processing an image of size
-\SI{640x360}{{pixels}} took about
+[@King2014], which is another option for face detection. Processing a
+\SI{640x360}{{pixels}} image took about
 \SI{130}{\milli\second} to \SI{140}{\milli\second} using OpenCV and about
 \SI{160}{\milli\second} to \SI{170}{\milli\second} using Dlib. But factoring in
 the advantage of also getting the 68 landmarks needed for the head pose
@@ -151,9 +150,7 @@ left and right, which are not all present in the five landmarks model. It uses
 the two exocanthions, the subnasal -- the point below the nose -- and the
 endocanthions. To be able to estimate a head pose, a
 different 3D model is used, Model&nbsp;A in @cl:5lm-model. It is difficult to find
-accurate relational measurements for these landmarks. Hence for the endocanthions
-the same model assumption is made as is for the eyeball centers, that they are
-offset towards the center by the length of the palpebral fissure [@Facebase].
+accurate relational measurements for these landmarks. The endocanthions are offset towards the center by the length of the palpebral fissure, similar to the eyeball centers.
 The subnasal is located using an educated guess backed by the data about the
 nasal height and the philtrum length [@Facebase].
 
@@ -199,7 +196,7 @@ centers into the model coordinates. The final step is the ray cast to determine
 the gaze point locations.
 
 The distance estimation is only using the outer canthal width, thus this part
-is very likely to be highly inaccurate. No precise tests were considered during the evaluation,
+is very likely to be highly inaccurate. No precise tests were performed during the evaluation,
 a short measurement using a folding rule was conducted instead.
 To test the distance, only
 very strict face poses rotated towards the camera were considered. Variations
@@ -372,4 +369,5 @@ projects are abandoned, need sophisticated calibration procedures or reach low
 precision. The +cnn iTracker and similar approaches seem to be promising models
 to make gaze tracking available for everyone and for all devices, but there is still
 some work to do, like increasing the area of interest and reducing computation
-times.
+times. But concerning the possibility of gaze tracking without additional
+equipment and considerable cost it warrants further investigation.

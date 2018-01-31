@@ -14,8 +14,8 @@ geometric model used to calculate the gaze points. The affine transformation
 used to reverse the 2D projection to the 3D model and to transform the pupils
 should be re-evaluated and possibly replaced. One way could be to model the
 eyeballs as spheres or ellipsoids and perform more sophisticated projections
-onto their surfaces. It might even be needed to account for refraction of light
-in the eye, something not taken into account at all in \Gaze{}'s models. Some
+onto their surfaces.
+Something not taken into account at all in \Gaze{}'s models is the refraction of light in the eye. Some
 of the models mentioned in @Hansen2010 could be of use.
 Another possibility is to introduce a calibration method and see if the model
 works using a setup calibrated to the subject. This might be difficult because
@@ -35,7 +35,7 @@ information. It might be a good idea to aggregate shared information in one
 block or define a different configuration format in general, to avoid
 redundancies, as those can easily lead to errors.
 
-Apart from these problems, there are also many possible extensions to make for
+Apart from these issues, there are also many possible extensions to make for
 \Gaze{}. One is to implement result writes and readers. Writers give the
 ability to store data and analyze it, readers allow to continue processing a
 video file or to reevaluate data using a different method. When implementing

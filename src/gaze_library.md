@@ -27,8 +27,7 @@ features a debug +GUI, which visualizes each pipeline step individually. Once
 implemented, the gaze tracker, the pipeline
 and the pipeline steps can be configured using a +YAML file, `gaze.yaml`.
 The library works best with the camera sensor being in the same plane as the
-screen surface, thus built-in webcams are recommended. This is because
-currently the configuration for the camera position assumes only offsets along
+screen surface, thus built-in webcams are recommended. The configuration for the camera position assumes only offsets along
 and across the screen, the orientation and depth cannot be changed. \Gaze{} can
 process live webcam streams, video files, and images.
 The gaze tracker reliably tracks a subject's face and eyes, detects pupils,
@@ -86,21 +85,6 @@ and answers website. But the results mean that many people are already
 familiar with Git and can easily join the project and collaborate without
 having to overcome high entrance barriers like learning a new +vcs.
 
-An exemplary workflow with Git starts with cloning the code
-repository, that means downloading the latest source code. Then, for each
-feature to be added to the project, these steps are performed:
-
-1. Create a branch. This can be understood as a local temporary copy of the
-   source code.
-2. Modify the code in the branch to build the feature.
-3. Create a commit, which is comparable to a checkpoint to which you can always
-   return. It also gives the code a unique version number, since a commit
-   creates a unique hash for the current code.
-4. Publish the commit to the original host, which is called pushing.
-5. After verifying that the commit does not break the functionality and follows
-   the project's coding standards, the changes can be merged into the
-   original code.
-
 There are many different ways to structure a Git workflow. One is the GitFlow
 branching model [@Driessen2010], which largely influenced \Gaze{}'s workflow in the
 beginning. \Gaze{} does not use a specific develop and release branch, instead
@@ -116,7 +100,7 @@ Semaphore will compile the published version and run the unit tests, which test 
 few methods for integrity. On success, the commit is considered valid and the
 changes can be merged into the master branch. To prevent common mistakes and
 ensure certain code quality guidelines, [cpplint](https://github.com/cpplint/cpplint)
-can be used before pushing a commit to GitHub. It checks if the code
+is used before pushing a commit to GitHub. It checks if the code
 conforms to the
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 
@@ -372,7 +356,7 @@ into a regular grid with the dimensions mentioned inside the target parameters.
 ![Measuring the screen.;;To configure \Gaze{}, the display's width and height
 need to be known. The camera offset to the top left screen corner has to be
 measured as well, note the positive y values extend downwards, like image
-coordinates.](measuring.png){#fig:measuringmetadata width=45%}
+coordinates. The notebook is adapted from pixabay.com and under the CC0 license.](measuring.png){#fig:measuringmetadata width=45%}
 
 The camera's resolution can also be configured alongside the target +fps. Many
 webcams are limited in their +fps capabilities, so even by providing high
@@ -386,8 +370,7 @@ the frame rate is defined by the video material.
 The computation speed is additionally highly dependent on the image
 sizes, so smaller resolutions lead to faster computation times.
 Better hardware, for example, a dedicated GPU to improve Dlib's or Caffe's
-speeds, might also result in better computation times, possibly allowing for
-faster performance of \Gaze{}.
+speeds, might also result in better computation times.
 
 Crucial settings for the camera to estimate distances properly are the sensor's
 size, its aspect ratio, and the focal length. These values are difficult to

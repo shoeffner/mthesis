@@ -28,7 +28,7 @@ For pupil detection, it is in general possible to distinguish between shape- and
 appearance-based models [@Hansen2010], most of them work on image patches
 containing the eyes and a small area around them. Shape-based models assume the iris
 as a circular object and optionally add ellipses around it to model the
-sclera or eyelids. Some such methods use a circular Hough transform to find
+sclera or eyelids. Some of those methods use a circular Hough transform to find
 the pupil centers [@Soltany2011; @George2016]. Other models perform local fits
 of circles or ellipses into the image using expectation maximization or random
 sample consensus to detect the eyes or pupils [@Li2005; @Hansen2005].
@@ -208,7 +208,7 @@ clicking a number of times at different screen positions they gaze at.
 
 The Python package [deepgaze](https://github.com/mpatacchiola/deepgaze) by
 Massimiliano Patacchiola uses ++cnn to perform various human-computer
-interaction tasks. It claims as one of its features to be able to do gaze
+interaction tasks. It claims one of its features is to be able to do gaze
 tracking, but the current version does not yet offer this functionality.
 However, it does perform head pose estimation [@Patacchiola2017]. Since its
 publication about the head pose estimation is from 2017, it is possible that

@@ -4,7 +4,7 @@ Estimating the gaze points is done in \Gaze{} using a geometric model realized i
 pipelined architecture. Most pipeline steps consist of smaller models which
 solve parts of the gaze estimation problem, others serve for input and
 output of the data. This chapter details the models and gives an
-overview of \Gaze{}'s architecture. Finally, there will be a short introduction of
+overview of \Gaze{}'s architecture. Finally, there will be a short introduction of iTracker, the +cnn trained by @Krafka2016,
 an alternative deep learning model for gaze tracking.
 
 
@@ -21,18 +21,18 @@ from the eyeball center through the pupil can be described as
 \begin{align}
 c + (p - c)t,\label{eq:c-p-line}
 \end{align}
-with $t \in \mathbb{R}$ identifying the point on the line. The points on the screen plane can be described by three screen
+with $t \in \mathbb{R}$ shifting points on the line. The points on the screen plane can be described by three screen
 corners $\tl, \tr, \br \in \Rthree$, one functioning as the reference point and two as the
 directions into which the screen plane extends:
 \begin{align}
 \tl + (\tr - \tl)u + (\br - \tl)v,\label{eq:screen-plane}
 \end{align}
-with $u, v \in \mathbb{R}$ identifying the point on the plane. The intersection between @eq:c-p-line and @eq:screen-plane is thus
+with $u, v \in \mathbb{R}$ shifting points on the plane. The intersection between @eq:c-p-line and @eq:screen-plane is thus
 \begin{align}
 c + (p - c)t       &= \tl + (\tr - \tl)u + (\br - \tl)v \\
 c + (p - c)t - \tl &= (\tr - \tl)u + (\br - \tl)v \\
 c - \tl            &= - (p - c)t + (\tr - \tl)u + (\br - \tl)v \\
-c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v \label{eq:param-intersection}
+c - \tl            &= (c - p)t + (\tr - \tl)u + (\br - \tl)v. \label{eq:param-intersection}
 \end{align}
 Or, in a more concise matrix and vector form, @eq:param-intersection can be expressed as
 \begin{align}
@@ -63,7 +63,7 @@ determined using a generic 3D head model, followed by how \Gaze{} detects faces
 and eyes in an image. The detected face landmarks are used to find the pupil
 centers and project them into the 3D model, as well as to estimate the head
 pose in relation to the camera. Once the relation to the camera is established,
-a distance estimate is performed to calculate the screen position in the
+the distance is estimated to calculate the screen position in the
 model coordinate system. The eyeball centers, pupil locations in model
 coordinates, and screen corners in model coordinates can be inserted into
 @eq:matrix-intersection to find $t$ and calculate the gaze points.
@@ -139,7 +139,7 @@ length, \SI{28.19}{\milli\meter} apart from their respective exocanthions. The
 eyeball centers are then at $(-29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter} and
 $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 
-![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks. The head model is from pixabay.com and under the CC0 license.](3dheadmodel.png){ #fig:3dheadlandmarks width=35% }
+![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks. The head model is adapted from pixabay.com and under the CC0 license.](3dheadmodel.png){ #fig:3dheadlandmarks width=35% }
 
 
 ### Detecting faces and eyes
@@ -148,13 +148,13 @@ Before finding the pupil centers to project them into the 3D model the face of
 the subject needs to be found. There are various methods available,
 @Frischholz2018 lists 15 +FOSS libraries providing some sort of face detection
 and additionally lists several websites and commercial software able to do the same. One method is to use
-[OpenCV's](https://opencv.org) pre-trained classifiers, which perform a variant
+OpenCV's pre-trained classifiers, which perform a variant
 of Haar feature detection using AdaBoost [@Viola2001]. But this
 method, albeit popular, only finds face and eye boundaries, while Dlib also finds useful face landmarks. @King2014 released
-a face detector in [Dlib](https://dlib.net) which uses five \glslink{hog}{histograms of oriented gradients~(HoGs)} and
+a face detector in Dlib which uses five \glslink{hog}{histograms of oriented gradients~(HoGs)} and
 +MMOD [@King2015]. \Gaze{} uses Dlib's
 classifier because it offers an advantage over OpenCV's classifier: It detects
-the 68 landmarks used for the "300 Faces In-The-Wild Challenge" [@Sagonas2013] shown in @fig:68landmarks.
+the 68 landmarks used for the "300 Faces In-The-Wild Challenge" shown in @fig:68landmarks.
 These landmarks include the landmarks listed in \Cref{tab:3dheadmodel}, so no
 additional processing and detection steps are needed after the face is detected.
 @sec:license-issues explains one downside of using Dlib's model, which is licensing.
@@ -277,7 +277,7 @@ system defined above, the head pose is always at $(0, 0, 0)$ with an
 orientation of $(0, 0, 0)$. But by estimating the head pose in terms of the
 camera coordinate system, it is possible to derive the camera location, which
 in turn is fix in relation to the screen. So by knowing the camera location,
-the screen corners needed to solve @eq:matrix-intersection can be found by following the steps in @sec:calculation-of-screen-corners.
+the screen corners can be found and used to detect gaze points on the screen.
 
 \widefn
 
@@ -323,7 +323,7 @@ approximated by the image size, as presented in @sec:camera-and-screen-parameter
 projection matrix $P \in \mathbb{R}^{3 \times 4}$ which reduces the dimensions
 from three to two, and the affine transformation from the model coordinate
 system into the camera coordinate system. Finding the values for $R$ and $T$ is
-called the +PnP problem. There are multiple algorithms to solve +PnP problems, suitable for six points as it is the case in \Gaze{} are for example +EPnP
+called the +PnP problem. There are multiple algorithms to solve +PnP problems. Suitable for six points, as it is the case in \Gaze{}, are +EPnP
 [@Lepetit2009] and an iterative approach which uses a
 Levenberg--Marquardt optimization [@Levenberg1944; @Marquardt1963; @Wikipedia:lm]. The latter
 estimates a hidden parameter set $\beta$ as an approximation $\hat\beta$ such
@@ -339,8 +339,7 @@ as described in @sec:calculation-of-screen-corners. In \Gaze{} the Levenberg--Ma
 optimization is used because it subjectively performs slightly better when
 subjects face the camera more directly, while the +EPnP becomes better when
 subjects turn their heads. A comparison is shown in @fig:solvepnpcomparison.
-Since for gaze tracking subjects can be assumed to
-look more likely into the direction of the camera, it is more important to
+Since for gaze tracking subjects look roughly towards the camera, it is more important to
 estimate frontal images more accurately.
 
 \stopwidefn
@@ -394,7 +393,7 @@ should be sufficient.
 
 The camera marks the origin of the camera coordinate system. A transformation
 between the model coordinate system and the camera coordinate system is found
-using `solvePnP` in @sec:head-pose-estimation. To express the camera in model
+by solving the +PnP problem in @sec:head-pose-estimation. To express the camera in model
 coordinates it is moved back into the translation direction, facing the model
 origin. Since the transformation gained from solving the +PnP problem is not taking the distance
 into account, the translation needs to be adjusted by normalizing it and then
@@ -406,7 +405,7 @@ multiplying it by the estimated distance. Thus the camera position $\mathit{cam}
 The screen corners can be calculated by first defining them inside the
 model coordinate system and then performing almost the same transformation as
 was done for the camera. To get the first screen corner, the offset between the
-camera and the top left corner of the screen needs to be measured manually. For
+camera and the top left corner of the screen needs to be measured manually. For example, for
 a MacBook Pro with a 15-inch screen the top left corner is
 \SI{17.25}{\centi\meter} left of and \SI{0.7}{\centi\meter} below the camera,
 so it can be defined as $\tl_\text{model} = (-0.1725, 0.007, 0)$. From there each other screen
@@ -488,7 +487,7 @@ time, as it only visualizes one step at a time.
 ## An alternative approach: iTracker
 
 As an alternative approach to the geometric model presented above, a pre-trained
-+CNN [@Krafka2016] is used for a comparison. It is called iTracker and builds on the authors'
++CNN [@Krafka2016] is used for a comparison. It is called iTracker and trained on their
 dataset GazeCapture, which contains data of \num{1450} subjects, or about 2.5
 million frames. @Krafka2016 make their models publicly
 [available](https://github.com/CSAILVision/GazeCapture) on GitHub.
@@ -511,8 +510,7 @@ allow for reproducibility of the results.
 \begingroup \DFNtrysingle \DFNinhibitcbreak
 
 The first dataset, Pexels, is a custom dataset with 120 images from
-[Pexels](https://pexels.com). These images are released under the CC0
-license [@CC0License], which allows to reuse, modify, and redistribute them. The
+[Pexels](https://pexels.com). The
 images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
 the smallest image measures \SI{640x332}{{pixels}}, the biggest
 \SI{640x1137}{{pixels}}. Most images are portrait photographs using different
@@ -546,7 +544,7 @@ It contains 1521 gray images with a fixed resolution of \SI{384x286}{{pixels}}.
 The BioID dataset features only 23 different people with multiple images of
 each. Thirty arbitrary example photos can be found in @fig:bioid_examples.
 The dataset is often used to compare face and pupil detection algorithms [@Timm2011]
-and \Gaze{}'s implementation is be compared to the original implementation by
+and \Gaze{}'s implementation is compared to the original implementation by
 @Timm2011.
 
 As described in @sec:an-alternative-approach-itracker, the iTracker is trained
@@ -558,7 +556,7 @@ contains images featuring various backgrounds, head poses, accessories, and
 lighting conditions.
 
 The remaining datasets are those Dlib's shape detectors are based on. One is
-the "300 Faces In-The-Wild Challenge"'s dataset [@Sagonas2013], which consists of
+the "300 Faces In-The-Wild Challenge"'s dataset, which consists of
 600 images with 68 landmark annotations, which were produced
 semi-automatically. The other dataset is the *dlib 5-point face landmark
 dataset*, containing 7198 faces. It was labeled using only five landmarks by King.
