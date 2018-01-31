@@ -351,10 +351,17 @@ gaze.
 
 ## Conclusion
 
+Gaze tracking using common webcams is definitely no solved problem. While it
+earned more attention in the literature over the last few years, few solutions
+exist that really work without many constraints. In this thesis, two possible
+methods are evaluated: The geometric model, realized in the \Gaze{} library,
+and the +cnn iTracker, a pre-trained model which can be used instead of the
+geometric model.
+
 \Gaze{} is a good library to perform eye tracking. It can easily be extended
-and allows all kinds of usage. Its gaze tracking capabilities are not working
-properly, but thanks to its extendability it is possible to use iTracker, a
-pre-trained model to detect gaze points. Many other issues in webcam gaze
+and integrated into projects. Its gaze tracking capabilities are not working
+properly, but thanks to its extendability it is possible to use iTracker
+to detect gaze points. Many other issues in webcam gaze
 tracking cannot be resolved using software alone: most webcams are limited to
 small frame rates and it is extremely difficult to find the real specifications
 like sensor sizes and focal lengths for many webcams.
