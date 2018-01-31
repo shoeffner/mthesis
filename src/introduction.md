@@ -38,7 +38,7 @@ the optic nerve, while facial perception denotes the semantics humans attribute
 to the combination of those sensations. To form semantics of an object, to
 perceive it, humans have to move their eyes to the right position to get the
 needed sensory information. Thus they need to attend an object with their eyes.
-Turning this conclusion around and thinking ahead, we can make the assumption that
+Turning this conclusion around and thinking ahead, one can make the assumption that
 what humans attend, that is what they look at, is what they are interested in because
 they have to actively direct their eyes towards that object.
 
