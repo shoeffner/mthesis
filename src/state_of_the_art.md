@@ -143,8 +143,14 @@ or depth cameras and they need either images of the full face or
 of individual eyes. Most projects only track eyes. A comparing overview over
 the software presented in this section can be found in \Cref{tab:compgazesoft}.
 
+The eye tracking implementation [eyeLike](https://github.com/trishume/eyeLike)
+by Tristan Hume is the most important work for this thesis. The implementation
+uses gradients to detect eye centers [@Timm2011]. It is not suited to be
+integrated into other software and can be seen as a reference implementation of
+the eye center detection algorithm. \Gaze{} implements
+the same algorithms but provides a more flexible interface.
 
-\begingroup\let\ts\small
+\begingroup\let\ts\normalsize
 
 Table: Comparison of open source gaze tracking software.;;Comparison of open source gaze tracking software. Unfortunately, not all
 could be tested, thus the results rely on the respective author's reports. \label{tab:compgazesoft}
@@ -161,14 +167,6 @@ could be tested, thus the results rely on the respective author's reports. \labe
 \ts \Gaze{}                            \ts Face             \ts eyes   \ts MIT
 
 \endgroup
-
-
-The eye tracking implementation [eyeLike](https://github.com/trishume/eyeLike)
-by Tristan Hume is the most important work for this thesis. The implementation
-uses gradients to detect eye centers [@Timm2011]. It is not suited to be
-integrated into other software and can be seen as a reference implementation of
-the eye center detection algorithm. \Gaze{} implements
-the same algorithms but provides a more flexible interface.
 
 [Opengazer](http://inference.org.uk/opengazer) is a software originally
 developed by Piotr Zieliński which tracks gaze after a few calibration steps
@@ -212,4 +210,4 @@ interaction tasks. It claims one of its features is to be able to do gaze
 tracking, but the current version does not yet offer this functionality.
 However, it does perform head pose estimation [@Patacchiola2017]. Since its
 publication about the head pose estimation is from 2017, it is possible that
-gaze estimation will be added in the future.
+gaze estimation will be added in the future.\nowidow[3]

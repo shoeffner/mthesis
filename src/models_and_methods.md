@@ -7,6 +7,7 @@ output of the data. This chapter details the models and gives an
 overview of \Gaze{}'s architecture. Finally, there will be a short introduction of iTracker, the +cnn trained by @Krafka2016,
 an alternative deep learning model for gaze tracking.
 
+\setnowidow\setnoclub
 
 ## Geometric model
 
@@ -105,7 +106,7 @@ calculate the metric model, as done in \Cref{tab:3dheadmodel}.
 
 Table: 3D head model by @Mallick2016.;;3D head model by @Mallick2016. The first columns describe the landmark
 and name its abbreviation [@Swennen2006], followed by the "300 Faces
-In-The-Wild Challenge" index [@Sagonas2016]. Then the 3D model coordinates are
+In-The-Wild Challenge" index [@Sagonas2016]. Then, the 3D model coordinates are
 described as used by \Gaze{} and in the original model.
 The eyeball centers are an exception as they are only important for the
 ray cast and do not have conventional soft tissue landmark abbreviations nor
@@ -139,7 +140,7 @@ length, \SI{28.19}{\milli\meter} apart from their respective exocanthions. The
 eyeball centers are then at $(-29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter} and
 $(29.05, 32.7, -39.5)$&nbsp;\si{\milli\meter}.
 
-![Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks. The head model is adapted from pixabay.com and under the CC0 license.](3dheadmodel.png){ #fig:3dheadlandmarks width=35% }
+![Annotation visualization of the 3D head model.;;Annotated visualization of the 3D head model. See \Cref{tab:3dheadmodel} for the values of the marked landmarks. The head model is adapted from pixabay.com and under the CC0 license.](3dheadmodel.png){ #fig:3dheadlandmarks width=35% }
 
 
 ### Detecting faces and eyes
@@ -353,12 +354,12 @@ intercept theorem and the pinhole camera model, the distance to an object can
 be determined. Let $o \in \mathbb{R}$ be the width of the object, $d \in
 \mathbb{R}$ be the distance between the image plane and the object, $f \in
 \mathbb{R}$ the focal length, $i \in \mathbb{R}$ the object's size on the
-image, and $p \in \mathbb{R}$ the pixel width. Then the distance can be expressed as
+image, and $p \in \mathbb{R}$ the pixel width. Then, the distance can be expressed as
 \begin{align}
 d = \frac{fo}{i}. \label{eq:distanceest}
 \end{align}
 Assume the sensor size to be \SI{0.00635}{\meter} and its aspect ratio as 16:9
-[@Luepke2005, for an Apple iSight]. Then the sensor width $s \in \mathbb{R}$ is
+[@Luepke2005, for an Apple iSight]. In that case, the sensor width $s \in \mathbb{R}$ is
 \SI{0.0055}{\meter}. The pixel width $p$ can be found through division of the
 sensor width by the horizontal resolution, $w \in \mathbb{N}$, so $p =
 \frac{s}{w}$.
@@ -397,7 +398,7 @@ by solving the +PnP problem in @sec:head-pose-estimation. To express the camera 
 coordinates it is moved back into the translation direction, facing the model
 origin. Since the transformation gained from solving the +PnP problem is not taking the distance
 into account, the translation needs to be adjusted by normalizing it and then
-multiplying it by the estimated distance. Thus the camera position $\mathit{cam} \in
+multiplying it by the estimated distance. Thus, the camera position $\mathit{cam} \in
 \Rthree$ in model coordinates is
 \begin{align}
 \mathit{cam} = \frac{-R^\top T}{\left\lVert -R^\top T \right\rVert_2} d.
@@ -451,7 +452,7 @@ extend \Gaze{}, criticize it, modify it, or build upon it. These are the reasons
 why publishing the source code and software alongside scientific contributions
 is very crucial in science [@Barnes2010]. To make it easy to do anything of the above
 with \Gaze{}, it tries to follow many good practices and provides a thorough
-documentation (@sec:why-free-and-open-source-software).
+documentation.
 
 
 ### Library architecture
@@ -512,7 +513,7 @@ allow for reproducibility of the results.
 The first dataset, Pexels, is a custom dataset with 120 images from
 [Pexels](https://pexels.com). The
 images are rescaled so that all are \SI{640}{{pixels}} wide. After resizing,
-the smallest image measures \SI{640x332}{{pixels}}, the biggest
+the smallest image measures \linebreak \SI{640x332}{{pixels}}, the biggest
 \SI{640x1137}{{pixels}}. Most images are portrait photographs using different
 backgrounds, poses, facial expressions, lighting conditions, and more. The
 majority of images are color images and contain a single person's face, with
@@ -556,7 +557,7 @@ contains images featuring various backgrounds, head poses, accessories, and
 lighting conditions.
 
 The remaining datasets are those Dlib's shape detectors are based on. One is
-the "300 Faces In-The-Wild Challenge"'s dataset, which consists of
+the "300 Faces In-The-Wild Challenge" dataset, which consists of
 600 images with 68 landmark annotations, which were produced
 semi-automatically. The other dataset is the *dlib 5-point face landmark
 dataset*, containing 7198 faces. It was labeled using only five landmarks by King.

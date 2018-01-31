@@ -109,8 +109,8 @@ It builds the documentation for \Gaze{} and pushes it to a specially named branc
 the `gh-pages` branch. This branch is orphaned, which means it has no direct
 relation to the other source code. GitHub uses this special branch for one of
 its features: static page hosting. All contents on the `gh-pages` branch are published
-at a specific +URL. This way, the [source code
-documentation](https://shoeffner.github.io/gaze) is always available online and
+at a specific +URL. This way, the source code
+documentation is always available online and
 contains the latest changes. "Always" is a slight simplification, as failures
 can always happen: GitHub has a +sla uptime of \SI{99.95}{{\%}} for its
 business customers. Since \Gaze{} is only hosted as a free repository, this +sla
@@ -120,19 +120,17 @@ available most of the time for free users as well.
 
 ### License issues
 
-While \Gaze{} is licensed under the MIT License, it can not be used for commercial
+While \Gaze{} is licensed under the MIT License, it cannot be used for commercial
 applications at the time of writing this thesis, although the license gives
 this impression. This is because the license of the training data
 [@Sagonas2016] for the 68 face landmarks' model
 `shape_predictor_68_face_landmarks.dat` [@King2009], which is used for the face
 and landmark detection, does not allow commercial uses. On the website accompanying
-the dataset, it is explicitly stated that "the annotations are provided for
-research purposes ONLY (NO commercial products)"[^quoteibug], and King
+the dataset, it is explicitly stated that ["the annotations are provided for
+research purposes ONLY (NO commercial products)"](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations), and King
 emphasizes in the
 [`README.md`](https://github.com/davisking/dlib-models/blob/ae50fe33583de33c60276611d37915e93d11566b/README.md)
-accompanying the model that the derived model falls under the same license.
-
-[^quoteibug]: [https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/](https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/), Accessed: 2018-01-10.
+accompanying the model, that the derived model falls under the same license.
 
 A similar notice accompanies \Gaze{}. To avoid problems and allow commercial
 applications, initially the five landmarks model was tried to be incorporated into \Gaze{}.
@@ -143,7 +141,7 @@ license disagreement.
 The same licensing problem arises when using the iTracker extension.
 The pre-trained model is released under a custom license which also does not
 permit non-research usage, as Khosla states in the repositories
-["License agreement for use of GazeCapture database and iTracker models"](https://github.com/CSAILVision/GazeCapture/blob/03e687b039a822e7d5bc70673f101def0cba7255/LICENSE.md#section-2--scope).
+["License agreement for use of GazeCapture database and iTracker models"](https://github.com/CSAILVision/GazeCapture/blob/03e687b039a822e7d5bc70673f101def0cba7255/LICENSE.md).
 This usage restriction is surprising: The paper presenting the dataset and
 the models is called "Eye Tracking for Everyone" [@Krafka2016], a bold claim
 which does not seem to hold.
@@ -154,7 +152,6 @@ which does not seem to hold.
 Reproducing the results achieved with \Gaze{} is possible by following a couple of
 setup steps. The source code should be downloaded, built, and tested using one
 of the provided example programs, or a custom test program.
-
 \Gaze{} builds on other free software and thus has some pre-requisites which need
 to be fulfilled before compiling it. A C++17 compiler is inevitable, as \Gaze{} uses
 `std::shared_mutex` from the C++ standard library, which was introduced in the
@@ -247,7 +244,7 @@ The example program `where_people_look` from the last section was developed befo
 the +API for \Gaze{} was settled. This helped to find out which functionality is
 needed for an eye or gaze tracking experiment and allowed to design the +API in
 a behavior-driven way. The tasks in \Cref{tab:gazeapi} were observed during the
-implementation of `where_people_look` and implemented in \Gaze{}.
+implementation of `where_people_look` and implemented in \Gaze{}.\nowidow[2]
 
 
 Table: Functions of the \Gaze{} gaze tracker and their corresponding API methods. \label{tab:gazeapi}
