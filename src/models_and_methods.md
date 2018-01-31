@@ -202,12 +202,12 @@ p = \argmax_{\hat{p}} \left\{
 where $\hat{p} \in \mathbb{N}^2$ are the potential pupil locations, $x_i \in
 \mathbb{N}^2$ are all $N$ pixel locations of the image crop, $w_i \in
 \mathbb{R}$ are weights for those pixel locations, $g_i \in \Rtwo$ are
-the normalized gradients at each pixel location, respectively, and $\left\lVert
+the gradients at each pixel location, respectively, and $\left\lVert
 \cdot \right\rVert_2$ is the Euclidean norm. A very important function is
 $\varphi$, which is defined as:
 \begin{align}
 \varphi(x, \vartheta) = \begin{cases}
-\frac{x}{\left\lVert x \right\rVert_2} &\quad \text{if } x \ge \vartheta \\
+\frac{x}{\left\lVert x \right\rVert_2} &\quad \text{if } \left\lVert x \right\rVert_2 \ge \vartheta \\
                                      0 &\quad \text{else}
 \end{cases} \label{eq:threshphi}
 \end{align}
@@ -217,7 +217,7 @@ with $\vartheta \in \mathbb{R}$ as the dynamic threshold depending on all gradie
 \end{align}
 employing the mean and standard deviation $\mu_\text{mag}, \sigma_\text{mag}$
 over the gradient magnitudes $\text{mag}_i = \left\lVert g_i \right\rVert_2$,
-and the model parameter $\theta$, which described the number of standard
+and the model parameter $\theta$, which describes the number of standard
 deviations. As explained in @sec:pipeline-steps, in \Gaze{} $\theta$ can be configured and is set
 to \num{0.3} by default, following @Hume2012.
 

@@ -83,6 +83,7 @@ the thresholds is reported. A comparison of all three different errors, $\min,
 \max,$ and $\mean$, can be found in \Cref{tab:BioID-pupil-detection-accuracies}.
 
 \begin{figure}
+    \centering
     \begin{tikzpicture}
         \begin{axis}[xlabel={relative error}, ylabel={accuracy}, domain=0:1, xmin=0, xmax=0.25]
             \addplot[color=blue] table [x=error, y=Timm2011, col sep=comma] {assets/gen_files/BioID_accuracy_vs_error.csv};
