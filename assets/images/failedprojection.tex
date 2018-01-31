@@ -28,8 +28,8 @@
 % Clip to only important area
 \clip (-10, -25) rectangle (50, 8);
 % Draw pupil
-\coordinate[label=right:{$p$}] (pupil) at (\px, \py);
-\fill[black] (pupil) circle (\dotsize);
+\coordinate (pupil) at (\px, \py); % [label=right:{$p$}]
+%\fill[black] (pupil) circle (\dotsize);
 
 % Draw eye ball
 \coordinate[label=left:{$e$}] (eyeballcenter) at (\ex, \ey);
@@ -40,8 +40,8 @@
 \draw[draw, name path=screen] (\sx, \sy) -- node[sloped,below] {screen} +(270 - \sangle: \sh);
 \path[name path=projection, gray] (\prox, \proy) -- node[right, near end] {$t_a$} +(0, 30);
 
-% Draw projection of pupil
-\draw[draw, name path=pupilprojection, red!50] (pupil) -- +(-1.5 * \projdistance, 0);
+% projection of pupil
+\path[name path=pupilprojection, red!50] (pupil) -- +(-1.5 * \projdistance, 0);
 
 % Calculate intersection points
 % Storing coordinates as suggested in https://tex.stackexchange.com/a/122245/51583
@@ -50,8 +50,8 @@
 
 % Calculate rays from eyeball through intersections
 % This seems to work but without proper coordinates to draw points:
-\path[name path=rayx,draw,gray,style={shorten >= -15cm}] (eyeballcenter) -- (p0);
-\path[name path=rayx,draw,gray,style={shorten >= -15cm}] (eyeballcenter) -- (p1);
+\path[name path=rayx,draw,red,style={shorten >= -15cm}] (eyeballcenter) -- (p0);
+\path[name path=rayx,draw,black!60!green,style={shorten >= -15cm}] (eyeballcenter) -- (p1);
 \path[name path=ray0] (eyeballcenter) -- (p0);
 \path[name path=ray1] (eyeballcenter) -- (p1);
 
@@ -62,7 +62,7 @@
 
 % Draw intersections (last to be on top of the lines)
 \fill[red] (p0) circle (\dotsize) node[label={[label distance=0pt]275:$p_0$}] {};
-\fill[blue] (p1) circle (\dotsize) node[label={[label distance=0pt]30:$p_1$}] {};
+\fill[black!60!green] (p1) circle (\dotsize) node[label={[label distance=0pt]30:$p_1$}] {};
 
 % Draw intersections on screen
 %\fill[purple] (s0) circle (\dotsize) node[above] {$s_0$};
