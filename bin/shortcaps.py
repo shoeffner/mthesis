@@ -33,11 +33,15 @@ def process_caption(caption):
     return caption
 
 
-if __name__ == '__main__':
+def process_lines(lines_in):
+    """Process captions in a file, parsing it line by line.
+
+    >>> process_lines(['\\hypertarget{', '\\caption{short;;long}', '}'])
+    ['\\hypertarget{', '\\caption[short]{long}', '}']
+
+    """
     incaption = False
     caption = None
-    with open(sys.argv[1], 'r') as f:
-        lines_in = f.readlines()
     lines_out = []
     for line in lines_in:
         if incaption:
@@ -51,6 +55,12 @@ if __name__ == '__main__':
             caption = line
         else:
             lines_out.append(line)
+    return lines_out
 
+
+if __name__ == '__main__':
+    with open(sys.argv[1], 'r') as f:
+        lines_in = f.readlines()
+    lines_out = process_lines(lines_in)
     with open(sys.argv[1], 'w') as f:
         print(''.join(lines_out), file=f, end='')
