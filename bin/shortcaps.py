@@ -34,25 +34,23 @@ def process_caption(caption):
 
 
 def process_lines(lines_in):
-    """Process captions in a file, parsing it line by line.
+    r"""Process captions in a file, parsing it line by line.
 
     >>> process_lines(['\\hypertarget{', '\\caption{short;;long}', '}'])
     ['\\hypertarget{', '\\caption[short]{long}', '}']
 
     """
-    incaption = False
     caption = None
     lines_out = []
     for line in lines_in:
-        if incaption:
-            caption += line
+        if r'\caption{' in line:
+            caption = line
+        if caption:
             if caption.count(r'{') - caption.count(r'}') == 0:
                 lines_out.append(process_caption(caption))
-                incaption = False
                 caption = None
-        elif r'\caption{' in line:
-            incaption = True
-            caption = line
+            elif caption:
+                caption += line
         else:
             lines_out.append(line)
     return lines_out
